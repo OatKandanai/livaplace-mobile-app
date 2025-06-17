@@ -60,9 +60,16 @@ class _LoginState extends State<Login> {
                       FlutterLogo(size: 120),
                       const SizedBox(height: 20),
                       const Text(
+                        'LivaPlace',
+                        style: TextStyle(
+                          fontSize: 34,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text(
                         'Login',
                         style: TextStyle(
-                          fontSize: 32,
+                          fontSize: 26,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
