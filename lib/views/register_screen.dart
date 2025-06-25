@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:livaplace_app/screens/login_screen.dart';
+import 'package:get/get.dart';
+import 'package:livaplace_app/routes/app_routes.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,15 +17,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         body: SafeArea(
+          minimum: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: SingleChildScrollView(
               child: Form(
                 child: Column(
                   children: [
-                    Image.asset(
-                      'assets/images/app_icon_bg_removed.png',
-                      width: 150,
-                    ),
+                    Image.asset('assets/icon/app_icon.png', width: 150),
+                    const SizedBox(height: 20),
                     const Text(
                       'สมัครสมาชิก',
                       style: TextStyle(
@@ -35,32 +35,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const Text('กรุณาสมัครสมาชิกเพื่อเข้าใช้งานแอปพลิเคชัน'),
                     TextFormField(
                       autofocus: false,
-                      decoration: InputDecoration(label: const Text('อีเมล')),
+                      decoration: const InputDecoration(label: Text('อีเมล')),
                     ),
                     TextFormField(
                       autofocus: false,
-                      decoration: InputDecoration(
-                        label: const Text('ชื่อจริง'),
+                      decoration: const InputDecoration(
+                        label: Text('ชื่อจริง'),
                       ),
                     ),
                     TextFormField(
                       autofocus: false,
-                      decoration: InputDecoration(label: const Text('นามสกุล')),
+                      decoration: const InputDecoration(label: Text('นามสกุล')),
                     ),
                     TextFormField(
                       autofocus: false,
-                      decoration: InputDecoration(label: const Text('LINE ID')),
+                      decoration: const InputDecoration(label: Text('LINE ID')),
                     ),
                     TextFormField(
                       autofocus: false,
-                      decoration: InputDecoration(
-                        label: const Text('เบอร์โทรศัพท์'),
+                      decoration: const InputDecoration(
+                        label: Text('เบอร์โทรศัพท์'),
                       ),
                     ),
                     TextFormField(
                       autofocus: false,
-                      decoration: InputDecoration(
-                        label: const Text('รหัสผ่าน'),
+                      decoration: const InputDecoration(
+                        label: Text('รหัสผ่าน'),
                       ),
                     ),
                     ElevatedButton(
@@ -68,16 +68,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: const Text('สมัครสมาชิก'),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const LoginScreen(),
-                          ),
-                        );
-                      },
+                      onTap: () => Get.offAllNamed(AppRoutes.login),
                       child: RichText(
-                        text: TextSpan(
+                        text: const TextSpan(
                           style: TextStyle(color: Colors.black),
                           children: [
                             TextSpan(text: 'มีบัญชีอยู่แล้ว?'),
