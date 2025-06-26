@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -80,8 +81,8 @@ class _LoginState extends State<LoginScreen> {
                       GestureDetector(
                         onTap: () => Get.toNamed(AppRoutes.register),
                         child: RichText(
-                          text: const TextSpan(
-                            style: TextStyle(color: Colors.black),
+                          text: TextSpan(
+                            style: GoogleFonts.mitr(color: Colors.black),
                             children: [
                               TextSpan(text: 'ยังไม่มีบัญชี?'),
                               TextSpan(text: '\u00A0\u00A0'),

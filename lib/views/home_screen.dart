@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:livaplace_app/routes/app_routes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -68,65 +70,69 @@ class _ItemListState extends State<HomeScreen> {
         .toList();
 
     return SafeArea(
-      child: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            TextField(
-              autofocus: false,
-              decoration: InputDecoration(
-                hint: const Text('ค้นหา'),
-                prefixIcon: const Icon(Icons.search),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(50),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Column(
+            children: [
+              TextField(
+                readOnly: true,
+                autofocus: false,
+                decoration: InputDecoration(
+                  hint: const Text('ค้นหา'),
+                  prefixIcon: const Icon(Icons.search),
+                  filled: true,
+                  fillColor: Colors.grey.shade200,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: CachedNetworkImage(
-                            imageUrl: filteredRooms[index]['image'],
-                            height: 150,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Center(child: Icon(Icons.error)),
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('ประเภท${filteredRooms[index]['type']}'),
-                              Text(filteredRooms[index]['title']),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                onTap: () {
+                  Get.toNamed(AppRoutes.searchFilters);
                 },
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 20),
-                itemCount: filteredRooms.length,
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              Expanded(
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return Card(
+                      clipBehavior: Clip.antiAlias,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CachedNetworkImage(
+                              imageUrl: filteredRooms[index]['image'],
+                              height: 150,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Center(child: Icon(Icons.error)),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('ประเภท${filteredRooms[index]['type']}'),
+                                Text(filteredRooms[index]['title']),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 20),
+                  itemCount: filteredRooms.length,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
