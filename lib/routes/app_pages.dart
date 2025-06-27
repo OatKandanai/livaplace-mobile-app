@@ -12,9 +12,6 @@ class AppPages {
     GetPage(name: AppRoutes.register, page: () => const RegisterScreen()),
     GetPage(name: AppRoutes.home, page: () => BottomNav()),
     GetPage(name: AppRoutes.profile, page: () => const ProfileScreen()),
-    GetPage(
-      name: AppRoutes.searchFilters,
-      page: () => const SearchFiltersScreen(),
-    ),
+    GetPage(name: AppRoutes.searchFilters, page: () => SearchFiltersScreen()),
   ];
 }
