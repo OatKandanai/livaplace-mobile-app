@@ -76,6 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   size: 18,
                   color: Colors.grey,
                 ),
+                onTap: () => Get.toNamed(AppRoutes.editProfile),
               ),
               const SizedBox(height: 10),
               ListTile(
@@ -151,10 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: const Icon(Icons.contact_support_rounded),
                 ),
-                title: const Text(
-                  'ติดต่อเรา',
-                  style: TextStyle(fontSize: 14),
-                ),
+                title: const Text('ติดต่อเรา', style: TextStyle(fontSize: 14)),
                 trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 18,

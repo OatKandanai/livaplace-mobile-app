@@ -25,11 +25,12 @@ class SearchFiltersScreen extends StatelessWidget {
                     children: [
                       // Search bar
                       TextFormField(
+                        autofocus: false,
                         decoration: InputDecoration(
                           hint: const Text('ค้นหา'),
                           prefixIcon: GestureDetector(
                             onTap: Get.back,
-                            child: const Icon(Icons.arrow_back_ios,size: 30,),
+                            child: const Icon(Icons.arrow_back_ios, size: 30),
                           ),
                           filled: true,
                           fillColor: Colors.grey.shade200,
@@ -38,7 +39,7 @@ class SearchFiltersScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(50),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 1,
                               color: Colors.black,
                             ),
@@ -65,7 +66,7 @@ class SearchFiltersScreen extends StatelessWidget {
                       Obx(
                         () => Wrap(
                           spacing: 20,
-                          runSpacing: 20,
+                          runSpacing: 10,
                           children: controller.types.map((type) {
                             return ChoiceChip(
                               showCheckmark: false,
@@ -75,6 +76,7 @@ class SearchFiltersScreen extends StatelessWidget {
                                     ? Colors.white
                                     : Colors.black,
                               ),
+                              elevation: 10,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
@@ -120,6 +122,7 @@ class SearchFiltersScreen extends StatelessWidget {
                               labelStyle: TextStyle(
                                 color: isSelected ? Colors.white : Colors.black,
                               ),
+                              elevation: 10,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
@@ -177,8 +180,9 @@ class SearchFiltersScreen extends StatelessWidget {
                             controller.handleBathroomCount(type: 'decrease'),
                       ),
 
-                      const SizedBox(height: 100),
+                      const SizedBox(height: 40),
 
+                      // Footer buttons (reset, search)
                       Row(
                         children: [
                           Expanded(
@@ -190,10 +194,12 @@ class SearchFiltersScreen extends StatelessWidget {
                               ),
                             ),
                           ),
+                          const SizedBox(width: 15),
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
+                                elevation: 10,
                               ),
                               onPressed: () {},
                               child: const Text(

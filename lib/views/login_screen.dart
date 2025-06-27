@@ -83,7 +83,7 @@ class _LoginState extends State<LoginScreen> {
                         child: RichText(
                           text: TextSpan(
                             style: GoogleFonts.mitr(color: Colors.black),
-                            children: [
+                            children: const [
                               TextSpan(text: 'ยังไม่มีบัญชี?'),
                               TextSpan(text: '\u00A0\u00A0'),
                               TextSpan(

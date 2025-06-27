@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class SearchFiltersController extends GetxController {
-  final List<String> types = ['ทุกประเภท', 'คอนโด', 'หอพัก'];
+  final List<String> types = ['ทุกประเภท', 'คอนโด', 'อพาร์ทเม้นท์', 'หอพัก'];
   final List<String> facilities = [
     'ฟิตเนส',
     'ครัว',
