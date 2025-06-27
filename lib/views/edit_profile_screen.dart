@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart'
-    show CachedNetworkImageProvider;
+    show CachedNetworkImage;
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/utils.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -19,10 +21,21 @@ class EditProfileScreen extends StatelessWidget {
                 child: Form(
                   child: Column(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 70,
-                        backgroundImage: CachedNetworkImageProvider(
-                          'https://i.pinimg.com/736x/ac/1c/a1/ac1ca1408e7d9c40b425d83484166178.jpg',
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'https://i.pinimg.com/736x/ac/1c/a1/ac1ca1408e7d9c40b425d83484166178.jpg',
+                            fit: BoxFit.contain,
+                            width: 135,
+                            height: 135,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Center(child: Icon(Icons.error)),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -114,9 +127,9 @@ class EditProfileScreen extends StatelessWidget {
                             prefixIcon: Image.asset(
                               'assets/icon/line_icon.png',
                               fit: BoxFit.contain,
-                              width: 14,
                             ),
-                            label: const Text('LINE ID'),
+                            hintText: 'LINE ID',
+                            hintStyle: const TextStyle(fontSize: 14),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 1,
@@ -135,9 +148,34 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Save Changes'),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: const Text('Save Changes'),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () => Get.back(),
+                          child: const Text('Cancel'),
+                        ),
                       ),
                     ],
                   ),

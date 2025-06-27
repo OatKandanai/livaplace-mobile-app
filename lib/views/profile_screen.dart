@@ -21,13 +21,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: ListView(
             children: [
               // Top Section
-              const Center(
+              Center(
                 child: Column(
                   children: [
                     CircleAvatar(
                       radius: 40,
-                      backgroundImage: CachedNetworkImageProvider(
-                        'https://i.pinimg.com/736x/ac/1c/a1/ac1ca1408e7d9c40b425d83484166178.jpg',
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'https://i.pinimg.com/736x/ac/1c/a1/ac1ca1408e7d9c40b425d83484166178.jpg',
+                          fit: BoxFit.contain,
+                          width: 80,
+                          height: 80,
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              const Center(child: Icon(Icons.error)),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -189,6 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   size: 18,
                   color: Colors.grey,
                 ),
+                onTap: () => Get.toNamed(AppRoutes.create),
               ),
               const SizedBox(height: 20),
               SizedBox(

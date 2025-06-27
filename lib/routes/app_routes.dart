@@ -5,4 +5,5 @@ class AppRoutes {
   static const searchFilters = '/search';
   static const profile = '/profile';
   static const editProfile = '/profile/edit';
+  static const create = '/create';
 }
