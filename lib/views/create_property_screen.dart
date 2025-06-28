@@ -9,17 +9,19 @@ class CreatePropertyScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.grey.shade200),
-              child: Form(
-                child: Column(
-                  children: [
-                    const Text('ลงประกาศ', style: TextStyle(fontSize: 24)),
-                    const Text('หมายเหตุ : ประกาศจะต้องรอการอนุมัติจากผู้ดูแล'),
-                  ],
+            child: Column(
+              children: [
+                const Text('ลงประกาศ', style: TextStyle(fontSize: 24)),
+                const Text('หมายเหตุ : ประกาศจะต้องรอการอนุมัติจากผู้ดูแล'),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(color: Colors.grey.shade200),
+                  child: Form(child: Column(children: [
+                        
+                      ],
+                    )),
                 ),
-              ),
+              ],
             ),
           ),
         ),

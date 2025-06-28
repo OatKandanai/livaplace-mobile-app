@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
+import 'package:livaplace_app/views/property_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,9 +11,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _ItemListState extends State<HomeScreen> {
-  final List<Map<String, dynamic>> roomsData = [
+  final List<Map<String, dynamic>> propertyData = [
     {
-      "type": "เช่า",
+      "propertyType": "เช่า",
       "roomType": "คอนโด",
       "title":
           "คอนโดพร้อมเข้าอยู่ใจกลางเมืองงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงง",
@@ -28,7 +28,7 @@ class _ItemListState extends State<HomeScreen> {
       "created": "27/06/2025",
     },
     {
-      "type": "ขาย",
+      "propertyType": "ขาย",
       "roomType": "คอนโด",
       "title": "คอนโดวิวแม่น้ำเจ้าพระยา",
       "location": "บางโพ, กรุงเทพมหานคร",
@@ -42,7 +42,7 @@ class _ItemListState extends State<HomeScreen> {
       "created": "27/06/2025",
     },
     {
-      "type": "เช่า",
+      "propertyType": "เช่า",
       "roomType": "หอพัก",
       "title": "ห้องพักตกแต่งใหม่ พร้อมเฟอร์นิเจอร์",
       "location": "จตุจักร, กรุงเทพมหานคร",
@@ -56,7 +56,7 @@ class _ItemListState extends State<HomeScreen> {
       "created": "27/06/2025",
     },
     {
-      "type": "ขาย",
+      "propertyType": "ขาย",
       "roomType": "คอนโด",
       "title": "คอนโดหรูใจกลางทองหล่อ",
       "location": "ทองหล่อ, กรุงเทพมหานคร",
@@ -70,7 +70,7 @@ class _ItemListState extends State<HomeScreen> {
       "created": "27/06/2025",
     },
     {
-      "type": "เช่า",
+      "propertyType": "เช่า",
       "roomType": "อพาร์ตเมนต์",
       "title": "อพาร์ตเมนต์ใกล้ BTS พร้อมอยู่ ราคาประหยัด",
       "location": "ลาดพร้าว, กรุงเทพมหานคร",
@@ -105,8 +105,8 @@ class _ItemListState extends State<HomeScreen> {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      _buildTabContent('เช่า'),
-                      _buildTabContent('ขาย'),
+                      _buildTabContent(propertyType: 'เช่า'),
+                      _buildTabContent(propertyType: 'ขาย'),
                     ],
                   ),
                 ),
@@ -118,222 +118,76 @@ class _ItemListState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildTabContent(String type) {
-    final List<Map<String, dynamic>> filteredRooms = roomsData
-        .where((room) => room['type'] == type)
+  // each tab
+  Widget _buildTabContent({required String propertyType}) {
+    final List<Map<String, dynamic>> filteredPropertys = propertyData
+        .where((item) => item['propertyType'] == propertyType)
         .toList();
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Center(
-          child: Column(
-            children: [
-              // search bar
-              TextField(
-                readOnly: true,
-                autofocus: false,
-                decoration: InputDecoration(
-                  hint: const Text('ค้นหา'),
-                  prefixIcon: const Icon(Icons.search),
-                  filled: true,
-                  fillColor: Colors.grey.shade200,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Center(
+        child: Column(
+          children: [
+            // search bar
+            TextField(
+              readOnly: true,
+              autofocus: false,
+              decoration: InputDecoration(
+                hint: const Text('ค้นหา'),
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: Colors.grey.shade200,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(50),
                 ),
-                onTap: () {
-                  Get.toNamed(AppRoutes.searchFilters);
+              ),
+              onTap: () {
+                Get.toNamed(AppRoutes.searchFilters);
+              },
+            ),
+
+            const SizedBox(height: 10),
+
+            // card
+            Expanded(
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  final Map<String, dynamic> property =
+                      filteredPropertys[index];
+                  final String imageUrl = property['image'];
+                  final String propertyType = property['propertyType'];
+                  final String roomType = property['roomType'];
+                  final String title = property['title'];
+                  final String location = property['location'];
+                  final int bedrooms = property['bedrooms'];
+                  final int bathrooms = property['bathrooms'];
+                  final int price = property['price'];
+                  final String priceUnit = property['priceUnit'];
+                  final bool isFavorite = property['isFavorite'];
+                  final String created = property['created'];
+
+                  return PropertyCard(
+                    imageUrl: imageUrl,
+                    propertyType: propertyType,
+                    roomType: roomType,
+                    title: title,
+                    location: location,
+                    bedrooms: bedrooms,
+                    bathrooms: bathrooms,
+                    price: price,
+                    priceUnit: priceUnit,
+                    isFavorite: isFavorite,
+                    created: created,
+                  );
                 },
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10),
+                itemCount: filteredPropertys.length,
               ),
-
-              const SizedBox(height: 10),
-
-              // card
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    final String imageUrl = filteredRooms[index]['image'];
-                    final String type = filteredRooms[index]['type'];
-                    final String roomType = filteredRooms[index]['roomType'];
-                    final String title = filteredRooms[index]['title'];
-                    final int bedrooms = filteredRooms[index]['bedrooms'];
-                    final int bathrooms = filteredRooms[index]['bathrooms'];
-                    final int price = filteredRooms[index]['price'];
-                    final String priceUnit = filteredRooms[index]['priceUnit'];
-                    final bool isFavorite = filteredRooms[index]['isFavorite'];
-                    final String created = filteredRooms[index]['created'];
-
-                    return Stack(
-                      children: [
-                        Card(
-                          clipBehavior: Clip.antiAlias,
-                          elevation: 2,
-                          child: Row(
-                            children: [
-                              // image
-                              Expanded(
-                                flex: 1,
-                                child: CachedNetworkImage(
-                                  imageUrl: imageUrl,
-                                  height: 220,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Center(child: Icon(Icons.error)),
-                                ),
-                              ),
-
-                              // information
-                              Expanded(
-                                flex: 2,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.check,
-                                            size: 20,
-                                            color: Colors.green,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            'ประเภท$type,',
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          const Icon(
-                                            Icons.home_work,
-                                            size: 18,
-                                            color: Colors.blueAccent,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            roomType,
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        title,
-                                        style: const TextStyle(fontSize: 14),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.location_on,
-                                            size: 20,
-                                            color: Colors.blueAccent,
-                                          ),
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            filteredRooms[index]['location'],
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.bed_outlined,
-                                            size: 20,
-                                          ),
-                                          const SizedBox(width: 3),
-                                          Text(
-                                            '$bedrooms ห้องนอน',
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          const Icon(
-                                            Icons.bathtub_outlined,
-                                            size: 20,
-                                          ),
-                                          const SizedBox(width: 3),
-                                          Text(
-                                            '$bathrooms ห้องนอน',
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 16),
-                                      Text(
-                                        '$price $priceUnit',
-                                        style: const TextStyle(fontSize: 16),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.access_time_filled,
-                                            color: Colors.blueGrey,
-                                            size: 20,
-                                          ),
-                                          const SizedBox(width: 3),
-                                          Text(
-                                            'ประกาศเมื่อ $created',
-                                            style: const TextStyle(
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 5,
-                          right: 5,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.favorite,
-                              size: 22,
-                              color: isFavorite
-                                  ? Colors.redAccent
-                                  : Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 10),
-                  itemCount: filteredRooms.length,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

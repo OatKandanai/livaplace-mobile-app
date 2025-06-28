@@ -21,7 +21,7 @@ class _SavedListScreenState extends State<SavedListScreen> {
                 RichText(
                   text: TextSpan(
                     style: GoogleFonts.mitr(color: Colors.black),
-                    children: <TextSpan>[
+                    children: const <TextSpan>[
                       TextSpan(
                         text: 'รายการที่บันทึก',
                         style: TextStyle(
@@ -29,7 +29,7 @@ class _SavedListScreenState extends State<SavedListScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                       TextSpan(text: '\u00A0\u00A0'),
+                      TextSpan(text: '\u00A0\u00A0'),
                       TextSpan(
                         text: '(5)',
                         style: TextStyle(

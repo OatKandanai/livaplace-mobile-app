@@ -39,6 +39,7 @@ dependencies:
   flutter_native_splash: ^2.4.6
   get: ^4.7.2
   cached_network_image: ^3.4.1
+  card_swiper: ^3.0.1
 
 dev_dependencies:
   flutter_test:

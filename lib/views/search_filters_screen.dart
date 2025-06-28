@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:livaplace_app/controllers/search_filters_controller.dart';
+import 'package:livaplace_app/routes/app_routes.dart';
 
 class SearchFiltersScreen extends StatelessWidget {
   SearchFiltersScreen({super.key});
@@ -29,7 +30,7 @@ class SearchFiltersScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           hint: const Text('ค้นหา'),
                           prefixIcon: GestureDetector(
-                            onTap: Get.back,
+                            onTap: () => Get.offAllNamed(AppRoutes.home),
                             child: const Icon(Icons.arrow_back_ios, size: 30),
                           ),
                           filled: true,
@@ -201,7 +202,8 @@ class SearchFiltersScreen extends StatelessWidget {
                                 backgroundColor: Colors.black,
                                 elevation: 10,
                               ),
-                              onPressed: () {},
+                              onPressed: () =>
+                                  Get.offAllNamed(AppRoutes.searchResult),
                               child: const Text(
                                 'ค้นหา',
                                 style: TextStyle(color: Colors.white),

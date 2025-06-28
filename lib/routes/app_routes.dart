@@ -3,6 +3,8 @@ class AppRoutes {
   static const register = '/register';
   static const home = '/home';
   static const searchFilters = '/search';
+  static const searchResult = '/search/result';
+  static const propertyDetails = '/property';
   static const profile = '/profile';
   static const editProfile = '/profile/edit';
   static const create = '/create';
