@@ -31,6 +31,6 @@ class AppPages {
     ),
     GetPage(name: AppRoutes.profile, page: () => const ProfileScreen()),
     GetPage(name: AppRoutes.editProfile, page: () => const EditProfileScreen()),
-    GetPage(name: AppRoutes.create, page: () => const CreatePropertyScreen()),
+    GetPage(name: AppRoutes.create, page: () => CreatePropertyScreen()),
   ];
 }

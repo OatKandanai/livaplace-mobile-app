@@ -31,7 +31,7 @@ class _SavedListScreenState extends State<SavedListScreen> {
                       ),
                       TextSpan(text: '\u00A0\u00A0'),
                       TextSpan(
-                        text: '(5)',
+                        text: '(0)',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

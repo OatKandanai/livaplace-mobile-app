@@ -11,8 +11,7 @@ class PropertyDetailsScreen extends StatelessWidget {
     Map<String, dynamic> property = {
       "propertyType": "เช่า",
       "roomType": "คอนโด",
-      "title":
-          "คอนโดพร้อมเข้าอยู่ใจกลางเมืองงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงง",
+      "title": "คอนโดพร้อมเข้าอยู่ใจกลางเมือง",
       "location": "อโศก, กรุงเทพมหานคร",
       "bedrooms": 2,
       "bathrooms": 1,
@@ -41,7 +40,7 @@ class PropertyDetailsScreen extends StatelessWidget {
         },
       ],
       "detail":
-          "ตกแต่งครบ พร้อมเฟอร์นิเจอร์และเครื่องใช้ไฟฟ้า (แอร์, ทีวี, ตู้เย็น, ไมโครเวฟ)",
+          "ห้องขนาด 35 ตร.ม. ชั้น 7 ตกแต่งครบพร้อมเฟอร์นิเจอร์และเครื่องใช้ไฟฟ้า เช่น แอร์ ทีวี ตู้เย็น ไมโครเวฟ เครื่องซักผ้า และเครื่องทำน้ำอุ่น ครัวแยกเป็นสัดส่วน มีระเบียงรับลม วิวโล่งไม่บัง ใกล้ BTS อโศก และ MRT สุขุมวิท เดินทางสะดวก พร้อมสิ่งอำนวยความสะดวกในโครงการ เช่น ฟิตเนส สระว่ายน้ำ และที่จอดรถ",
       "createdBy": "Lisa",
       "createdAt": "27/06/2025",
     };
@@ -103,13 +102,19 @@ class PropertyDetailsScreen extends StatelessWidget {
                     // title
                     Text(
                       property['title'],
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 20),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
 
                     const SizedBox(height: 20),
-                    const Text('ข้อมูลทรัพย์', style: TextStyle(fontSize: 16)),
+                    const Text(
+                      'ข้อมูลทรัพย์',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 10),
 
                     // property type label
@@ -149,7 +154,10 @@ class PropertyDetailsScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Text(
                       'รายละเอียดห้อง',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 10),
 
@@ -195,41 +203,77 @@ class PropertyDetailsScreen extends StatelessWidget {
                       ],
                     ),
 
+                    const SizedBox(height: 20),
+                    const Text(
+                      'รายละเอียดเพิ่มเติม',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // property detail
+                    Text(
+                      property['detail'],
+                      style: const TextStyle(fontSize: 16),
+                    ),
+
                     const Divider(height: 40),
 
+                    // owner profile
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircleAvatar(
-                          radius: 25,
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  'https://c-cdnet.cdn.smule.com/rs-s77/arr/48/be/c185cad2-4f00-4e20-a966-69325ec36030.jpg',
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            Text(
-                              property['createdBy'],
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            Text(
-                              property['propertyType'] == 'เช่า'
-                                  ? 'ผู้ให้เช่า'
-                                  : 'ผู้ขาย',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey.shade600,
+                            CircleAvatar(
+                              radius: 25,
+                              child: ClipOval(
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      'https://c-cdnet.cdn.smule.com/rs-s77/arr/48/be/c185cad2-4f00-4e20-a966-69325ec36030.jpg',
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Center(child: Icon(Icons.error)),
+                                ),
                               ),
+                            ),
+                            const SizedBox(width: 10),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  property['createdBy'],
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                Text(
+                                  property['propertyType'] == 'เช่า'
+                                      ? 'ผู้ให้เช่า'
+                                      : 'ผู้ขาย',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Image.asset(
+                            'assets/icon/line_icon_color.png',
+                            width: 40,
+                          ),
+                        ),
                       ],
                     ),
+
+                    const Divider(height: 40),
                   ],
                 ),
               ),
@@ -249,7 +293,7 @@ class PropertyDetailsScreen extends StatelessWidget {
       children: [
         Icon(icon, size: 18, color: iconColor),
         const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 14)),
+        Text(label, style: const TextStyle(fontSize: 16)),
       ],
     );
   }
