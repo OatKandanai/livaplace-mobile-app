@@ -65,11 +65,13 @@ class PropertyCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 10),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // property type and room type
                         Row(
                           children: [
+                            // property type
                             const Icon(
                               Icons.check,
                               size: 20,
@@ -80,7 +82,10 @@ class PropertyCard extends StatelessWidget {
                               'ประเภท$propertyType,',
                               style: const TextStyle(fontSize: 12),
                             ),
-                            const SizedBox(width: 5),
+
+                            const SizedBox(width: 10),
+
+                            // room type
                             const Icon(
                               Icons.home_work,
                               size: 18,
@@ -93,14 +98,20 @@ class PropertyCard extends StatelessWidget {
                             ),
                           ],
                         ),
+
                         const SizedBox(height: 8),
+
+                        // title
                         Text(
                           title,
                           style: const TextStyle(fontSize: 14),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
+
                         const SizedBox(height: 8),
+
+                        // location
                         Row(
                           children: [
                             const Icon(
@@ -115,7 +126,10 @@ class PropertyCard extends StatelessWidget {
                             ),
                           ],
                         ),
+
                         const SizedBox(height: 8),
+
+                        // bedrooms and bathrooms
                         Row(
                           children: [
                             const Icon(Icons.bed_outlined, size: 20),
@@ -133,12 +147,18 @@ class PropertyCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
+
+                        const SizedBox(height: 8),
+
+                        // price
                         Text(
                           '$price $priceUnit',
                           style: const TextStyle(fontSize: 16),
                         ),
-                        const SizedBox(height: 4),
+
+                        const SizedBox(height: 8),
+
+                        // created date
                         Row(
                           children: [
                             const Icon(
@@ -148,7 +168,7 @@ class PropertyCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 3),
                             Text(
-                              'ประกาศเมื่อ $created',
+                              'ลงประกาศเมื่อ $created',
                               style: const TextStyle(fontSize: 10),
                             ),
                           ],

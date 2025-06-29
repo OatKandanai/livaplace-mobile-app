@@ -19,6 +19,7 @@ class AppPages {
       name: AppRoutes.searchFilters,
       page: () => SearchFiltersScreen(),
       transition: Transition.downToUp,
+      transitionDuration: const Duration(milliseconds: 700),
     ),
     GetPage(
       name: AppRoutes.searchResult,
