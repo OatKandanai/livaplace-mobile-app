@@ -48,6 +48,10 @@ class EditProfileScreen extends StatelessWidget {
                         height: 45,
                         child: TextFormField(
                           autofocus: false,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.text_fields),
                             label: const Text('ชื่อจริง'),
@@ -73,6 +77,10 @@ class EditProfileScreen extends StatelessWidget {
                         height: 45,
                         child: TextFormField(
                           autofocus: false,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.text_fields),
                             label: const Text('นามสกุล'),
@@ -98,6 +106,10 @@ class EditProfileScreen extends StatelessWidget {
                         height: 45,
                         child: TextFormField(
                           autofocus: false,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.phone),
                             label: const Text('เบอร์โทร'),
@@ -123,6 +135,10 @@ class EditProfileScreen extends StatelessWidget {
                         height: 45,
                         child: TextFormField(
                           autofocus: false,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
                           decoration: InputDecoration(
                             prefixIcon: Image.asset(
                               'assets/icon/line_icon.png',

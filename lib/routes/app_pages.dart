@@ -12,8 +12,8 @@ import 'package:livaplace_app/views/search_result_screen.dart';
 
 class AppPages {
   static final routes = [
-    GetPage(name: AppRoutes.login, page: () => const LoginScreen()),
-    GetPage(name: AppRoutes.register, page: () => const RegisterScreen()),
+    GetPage(name: AppRoutes.login, page: () => LoginScreen()),
+    GetPage(name: AppRoutes.register, page: () => RegisterScreen()),
     GetPage(name: AppRoutes.home, page: () => BottomNav()),
     GetPage(
       name: AppRoutes.searchFilters,
