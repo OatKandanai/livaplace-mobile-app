@@ -18,7 +18,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'LivaPlace',
-      theme: ThemeData(textTheme: GoogleFonts.mitrTextTheme()),
+      theme: ThemeData(
+        textTheme: GoogleFonts.mitrTextTheme(),
+        scaffoldBackgroundColor: Colors.white,
+      ),
       initialRoute: AppRoutes.login,
       getPages: AppPages.routes,
     );

@@ -1,84 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:livaplace_app/controllers/login_controller.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginState();
-}
-
-class _LoginState extends State<LoginScreen> {
-  late final GlobalKey<FormState> _formKey;
-  late final TextEditingController _emailController;
-  late final TextEditingController _passwordController;
-  late final FirebaseAuth _auth;
-
-  @override
-  void initState() {
-    super.initState();
-    _formKey = GlobalKey<FormState>();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-    _auth = FirebaseAuth.instance;
-  }
-
-  Future<void> _login() async {
-    if (!_formKey.currentState!.validate()) {
-      Get.snackbar(
-        'ข้อมูลไม่ครบถ้วน',
-        'โปรดกรอกอีเมลและรหัสผ่านให้ถูกต้อง',
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: Colors.white,
-      );
-      return;
-    }
-
-    try {
-      // show loading
-      Get.dialog(
-        const Center(child: CircularProgressIndicator()),
-        barrierDismissible: false,
-      );
-
-      final UserCredential userCredential = await _auth
-          .signInWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim(),
-          );
-
-      if (userCredential.user != null) {
-        Get.back();
-        Get.offAllNamed(AppRoutes.home);
-      } else {
-        Get.back();
-        Get.snackbar(
-          'เกิดข้อผิดพลาด',
-          'ไม่สามารถเข้าสู่ระบบได้ โปรดลองอีกครั้ง',
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: Colors.white,
-        );
-      }
-    } catch (e) {
-      Get.back();
-      Get.snackbar(
-        'เกิดข้อผิดพลาด',
-        'ไม่สามารถเข้าสู่ระบบได้ โปรดลองอีกครั้ง',
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: Colors.white,
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    _emailController.clear();
-    _passwordController.clear();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +17,7 @@ class _LoginState extends State<LoginScreen> {
           child: Center(
             child: SingleChildScrollView(
               child: Form(
-                key: _formKey,
+                key: controller.formKey,
                 child: Padding(
                   padding: const EdgeInsets.all(40),
                   child: Column(
@@ -107,26 +34,65 @@ class _LoginState extends State<LoginScreen> {
                       const Text('ผู้ใช้จำเป็นต้องเข้าสู่ระบบเพื่อใช้งาน'),
                       const SizedBox(height: 20),
                       TextFormField(
-                        controller: _emailController,
+                        controller: controller.emailController,
                         autofocus: false,
-                        decoration: const InputDecoration(label: Text('อีเมล')),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          label: const Text('อีเมล'),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
                         validator: (value) {
-                          if (value != null || value!.isEmpty) {
-                            return 'จำเป็นต้องกรอกข้อมูล';
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณากรอกอีเมล';
+                          }
+                          if (!GetUtils.isEmail(value)) {
+                            return 'รูปแบบอีเมลไม่ถูกต้อง';
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
-                        controller: _passwordController,
+                        controller: controller.passwordController,
                         autofocus: false,
-                        decoration: const InputDecoration(
-                          label: Text('รหัสผ่าน'),
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          label: const Text('รหัสผ่าน'),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                         validator: (value) {
-                          if (value != null || value!.isEmpty) {
-                            return 'จำเป็นต้องกรอกข้อมูล';
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณากรอกรหัสผ่าน';
+                          }
+                          if (value.length < 6) {
+                            return 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร';
                           }
                           return null;
                         },
@@ -137,8 +103,11 @@ class _LoginState extends State<LoginScreen> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                          onPressed: _login,
+                          onPressed: controller.login,
                           child: const Text(
                             'เข้าสู่ระบบ',
                             style: TextStyle(color: Colors.white),
@@ -147,7 +116,10 @@ class _LoginState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 20),
                       GestureDetector(
-                        onTap: () => Get.toNamed(AppRoutes.register),
+                        onTap: () async {
+                          await Get.toNamed(AppRoutes.register);
+                          controller.formKey.currentState!.reset();
+                        },
                         child: RichText(
                           text: TextSpan(
                             style: GoogleFonts.mitr(color: Colors.black),
