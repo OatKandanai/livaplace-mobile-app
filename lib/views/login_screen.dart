@@ -45,14 +45,28 @@ class LoginScreen extends GetView<LoginController> {
                               width: 1,
                               color: Colors.grey.shade300,
                             ),
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 1,
                               color: Colors.grey.shade300,
                             ),
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         validator: (value) {
@@ -86,6 +100,20 @@ class LoginScreen extends GetView<LoginController> {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -107,22 +135,29 @@ class LoginScreen extends GetView<LoginController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: controller.login,
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            controller.login();
+                          },
                           child: const Text(
                             'เข้าสู่ระบบ',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                         ),
                       ),
                       const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () async {
-                          await Get.toNamed(AppRoutes.register);
+                          FocusScope.of(context).unfocus();
                           controller.formKey.currentState!.reset();
+                          await Get.toNamed(AppRoutes.register);
                         },
                         child: RichText(
                           text: TextSpan(
-                            style: GoogleFonts.mitr(color: Colors.black),
+                            style: GoogleFonts.mitr(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
                             children: const [
                               TextSpan(text: 'ยังไม่มีบัญชี?'),
                               TextSpan(text: '\u00A0\u00A0'),

@@ -160,7 +160,7 @@ class SearchFiltersScreen extends StatelessWidget {
                       const SizedBox(height: 20),
 
                       // bedroom qty control
-                      buildCounterRow(
+                      _buildCounterRow(
                         label: 'ห้องนอน',
                         counter: controller.bedroomCount,
                         onIncrease: () =>
@@ -172,7 +172,7 @@ class SearchFiltersScreen extends StatelessWidget {
                       const SizedBox(height: 10),
 
                       // bathroom qty control
-                      buildCounterRow(
+                      _buildCounterRow(
                         label: 'ห้องน้ำ',
                         counter: controller.bathroomCount,
                         onIncrease: () =>
@@ -223,7 +223,7 @@ class SearchFiltersScreen extends StatelessWidget {
     );
   }
 
-  Widget buildCounterRow({
+  Widget _buildCounterRow({
     required String label,
     required RxInt counter,
     required VoidCallback onIncrease,

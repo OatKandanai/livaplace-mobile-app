@@ -116,46 +116,21 @@ class CreatePropertyScreen extends StatelessWidget {
 
                             const SizedBox(height: 20),
 
+                            // title
                             TextFormField(
                               autofocus: false,
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
                               ),
-                              decoration: InputDecoration(
-                                label: const Text(
-                                  'ชื่อประกาศ',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                hintStyle: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey.shade400,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, // ปรับระยะห่างแนวตั้ง
-                                  horizontal: 12, // ปรับระยะห่างแนวนอน
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                              decoration: _buildInputDecoration(
+                                labelText: 'ชื่อประกาศ',
                               ),
                             ),
 
                             const SizedBox(height: 10),
 
+                            // area and floor number
                             Row(
                               children: [
                                 Expanded(
@@ -165,37 +140,8 @@ class CreatePropertyScreen extends StatelessWidget {
                                       fontSize: 14,
                                       color: Colors.black,
                                     ),
-                                    decoration: InputDecoration(
-                                      label: const Text(
-                                        'ขนาดห้อง (ตร.ม.)',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      hintStyle: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey.shade400,
-                                      ),
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                            vertical: 8, // ปรับระยะห่างแนวตั้ง
-                                            horizontal:
-                                                12, // ปรับระยะห่างแนวนอน
-                                          ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
+                                    decoration: _buildInputDecoration(
+                                      labelText: 'ขนาดห้อง (ตร.ม.)',
                                     ),
                                   ),
                                 ),
@@ -207,37 +153,8 @@ class CreatePropertyScreen extends StatelessWidget {
                                       fontSize: 14,
                                       color: Colors.black,
                                     ),
-                                    decoration: InputDecoration(
-                                      label: const Text(
-                                        'อยู่ชั้นที่',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      hintStyle: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey.shade400,
-                                      ),
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                            vertical: 8, // ปรับระยะห่างแนวตั้ง
-                                            horizontal:
-                                                12, // ปรับระยะห่างแนวนอน
-                                          ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
+                                    decoration: _buildInputDecoration(
+                                      labelText: 'อยู่ชั้นที่',
                                     ),
                                   ),
                                 ),
@@ -246,88 +163,53 @@ class CreatePropertyScreen extends StatelessWidget {
 
                             const SizedBox(height: 10),
 
+                            // bedrooms and bathrooms
                             Row(
                               children: [
                                 Expanded(
+                                  child: DropdownButtonFormField(
+                                    items: items,
+                                    onChanged: onChanged,
+                                  ),
+                                ),
+
+                                Expanded(
+                                  child: DropdownButtonFormField(
+                                    items: items,
+                                    onChanged: onChanged,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            // price
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 3,
                                   child: TextFormField(
                                     autofocus: false,
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
                                     ),
-                                    decoration: InputDecoration(
-                                      label: const Text(
-                                        'จำนวนห้องนอน',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      hintStyle: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey.shade400,
-                                      ),
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                            vertical: 8, // ปรับระยะห่างแนวตั้ง
-                                            horizontal:
-                                                12, // ปรับระยะห่างแนวนอน
-                                          ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
+                                    decoration: _buildInputDecoration(
+                                      labelText: 'ราคา',
                                     ),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                  child: TextFormField(
-                                    autofocus: false,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                    ),
-                                    decoration: InputDecoration(
-                                      label: const Text(
-                                        'จำนวนห้องน้ำ',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      hintStyle: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey.shade400,
-                                      ),
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                            vertical: 8, // ปรับระยะห่างแนวตั้ง
-                                            horizontal:
-                                                12, // ปรับระยะห่างแนวนอน
-                                          ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          width: 1,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
+                                  flex: 1,
+                                  child: Obx(
+                                    () => Text(
+                                      controller.selectedPropertyType.value ==
+                                              'เช่า'
+                                          ? 'บาท / เดือน'
+                                          : 'บาท',
+                                      textAlign: TextAlign.start,
                                     ),
                                   ),
                                 ),
@@ -336,43 +218,19 @@ class CreatePropertyScreen extends StatelessWidget {
 
                             const SizedBox(height: 10),
 
+                            // location
                             TextFormField(
                               autofocus: false,
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
                               ),
-                              decoration: InputDecoration(
-                                label: const Text(
-                                  'ตำแหน่ง',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                hintStyle: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey.shade400,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, // ปรับระยะห่างแนวตั้ง
-                                  horizontal: 12, // ปรับระยะห่างแนวนอน
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                              decoration: _buildInputDecoration(
+                                labelText: 'ตำแหน่ง',
                               ),
                             ),
+
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
@@ -383,6 +241,24 @@ class CreatePropertyScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  InputDecoration _buildInputDecoration({required String labelText}) {
+    return InputDecoration(
+      label: Text(labelText, style: const TextStyle(fontSize: 12)),
+      hintStyle: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      filled: true,
+      fillColor: Colors.white,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(10),
       ),
     );
   }

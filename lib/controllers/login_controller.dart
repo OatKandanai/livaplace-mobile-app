@@ -23,7 +23,7 @@ class LoginController extends GetxController {
       Get.snackbar(
         'ข้อมูลไม่ครบถ้วน',
         'โปรดกรอกอีเมลและรหัสผ่านให้ถูกต้อง',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         colorText: Colors.white,
         backgroundColor: Colors.black,
       );
@@ -60,7 +60,7 @@ class LoginController extends GetxController {
       Get.snackbar(
         'เกิดข้อผิดพลาด',
         'ไม่สามารถเข้าสู่ระบบได้ โปรดลองอีกครั้ง',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         colorText: Colors.white,
         backgroundColor: Colors.black,
       );

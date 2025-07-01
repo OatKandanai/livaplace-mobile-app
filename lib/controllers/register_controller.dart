@@ -45,7 +45,7 @@ class RegisterController extends GetxController {
       Get.snackbar(
         'ข้อมูลไม่ถูกต้อง',
         'โปรดกรอกข้อมูลให้ถูกต้องและครบถ้วน',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         colorText: Colors.white,
         backgroundColor: Colors.black,
       );
@@ -89,7 +89,7 @@ class RegisterController extends GetxController {
       Get.snackbar(
         'เกิดข้อผิดพลาด',
         'ไม่สามารถสมัครสมาชิกได้ โปรดลองอีกครั้ง',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         colorText: Colors.white,
         backgroundColor: Colors.black,
       );
