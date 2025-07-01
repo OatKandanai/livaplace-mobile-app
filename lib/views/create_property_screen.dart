@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:livaplace_app/controllers/create_property_controller.dart';
 
@@ -18,20 +19,22 @@ class CreatePropertyScreen extends StatelessWidget {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 30),
               child: Center(
                 child: Column(
                   children: [
                     const Text('ลงประกาศ', style: TextStyle(fontSize: 24)),
+                    const SizedBox(height: 10),
                     const Text('หมายเหตุ : ประกาศจะต้องรอการอนุมัติจากผู้ดูแล'),
                     const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
+                        color: Colors.grey.shade100,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Form(
+                        key: controller.formKey,
                         child: Column(
                           children: [
                             const Text('ประเภททรัพย์'),
@@ -118,7 +121,11 @@ class CreatePropertyScreen extends StatelessWidget {
 
                             // title
                             TextFormField(
+                              controller: controller.titleController,
                               autofocus: false,
+                              maxLength: 30,
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.next,
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
@@ -126,6 +133,12 @@ class CreatePropertyScreen extends StatelessWidget {
                               decoration: _buildInputDecoration(
                                 labelText: 'ชื่อประกาศ',
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'กรุณากรอกชื่อประกาศ';
+                                }
+                                return null;
+                              },
                             ),
 
                             const SizedBox(height: 10),
@@ -135,7 +148,21 @@ class CreatePropertyScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: TextFormField(
+                                    controller: controller.areaController,
                                     autofocus: false,
+                                    maxLength: 3,
+                                    keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.next,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    buildCounter:
+                                        (
+                                          _, {
+                                          required currentLength,
+                                          required isFocused,
+                                          maxLength,
+                                        }) => null,
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
@@ -143,12 +170,38 @@ class CreatePropertyScreen extends StatelessWidget {
                                     decoration: _buildInputDecoration(
                                       labelText: 'ขนาดห้อง (ตร.ม.)',
                                     ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'กรุณากรอกขนาด';
+                                      }
+                                      if (int.tryParse(value) == null) {
+                                        return 'เป็นตัวเลขเท่านั้น';
+                                      }
+                                      if (int.parse(value) <= 0) {
+                                        return 'ต้องมากกว่า 0';
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: TextFormField(
+                                    controller: controller.floorController,
                                     autofocus: false,
+                                    maxLength: 3,
+                                    keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.next,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    buildCounter:
+                                        (
+                                          _, {
+                                          required currentLength,
+                                          required isFocused,
+                                          maxLength,
+                                        }) => null,
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
@@ -156,6 +209,18 @@ class CreatePropertyScreen extends StatelessWidget {
                                     decoration: _buildInputDecoration(
                                       labelText: 'อยู่ชั้นที่',
                                     ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'กรุณากรอกชั้น';
+                                      }
+                                      if (int.tryParse(value) == null) {
+                                        return 'เป็นตัวเลขเท่านั้น';
+                                      }
+                                      if (int.parse(value) <= 0) {
+                                        return 'ต้องมากกว่า 0';
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
                               ],
@@ -167,16 +232,71 @@ class CreatePropertyScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Expanded(
-                                  child: DropdownButtonFormField(
-                                    items: items,
-                                    onChanged: onChanged,
+                                  child: Obx(
+                                    () => DropdownButtonFormField(
+                                      decoration: _buildInputDecoration(
+                                        labelText: 'จำนวนห้องนอน',
+                                      ),
+                                      value: controller.bedroomCount.value,
+                                      items: List.generate(
+                                        5,
+                                        (index) => DropdownMenuItem(
+                                          value: index + 1,
+                                          child: Text(
+                                            '${index + 1} ห้องนอน',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          controller.bedroomCount.value = value;
+                                        }
+                                      },
+                                      validator: (value) {
+                                        if (value == null || value <= 0) {
+                                          return 'กรุณาเลือกจำนวนห้องนอน';
+                                        }
+                                        return null;
+                                      },
+                                    ),
                                   ),
                                 ),
-
+                                const SizedBox(width: 10),
                                 Expanded(
-                                  child: DropdownButtonFormField(
-                                    items: items,
-                                    onChanged: onChanged,
+                                  child: Obx(
+                                    () => DropdownButtonFormField(
+                                      decoration: _buildInputDecoration(
+                                        labelText: 'จำนวนห้องน้ำ',
+                                      ),
+                                      value: controller.bathroomCount.value,
+                                      items: List.generate(
+                                        5,
+                                        (index) => DropdownMenuItem(
+                                          value: index + 1,
+                                          child: Text(
+                                            '${index + 1} ห้องน้ำ',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          controller.bathroomCount.value =
+                                              value;
+                                        }
+                                      },
+                                      validator: (value) {
+                                        if (value == null || value <= 0) {
+                                          return 'กรุณาเลือกจำนวนห้องน้ำ';
+                                        }
+                                        return null;
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],
@@ -190,7 +310,21 @@ class CreatePropertyScreen extends StatelessWidget {
                                 Expanded(
                                   flex: 3,
                                   child: TextFormField(
+                                    controller: controller.priceController,
                                     autofocus: false,
+                                    maxLength: 9,
+                                    keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.next,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
+                                    buildCounter:
+                                        (
+                                          _, {
+                                          required currentLength,
+                                          required isFocused,
+                                          maxLength,
+                                        }) => null,
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
@@ -198,6 +332,18 @@ class CreatePropertyScreen extends StatelessWidget {
                                     decoration: _buildInputDecoration(
                                       labelText: 'ราคา',
                                     ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'กรุณากรอกราคา';
+                                      }
+                                      if (int.tryParse(value) == null) {
+                                        return 'เป็นตัวเลขเท่านั้น';
+                                      }
+                                      if (int.parse(value) <= 0) {
+                                        return 'ต้องมากกว่า 0';
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -209,7 +355,7 @@ class CreatePropertyScreen extends StatelessWidget {
                                               'เช่า'
                                           ? 'บาท / เดือน'
                                           : 'บาท',
-                                      textAlign: TextAlign.start,
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ),
@@ -218,9 +364,35 @@ class CreatePropertyScreen extends StatelessWidget {
 
                             const SizedBox(height: 10),
 
+                            // detail
+                            TextFormField(
+                              controller: controller.detailController,
+                              autofocus: false,
+                              maxLines: 5,
+                              maxLength: 300,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
+                              decoration: _buildInputDecoration(
+                                labelText: 'รายละเอียดเพิ่มเติม',
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'กรุณากรอกรายละเอียด';
+                                }
+                                return null;
+                              },
+                            ),
+
+                            const SizedBox(height: 10),
+
                             // location
                             TextFormField(
+                              controller: controller.locationController,
                               autofocus: false,
+                              maxLength: 30,
+                              maxLines: 1,
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
@@ -228,9 +400,107 @@ class CreatePropertyScreen extends StatelessWidget {
                               decoration: _buildInputDecoration(
                                 labelText: 'ตำแหน่ง',
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'กรุณากรอกตำแหน่ง';
+                                }
+                                return null;
+                              },
                             ),
 
                             const SizedBox(height: 10),
+                            const Text('สิ่งอำนวยความสะดวก'),
+                            const SizedBox(height: 10),
+
+                            Obx(
+                              () => Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: controller.facilities.map((facility) {
+                                  final bool isSelected = controller
+                                      .selectedFacilities
+                                      .contains(facility);
+
+                                  return FilterChip(
+                                    showCheckmark: false,
+                                    label: Text(facility),
+                                    labelStyle: TextStyle(
+                                      color: isSelected
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                    elevation: 10,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    backgroundColor:
+                                        Colors.white, // unactive bg color
+                                    selectedColor:
+                                        Colors.black, // active bg color
+                                    selected: isSelected,
+                                    onSelected: (bool selected) {
+                                      if (selected) {
+                                        controller.selectedFacilities.add(
+                                          facility,
+                                        );
+                                      } else {
+                                        controller.selectedFacilities.remove(
+                                          facility,
+                                        );
+                                      }
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black,
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      FocusScope.of(context).unfocus();
+                                      controller.createProperty();
+                                    },
+                                    child: const Text(
+                                      'สร้างประกาศ',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black,
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      FocusScope.of(context).unfocus();
+                                      Get.back();
+                                    },
+                                    child: const Text(
+                                      'ยกเลิก',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 20),
                           ],
                         ),
                       ),
@@ -257,6 +527,14 @@ class CreatePropertyScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
         borderSide: BorderSide(width: 1, color: Colors.grey.shade300),
         borderRadius: BorderRadius.circular(10),
       ),

@@ -52,23 +52,9 @@ class EditProfileScreen extends StatelessWidget {
                             fontSize: 14,
                             color: Colors.black,
                           ),
-                          decoration: InputDecoration(
+                          decoration: _buildInputDecoration(
                             prefixIcon: const Icon(Icons.text_fields),
-                            label: const Text('ชื่อจริง'),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade400,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade400,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            labelText: 'ชื่อจริง',
                           ),
                         ),
                       ),
@@ -81,23 +67,9 @@ class EditProfileScreen extends StatelessWidget {
                             fontSize: 14,
                             color: Colors.black,
                           ),
-                          decoration: InputDecoration(
+                          decoration: _buildInputDecoration(
                             prefixIcon: const Icon(Icons.text_fields),
-                            label: const Text('นามสกุล'),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade400,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade400,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            labelText: 'นามสกุล',
                           ),
                         ),
                       ),
@@ -110,23 +82,9 @@ class EditProfileScreen extends StatelessWidget {
                             fontSize: 14,
                             color: Colors.black,
                           ),
-                          decoration: InputDecoration(
+                          decoration: _buildInputDecoration(
                             prefixIcon: const Icon(Icons.phone),
-                            label: const Text('เบอร์โทร'),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade400,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade400,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            labelText: 'เบอร์โทร',
                           ),
                         ),
                       ),
@@ -175,7 +133,7 @@ class EditProfileScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {},
-                          child: const Text('Save Changes'),
+                          child: const Text('บันทึก'),
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -189,8 +147,11 @@ class EditProfileScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          onPressed: () => Get.back(),
-                          child: const Text('Cancel'),
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            Get.back();
+                          },
+                          child: const Text('ยกเลิก'),
                         ),
                       ),
                     ],
@@ -200,6 +161,32 @@ class EditProfileScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  InputDecoration _buildInputDecoration({
+    required Widget prefixIcon,
+    required String labelText,
+  }) {
+    return InputDecoration(
+      prefixIcon: prefixIcon,
+      label: Text(labelText),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.grey.shade400),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.grey.shade400),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.grey.shade400),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.grey.shade400),
+        borderRadius: BorderRadius.circular(10),
       ),
     );
   }

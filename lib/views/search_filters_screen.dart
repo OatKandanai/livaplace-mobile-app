@@ -202,8 +202,10 @@ class SearchFiltersScreen extends StatelessWidget {
                                 backgroundColor: Colors.black,
                                 elevation: 10,
                               ),
-                              onPressed: () =>
-                                  Get.offAllNamed(AppRoutes.searchResult),
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+                                Get.offAllNamed(AppRoutes.searchResult);
+                              },
                               child: const Text(
                                 'ค้นหา',
                                 style: TextStyle(color: Colors.white),
