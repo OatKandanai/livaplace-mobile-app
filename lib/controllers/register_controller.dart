@@ -85,7 +85,7 @@ class RegisterController extends GetxController {
         await Get.toNamed(AppRoutes.login);
       }
     } catch (e) {
-      Get.back();
+      Get.back(); // dismiss get dialog
       Get.snackbar(
         'เกิดข้อผิดพลาด',
         'ไม่สามารถสมัครสมาชิกได้ โปรดลองอีกครั้ง',

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -454,6 +456,75 @@ class CreatePropertyScreen extends StatelessWidget {
                               ),
                             ),
 
+                            const SizedBox(height: 20),
+                            const Text('รูปภาพทรัพย์สิน'),
+                            const SizedBox(height: 10),
+                            // Image Picker Button
+                            ElevatedButton.icon(
+                              onPressed: controller.pickImages,
+                              icon: const Icon(Icons.add_a_photo),
+                              label: const Text('เลือกรูปภาพ'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+
+                            Obx(
+                              () => controller.selectedLocalImages.isEmpty
+                                  ? const Text('ยังไม่มีรูปภาพที่เลือก')
+                                  : GridView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            crossAxisSpacing: 8,
+                                            mainAxisSpacing: 8,
+                                          ),
+                                      itemCount:
+                                          controller.selectedLocalImages.length,
+                                      itemBuilder: (context, index) {
+                                        final image = controller
+                                            .selectedLocalImages[index];
+                                        return Stack(
+                                          children: [
+                                            Image.file(
+                                              File(image.path),
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            ),
+                                            Positioned(
+                                              top: 0,
+                                              right: 0,
+                                              child: GestureDetector(
+                                                onTap: () => controller
+                                                    .selectedLocalImages
+                                                    .removeAt(index),
+                                                child: Container(
+                                                  color: Colors.black54,
+                                                  padding: const EdgeInsets.all(
+                                                    4,
+                                                  ),
+                                                  child: const Icon(
+                                                    Icons.close,
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                            ),
                             const SizedBox(height: 20),
 
                             Row(
