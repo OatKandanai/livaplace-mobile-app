@@ -1,16 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:livaplace_app/controllers/create_property_controller.dart';
 
-class CreatePropertyScreen extends StatelessWidget {
-  CreatePropertyScreen({super.key});
-
-  final CreatePropertyController controller = Get.put(
-    CreatePropertyController(),
-  );
+class CreatePropertyScreen extends GetView<CreatePropertyController> {
+  const CreatePropertyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +16,12 @@ class CreatePropertyScreen extends StatelessWidget {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 30),
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+                top: 30,
+                bottom: 20,
+              ),
               child: Center(
                 child: Column(
                   children: [
@@ -32,7 +32,7 @@ class CreatePropertyScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
+                        color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Form(

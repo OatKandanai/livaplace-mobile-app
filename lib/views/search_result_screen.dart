@@ -162,19 +162,20 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                         final bool isFavorite = result['isFavorite'];
                         final String created = result['created'];
 
-                        return PropertyCard(
-                          imageUrl: imageUrl,
-                          propertyType: propertyType,
-                          roomType: roomType,
-                          title: title,
-                          location: location,
-                          bedrooms: bedrooms,
-                          bathrooms: bathrooms,
-                          price: price,
-                          priceUnit: priceUnit,
-                          isFavorite: isFavorite,
-                          created: created,
-                        );
+                        return SizedBox();
+                        // return PropertyCard(
+                        //   imageUrl: imageUrl,
+                        //   propertyType: propertyType,
+                        //   roomType: roomType,
+                        //   title: title,
+                        //   location: location,
+                        //   bedrooms: bedrooms,
+                        //   bathrooms: bathrooms,
+                        //   price: price,
+                        //   priceUnit: priceUnit,
+                        //   isFavorite: isFavorite,
+                        //   created: created!,
+                        // );
                       },
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 10),

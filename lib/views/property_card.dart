@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/utils.dart';
+import 'package:intl/intl.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
 class PropertyCard extends StatelessWidget {
@@ -15,7 +16,7 @@ class PropertyCard extends StatelessWidget {
   final int price;
   final String priceUnit;
   final bool isFavorite;
-  final String created;
+  final DateTime created;
   final VoidCallback? onFavoriteToggle;
 
   const PropertyCard({
@@ -142,7 +143,7 @@ class PropertyCard extends StatelessWidget {
                             const Icon(Icons.bathtub_outlined, size: 20),
                             const SizedBox(width: 3),
                             Text(
-                              '$bathrooms ห้องนอน',
+                              '$bathrooms ห้องน้ำ',
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],
@@ -168,8 +169,8 @@ class PropertyCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 3),
                             Text(
-                              'ลงประกาศเมื่อ $created',
-                              style: const TextStyle(fontSize: 10),
+                              'ลงประกาศเมื่อ ${DateFormat('dd/MM/yyyy').format(created)}',
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ],
                         ),

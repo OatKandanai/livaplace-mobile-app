@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:livaplace_app/controllers/home_controller.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 import 'package:livaplace_app/views/property_card.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends GetView<HomeController> {
+  HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _ItemListState();
-}
-
-class _ItemListState extends State<HomeScreen> {
   final List<Map<String, dynamic>> propertyData = [
     {
-      "propertyType": "เช่า",
-      "roomType": "คอนโด",
+      "property_type": "เช่า",
+      "room_type": "คอนโด",
       "title":
           "คอนโดพร้อมเข้าอยู่ใจกลางเมืองงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงงง",
       "location": "อโศก, กรุงเทพมหานคร",
@@ -120,10 +116,6 @@ class _ItemListState extends State<HomeScreen> {
 
   // each tab
   Widget _buildTabContent({required String propertyType}) {
-    final List<Map<String, dynamic>> filteredPropertys = propertyData
-        .where((item) => item['propertyType'] == propertyType)
-        .toList();
-
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Center(
@@ -152,40 +144,52 @@ class _ItemListState extends State<HomeScreen> {
 
             // card
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  final Map<String, dynamic> property =
-                      filteredPropertys[index];
-                  final String imageUrl = property['image'];
-                  final String propertyType = property['propertyType'];
-                  final String roomType = property['roomType'];
-                  final String title = property['title'];
-                  final String location = property['location'];
-                  final int bedrooms = property['bedrooms'];
-                  final int bathrooms = property['bathrooms'];
-                  final int price = property['price'];
-                  final String priceUnit = property['priceUnit'];
-                  final bool isFavorite = property['isFavorite'];
-                  final String created = property['created'];
+              child: Obx(() {
+                final List<Map<String, dynamic>> filteredPropertys = controller
+                    .propertys
+                    .where((item) => item['property_type'] == propertyType)
+                    .toList();
 
-                  return PropertyCard(
-                    imageUrl: imageUrl,
-                    propertyType: propertyType,
-                    roomType: roomType,
-                    title: title,
-                    location: location,
-                    bedrooms: bedrooms,
-                    bathrooms: bathrooms,
-                    price: price,
-                    priceUnit: priceUnit,
-                    isFavorite: isFavorite,
-                    created: created,
-                  );
-                },
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10),
-                itemCount: filteredPropertys.length,
-              ),
+                return ListView.separated(
+                  itemBuilder: (context, index) {
+                    final Map<String, dynamic> property =
+                        filteredPropertys[index];
+                    final String imageUrl =
+                        property['images'][0]; // get only first image
+                    final String propertyType = property['property_type'];
+                    final String roomType = property['room_type'];
+                    final String title = property['title'];
+                    final String location = property['location'];
+                    final int bedrooms = property['bedrooms'];
+                    final int bathrooms = property['bathrooms'];
+                    final int price = property['price'];
+                    final String priceUnit = property['price_unit'];
+                    final bool isFavorite = true;
+                    final DateTime? created = DateTime.tryParse(
+                      '${property['created_at']}',
+                    );
+
+                    print('CREATED IS ${property['created_at']}');
+
+                    return PropertyCard(
+                      imageUrl: imageUrl,
+                      propertyType: propertyType,
+                      roomType: roomType,
+                      title: title,
+                      location: location,
+                      bedrooms: bedrooms,
+                      bathrooms: bathrooms,
+                      price: price,
+                      priceUnit: priceUnit,
+                      isFavorite: isFavorite,
+                      created: created!,
+                    );
+                  },
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 10),
+                  itemCount: filteredPropertys.length,
+                );
+              }),
             ),
           ],
         ),

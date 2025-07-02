@@ -10,7 +10,7 @@ class BottomNav extends StatelessWidget {
 
   // apply bottom nav bar to these screens
   final List<Widget> pages = [
-    const HomeScreen(),
+    HomeScreen(),
     const SavedListScreen(),
     const ProfileScreen(),
   ];

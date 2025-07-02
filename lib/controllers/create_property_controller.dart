@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:livaplace_app/controllers/home_controller.dart';
 
 class CreatePropertyController extends GetxController {
   // List variables to display choices in UI
@@ -97,9 +98,10 @@ class CreatePropertyController extends GetxController {
           Get.snackbar(
             'ข้อจำกัดรูปภาพ',
             'คุณสามารถเพิ่มรูปภาพได้สูงสุด $maxImages รูป',
-            snackPosition: SnackPosition.BOTTOM,
+            snackPosition: SnackPosition.TOP,
             colorText: Colors.white,
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.black,
+            duration: const Duration(seconds: 5),
           );
           return;
         }
@@ -113,9 +115,10 @@ class CreatePropertyController extends GetxController {
           Get.snackbar(
             'ข้อจำกัดรูปภาพ',
             'คุณเลือกรูปภาพเกินจำนวนที่อนุญาต ($maxImages รูป) ระบบได้เพิ่มรูปภาพเพียง $availableSlots รูป',
-            snackPosition: SnackPosition.BOTTOM,
+            snackPosition: SnackPosition.TOP,
             colorText: Colors.white,
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.black,
+            duration: const Duration(seconds: 5),
           );
         }
       }
@@ -123,9 +126,10 @@ class CreatePropertyController extends GetxController {
       Get.snackbar(
         'ข้อผิดพลาด',
         'ไม่สามารถเลือกรูปภาพได้: $e',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         colorText: Colors.white,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.black,
+        duration: const Duration(seconds: 5),
       );
     }
   }
@@ -245,7 +249,7 @@ class CreatePropertyController extends GetxController {
         "detail": detail,
         "owner_id": 1,
         "owner_name": "Lisa",
-        "created_at": Timestamp.now(),
+        "created_at": DateTime.now().toIso8601String(),
         "is_approved": false,
       };
 
@@ -261,6 +265,8 @@ class CreatePropertyController extends GetxController {
         colorText: Colors.white,
         backgroundColor: Colors.black,
       );
+
+      Get.find<HomeController>().onInit();
 
       // clear form fields after successful create
       // _clearForm();
