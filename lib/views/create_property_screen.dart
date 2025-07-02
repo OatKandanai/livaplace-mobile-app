@@ -143,7 +143,7 @@ class CreatePropertyScreen extends StatelessWidget {
                               },
                             ),
 
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
 
                             // area and floor number
                             Row(
@@ -228,7 +228,7 @@ class CreatePropertyScreen extends StatelessWidget {
                               ],
                             ),
 
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
 
                             // bedrooms and bathrooms
                             Row(
@@ -304,7 +304,7 @@ class CreatePropertyScreen extends StatelessWidget {
                               ],
                             ),
 
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
 
                             // price
                             Row(
@@ -364,7 +364,7 @@ class CreatePropertyScreen extends StatelessWidget {
                               ],
                             ),
 
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
 
                             // detail
                             TextFormField(
@@ -459,6 +459,7 @@ class CreatePropertyScreen extends StatelessWidget {
                             const SizedBox(height: 20),
                             const Text('รูปภาพทรัพย์สิน'),
                             const SizedBox(height: 10),
+
                             // Image Picker Button
                             ElevatedButton.icon(
                               onPressed: controller.pickImages,
@@ -472,8 +473,10 @@ class CreatePropertyScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
+
                             const SizedBox(height: 10),
 
+                            // image display
                             Obx(
                               () => controller.selectedLocalImages.isEmpty
                                   ? const Text('ยังไม่มีรูปภาพที่เลือก')
@@ -492,6 +495,7 @@ class CreatePropertyScreen extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         final image = controller
                                             .selectedLocalImages[index];
+
                                         return Stack(
                                           children: [
                                             Image.file(
@@ -527,6 +531,7 @@ class CreatePropertyScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 20),
 
+                            // button group
                             Row(
                               children: [
                                 Expanded(

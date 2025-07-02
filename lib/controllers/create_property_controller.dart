@@ -52,6 +52,12 @@ class CreatePropertyController extends GetxController {
   // Firestore Reference
   late final CollectionReference<Map<String, dynamic>> _propertysCollection;
 
+  // for uploading images
+  final RxList<XFile> selectedLocalImages =
+      <XFile>[].obs; // To store locally selected images
+  late final ImagePicker _picker;
+  late final CloudinaryPublic _cloudinary;
+
   @override
   void onInit() {
     super.onInit();
@@ -66,6 +72,83 @@ class CreatePropertyController extends GetxController {
 
     // initialize Firestore collection reference
     _propertysCollection = FirebaseFirestore.instance.collection('propertys');
+
+    // initialize Image Picker
+    _picker = ImagePicker();
+    _cloudinary = CloudinaryPublic(
+      'dme1aety8', // Replace with your Cloudinary cloud name
+      'flutter_property_upload', // Replace with your Cloudinary upload preset
+      cache: true,
+    );
+  }
+
+  Future<void> pickImages() async {
+    try {
+      final List<XFile> images = await _picker.pickMultiImage();
+
+      const int maxImages = 10; // images limit
+
+      if (images.isNotEmpty) {
+        // calculate how many more images can be added
+        int availableSlots = maxImages - selectedLocalImages.length;
+
+        // check if there are no available slots left
+        if (availableSlots <= 0) {
+          Get.snackbar(
+            'ข้อจำกัดรูปภาพ',
+            'คุณสามารถเพิ่มรูปภาพได้สูงสุด $maxImages รูป',
+            snackPosition: SnackPosition.BOTTOM,
+            colorText: Colors.white,
+            backgroundColor: Colors.orange,
+          );
+          return;
+        }
+
+        // only add up to the available slots
+        List<XFile> imagesToAdd = images.take(availableSlots).toList();
+        selectedLocalImages.addAll(imagesToAdd);
+
+        // inform user if they selected more than the allowed limit
+        if (images.length > availableSlots) {
+          Get.snackbar(
+            'ข้อจำกัดรูปภาพ',
+            'คุณเลือกรูปภาพเกินจำนวนที่อนุญาต ($maxImages รูป) ระบบได้เพิ่มรูปภาพเพียง $availableSlots รูป',
+            snackPosition: SnackPosition.BOTTOM,
+            colorText: Colors.white,
+            backgroundColor: Colors.orange,
+          );
+        }
+      }
+    } catch (e) {
+      Get.snackbar(
+        'ข้อผิดพลาด',
+        'ไม่สามารถเลือกรูปภาพได้: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  Future<List<String>> _uploadImagesToCloudinary() async {
+    List<String> imageUrls = [];
+    if (selectedLocalImages.isEmpty) return imageUrls;
+
+    for (XFile image in selectedLocalImages) {
+      try {
+        CloudinaryResponse response = await _cloudinary.uploadFile(
+          CloudinaryFile.fromFile(
+            image.path,
+            resourceType: CloudinaryResourceType.Image,
+          ),
+        );
+        imageUrls.add(response.secureUrl);
+      } catch (e) {
+        print("Error uploading image to Cloudinary: $e");
+        // Handle individual image upload errors, maybe skip this image
+      }
+    }
+    return imageUrls;
   }
 
   Future<void> createProperty() async {
@@ -92,7 +175,7 @@ class CreatePropertyController extends GetxController {
       return;
     }
 
-    // Add validation for images
+    // validation for images
     if (selectedLocalImages.isEmpty) {
       Get.snackbar(
         'ข้อมูลไม่ถูกต้อง',
@@ -157,11 +240,7 @@ class CreatePropertyController extends GetxController {
         "floor": floor,
         "price": price,
         "price_unit": priceUnit,
-        "images": [
-          'https://images.unsplash.com/photo-1594873604892-b599f847e859?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          'https://images.unsplash.com/photo-1704040686413-2c607dbd2f06?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-          'https://images.unsplash.com/photo-1628744876497-eb30460be9f6?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        ],
+        "images": uploadedImageUrls,
         "facilities": facilitiesData,
         "detail": detail,
         "owner_id": 1,
@@ -195,53 +274,6 @@ class CreatePropertyController extends GetxController {
         backgroundColor: Colors.black,
       );
     }
-  }
-
-  final RxList<XFile> selectedLocalImages =
-      <XFile>[].obs; // To store locally selected images
-  final ImagePicker _picker = ImagePicker();
-  final CloudinaryPublic _cloudinary = CloudinaryPublic(
-    'dme1aety8', // Replace with your Cloudinary cloud name
-    'flutter_property_upload', // Replace with your Cloudinary upload preset
-    cache: true,
-  );
-
-  Future<void> pickImages() async {
-    try {
-      final List<XFile> images = await _picker.pickMultiImage();
-      if (images.isNotEmpty) {
-        selectedLocalImages.addAll(images);
-      }
-    } catch (e) {
-      Get.snackbar(
-        'ข้อผิดพลาด',
-        'ไม่สามารถเลือกรูปภาพได้: $e',
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: Colors.white,
-        backgroundColor: Colors.red,
-      );
-    }
-  }
-
-  Future<List<String>> _uploadImagesToCloudinary() async {
-    List<String> imageUrls = [];
-    if (selectedLocalImages.isEmpty) return imageUrls;
-
-    for (XFile image in selectedLocalImages) {
-      try {
-        CloudinaryResponse response = await _cloudinary.uploadFile(
-          CloudinaryFile.fromFile(
-            image.path,
-            resourceType: CloudinaryResourceType.Image,
-          ),
-        );
-        imageUrls.add(response.secureUrl);
-      } catch (e) {
-        print("Error uploading image to Cloudinary: $e");
-        // Handle individual image upload errors, maybe skip this image
-      }
-    }
-    return imageUrls;
   }
 
   // void _clearForm() {
