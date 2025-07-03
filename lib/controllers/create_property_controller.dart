@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:livaplace_app/controllers/home_controller.dart';
 
@@ -52,6 +54,10 @@ class CreatePropertyController extends GetxController {
 
   // Firestore Reference
   late final CollectionReference<Map<String, dynamic>> _propertysCollection;
+  late final CollectionReference<Map<String, dynamic>> _usersCollection;
+
+  // GetStorage instance
+  late final GetStorage _box;
 
   // for uploading images
   final RxList<XFile> selectedLocalImages =
@@ -71,14 +77,18 @@ class CreatePropertyController extends GetxController {
     detailController = TextEditingController();
     locationController = TextEditingController();
 
-    // initialize Firestore collection reference
+    // initialize Firestore collection reference and FirebaseAuth
     _propertysCollection = FirebaseFirestore.instance.collection('propertys');
+    _usersCollection = FirebaseFirestore.instance.collection('users');
+
+    // initialize GetStorage
+    _box = GetStorage();
 
     // initialize Image Picker
     _picker = ImagePicker();
     _cloudinary = CloudinaryPublic(
-      'dme1aety8', // Replace with your Cloudinary cloud name
-      'flutter_property_upload', // Replace with your Cloudinary upload preset
+      'dme1aety8', // Cloudinary cloud name
+      'flutter_property_upload', // Cloudinary upload preset
       cache: true,
     );
   }
@@ -211,15 +221,16 @@ class CreatePropertyController extends GetxController {
         return;
       }
 
-      String title = titleController.text.trim();
-      int area = int.parse(areaController.text.trim());
-      int floor = int.parse(floorController.text.trim());
-      int price = int.parse(priceController.text.trim());
-      String priceUnit = selectedPropertyType.value == 'เช่า'
+      final String title = titleController.text.trim();
+      final int area = int.parse(areaController.text.trim());
+      final int floor = int.parse(floorController.text.trim());
+      final int price = int.parse(priceController.text.trim());
+      final String priceUnit = selectedPropertyType.value == 'เช่า'
           ? 'บาท / เดือน'
           : 'บาท';
-      String detail = detailController.text.trim();
-      String location = locationController.text.trim();
+      final String detail = detailController.text.trim();
+      final String location = locationController.text.trim();
+      final String uid = _box.read('userUid');
 
       // convert selected facilities to a map of boolean values for Firestores
       final Map<String, bool> facilitiesData = {};
@@ -247,8 +258,7 @@ class CreatePropertyController extends GetxController {
         "images": uploadedImageUrls,
         "facilities": facilitiesData,
         "detail": detail,
-        "owner_id": 1,
-        "owner_name": "Lisa",
+        "owner_id": uid,
         "created_at": DateTime.now().toIso8601String(),
         "is_approved": false,
       };

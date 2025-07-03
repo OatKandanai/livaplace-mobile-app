@@ -183,8 +183,8 @@ class PropertyCard extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 5,
-          right: 5,
+          left: 0,
+          bottom: 0,
           child: IconButton(
             onPressed: () {},
             icon: Icon(

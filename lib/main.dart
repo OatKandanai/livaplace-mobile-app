@@ -4,10 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:livaplace_app/routes/app_pages.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get_storage/get_storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(); // Initialize Firebase
+  await GetStorage.init(); // Initialize Get Storage
   runApp(const MyApp());
 }
 
@@ -16,13 +18,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GetStorage box = GetStorage();
+    final bool isLoggedIn = box.read('isLoggedIn') ?? false;
+
     return GetMaterialApp(
       title: 'LivaPlace',
       theme: ThemeData(
         textTheme: GoogleFonts.mitrTextTheme(),
         scaffoldBackgroundColor: Colors.white,
       ),
-      initialRoute: AppRoutes.login,
+      initialRoute: isLoggedIn ? AppRoutes.home : AppRoutes.login,
       getPages: AppPages.routes,
     );
   }

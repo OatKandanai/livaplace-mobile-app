@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,15 +15,19 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late final FirebaseAuth _auth;
+  late final GetStorage box;
 
   @override
   void initState() {
     super.initState();
     _auth = FirebaseAuth.instance;
+    box = GetStorage();
   }
 
   Future<void> _logout() async {
     await _auth.signOut();
+    await box.remove('isLoggedIn');
+    await box.remove('userUid');
     Get.offAllNamed(AppRoutes.login);
   }
 
