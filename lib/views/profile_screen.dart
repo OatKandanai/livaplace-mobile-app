@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:livaplace_app/controllers/home_controller.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,8 +16,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late final FirebaseAuth _auth;
-  late final GetStorage box;
+  late FirebaseAuth _auth;
+  late GetStorage box;
+
+  HomeController controller = Get.find<HomeController>();
 
   @override
   void initState() {
@@ -218,7 +222,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   size: 18,
                   color: Colors.grey,
                 ),
-                onTap: () => Get.toNamed(AppRoutes.create),
+                onTap: () async {
+                  await Get.toNamed(AppRoutes.create);
+                  controller.fetchPropertys();
+                },
               ),
               const SizedBox(height: 20),
               SizedBox(

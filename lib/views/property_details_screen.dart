@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:intl/intl.dart';
@@ -13,13 +14,12 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // IMAGE SECTION
-              Stack(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
                 children: [
-                  // image swiper
+                  // IMAGE SECTION
                   Obx(() {
                     return controller.propertyDetails.isEmpty
                         ? const Center(child: CircularProgressIndicator())
@@ -46,240 +46,296 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                           );
                   }),
 
-                  // back icon
-                  Positioned(
-                    top: 10,
-                    left: 10,
-                    child: IconButton(
-                      onPressed: Get.back,
-                      icon: const Icon(
-                        Icons.arrow_back_outlined,
-                        size: 30,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: 20),
 
-                  // favorite icon
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              // DETAILS SECION
-              Obx(() {
-                return controller.propertyDetails.isEmpty
-                    ? const Center(child: CircularProgressIndicator())
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // title
-                            Text(
-                              controller.propertyDetails['title'],
-                              style: const TextStyle(fontSize: 20),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-
-                            const SizedBox(height: 20),
-                            const Text(
-                              'ข้อมูลทรัพย์',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-
-                            // property type label
-                            _propertyInfoLabel(
-                              icon: Icons.check,
-                              iconColor: Colors.green,
-                              label:
-                                  'ประเภท${controller.propertyDetails['property_type']}',
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            // cost
-                            _propertyInfoLabel(
-                              icon: Icons.attach_money,
-                              iconColor: const Color.fromARGB(
-                                255,
-                                234,
-                                224,
-                                139,
-                              ),
-                              label:
-                                  '${controller.propertyDetails['price']} ${controller.propertyDetails['price_unit']}',
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            // location
-                            _propertyInfoLabel(
-                              icon: Icons.location_on,
-                              iconColor: Colors.blueAccent,
-                              label: controller.propertyDetails['location'],
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            // created date
-                            _propertyInfoLabel(
-                              icon: Icons.calendar_month_outlined,
-                              iconColor: Colors.blueGrey,
-                              label: '12/1/2025',
-                            ),
-                            /* DateFormat('dd/MM/yyyy').format(
-                                controller.propertyDetails['created_at'],
-                              )*/
-                            const SizedBox(height: 20),
-                            const Text(
-                              'รายละเอียดห้อง',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-
-                            // area and floor number
-                            Row(
+                  // DETAILS SECION
+                  Obx(() {
+                    return controller.propertyDetails.isEmpty
+                        ? const Center(child: CircularProgressIndicator())
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: _propertyInfoLabel(
-                                    icon: Icons.aspect_ratio,
-                                    iconColor: const Color.fromARGB(
-                                      255,
-                                      65,
-                                      141,
-                                      104,
+                                // title
+                                Text(
+                                  controller.propertyDetails['title'],
+                                  style: const TextStyle(fontSize: 20),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'ข้อมูลทรัพย์',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+
+                                // property type label
+                                _propertyInfoLabel(
+                                  icon: Icons.check,
+                                  iconColor: Colors.green,
+                                  label:
+                                      'ประเภท${controller.propertyDetails['property_type']}',
+                                ),
+
+                                const SizedBox(height: 10),
+
+                                // cost
+                                _propertyInfoLabel(
+                                  icon: Icons.attach_money,
+                                  iconColor: const Color.fromARGB(
+                                    255,
+                                    234,
+                                    224,
+                                    139,
+                                  ),
+                                  label:
+                                      '${controller.propertyDetails['price']} ${controller.propertyDetails['price_unit']}',
+                                ),
+
+                                const SizedBox(height: 10),
+
+                                // location
+                                _propertyInfoLabel(
+                                  icon: Icons.location_on,
+                                  iconColor: Colors.blueAccent,
+                                  label: controller.propertyDetails['location'],
+                                ),
+
+                                const SizedBox(height: 10),
+
+                                // created date
+                                _propertyInfoLabel(
+                                  icon: Icons.calendar_month_outlined,
+                                  iconColor: Colors.blueGrey,
+                                  label: DateFormat('dd/MM/yyyy').format(
+                                    DateTime.parse(
+                                      controller.propertyDetails['created_at'],
                                     ),
-                                    label:
-                                        '${controller.propertyDetails['area']} ตร.ม.',
                                   ),
                                 ),
-                                Expanded(
-                                  child: _propertyInfoLabel(
-                                    icon: Icons.layers,
-                                    iconColor: Colors.orange,
-                                    label:
-                                        'อยู่ชั้นที่ ${controller.propertyDetails['floor']}',
+
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'รายละเอียดห้อง',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ],
-                            ),
+                                const SizedBox(height: 10),
 
-                            const SizedBox(height: 10),
-
-                            // bedrooms and bathrooms
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: _propertyInfoLabel(
-                                    icon: Icons.bed_outlined,
-                                    iconColor: Colors.pinkAccent,
-                                    label:
-                                        '${controller.propertyDetails['bedrooms']} ห้องนอน',
-                                  ),
-                                ),
-                                Expanded(
-                                  child: _propertyInfoLabel(
-                                    icon: Icons.bathtub_outlined,
-                                    iconColor: Colors.blueAccent,
-                                    label:
-                                        '${controller.propertyDetails['bathrooms']} ห้องน้ำ',
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            const SizedBox(height: 20),
-                            const Text(
-                              'รายละเอียดเพิ่มเติม',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-
-                            // property detail
-                            Text(
-                              controller.propertyDetails['detail'],
-                              style: const TextStyle(fontSize: 16),
-                            ),
-
-                            const Divider(height: 40),
-
-                            // owner profile
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                                // area and floor number
                                 Row(
                                   children: [
-                                    CircleAvatar(
-                                      radius: 25,
-                                      child: ClipOval(
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              'https://c-cdnet.cdn.smule.com/rs-s77/arr/48/be/c185cad2-4f00-4e20-a966-69325ec36030.jpg',
-                                          placeholder: (context, url) =>
-                                              const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              ),
-                                          errorWidget: (context, url, error) =>
-                                              const Center(
-                                                child: Icon(Icons.error),
-                                              ),
+                                    Expanded(
+                                      child: _propertyInfoLabel(
+                                        icon: Icons.aspect_ratio,
+                                        iconColor: const Color.fromARGB(
+                                          255,
+                                          65,
+                                          141,
+                                          104,
                                         ),
+                                        label:
+                                            '${controller.propertyDetails['area']} ตร.ม.',
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'owner name',
-                                          style: const TextStyle(fontSize: 16),
-                                        ),
-                                        Text(
-                                          controller.propertyDetails['property_type'] ==
-                                                  'เช่า'
-                                              ? 'ผู้ให้เช่า'
-                                              : 'ผู้ขาย',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey.shade600,
-                                          ),
-                                        ),
-                                      ],
+                                    Expanded(
+                                      child: _propertyInfoLabel(
+                                        icon: Icons.layers,
+                                        iconColor: Colors.orange,
+                                        label:
+                                            'อยู่ชั้นที่ ${controller.propertyDetails['floor']}',
+                                      ),
                                     ),
                                   ],
                                 ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Image.asset(
-                                    'assets/icon/line_icon_color.png',
-                                    width: 40,
+
+                                const SizedBox(height: 10),
+
+                                // bedrooms and bathrooms
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: _propertyInfoLabel(
+                                        icon: Icons.bed_outlined,
+                                        iconColor: Colors.pinkAccent,
+                                        label:
+                                            '${controller.propertyDetails['bedrooms']} ห้องนอน',
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: _propertyInfoLabel(
+                                        icon: Icons.bathtub_outlined,
+                                        iconColor: Colors.blueAccent,
+                                        label:
+                                            '${controller.propertyDetails['bathrooms']} ห้องน้ำ',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'รายละเอียดเพิ่มเติม',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                const SizedBox(height: 10),
+
+                                // property detail
+                                Text(
+                                  controller.propertyDetails['detail'],
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'สิ่งอำนวยความสะดวก',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+
+                                // facilities
+                                Obx(() {
+                                  final Map<String, dynamic> facilities =
+                                      controller.propertyDetails['facilities'];
+
+                                  // filter out false value
+                                  final List<String> availableFacilities =
+                                      facilities.entries
+                                          .where((entry) => entry.value == true)
+                                          .map((entry) => entry.key)
+                                          .toList();
+
+                                  return Wrap(
+                                    spacing: 10,
+                                    runSpacing: 10,
+                                    children: availableFacilities.map((item) {
+                                      String displayName =
+                                          _getFacilityDisplayName(item);
+                                      IconData facilityIcon = _getFacilityIcon(
+                                        item,
+                                      );
+
+                                      return Chip(
+                                        label: Text(
+                                          displayName,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        avatar: Icon(
+                                          facilityIcon,
+                                          size: 18,
+                                          color: Colors.black,
+                                        ),
+                                        backgroundColor: Colors.white,
+                                      );
+                                    }).toList(),
+                                  );
+                                }),
+
+                                const Divider(height: 40),
+
+                                // owner profile
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 25,
+                                          child: ClipOval(
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  'https://c-cdnet.cdn.smule.com/rs-s77/arr/48/be/c185cad2-4f00-4e20-a966-69325ec36030.jpg',
+                                              placeholder: (context, url) =>
+                                                  const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Center(
+                                                        child: Icon(
+                                                          Icons.error,
+                                                        ),
+                                                      ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${controller.ownerDetails['first_name']} ${controller.ownerDetails['last_name']}',
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            Text(
+                                              controller.propertyDetails['property_type'] ==
+                                                      'เช่า'
+                                                  ? 'ผู้ให้เช่า'
+                                                  : 'ผู้ขาย',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey.shade600,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: Image.asset(
+                                        'assets/icon/line_icon_color.png',
+                                        width: 40,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Divider(height: 40),
                               ],
                             ),
-                            const Divider(height: 40),
-                          ],
-                        ),
-                      );
-              }),
-            ],
-          ),
+                          );
+                  }),
+                ],
+              ),
+            ),
+
+            // back icon
+            Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                onPressed: Get.back,
+                icon: const Icon(
+                  Icons.arrow_back_outlined,
+                  size: 30,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -297,5 +353,60 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
         Text(label, style: const TextStyle(fontSize: 16)),
       ],
     );
+  }
+
+  String _getFacilityDisplayName(String key) {
+    // translate facility name from english to thai
+    switch (key) {
+      case 'air_conditioner':
+        return 'เครื่องปรับอากาศ';
+      case 'balcony':
+        return 'ระเบียง';
+      case 'parking':
+        return 'ที่จอดรถ';
+      case 'pool':
+        return 'สระว่ายน้ำ';
+      case 'fitness':
+        return 'ฟิตเนส';
+      case 'pet_friendly':
+        return 'เลี้ยงสัตว์ได้';
+      case 'furniture':
+        return 'เฟอร์นิเจอร์';
+      case 'kitchen':
+        return 'ครัว';
+      case 'washing_machine':
+        return 'เครื่องซักผ้า';
+      case 'wifi':
+        return 'WiFi';
+      default:
+        return key.replaceAll('_', ' ').capitalizeFirst!;
+    }
+  }
+
+  IconData _getFacilityIcon(String key) {
+    switch (key) {
+      case 'air_conditioner':
+        return Icons.ac_unit;
+      case 'balcony':
+        return Icons.balcony;
+      case 'parking':
+        return Icons.local_parking;
+      case 'pool':
+        return Icons.pool;
+      case 'fitness':
+        return Icons.fitness_center;
+      case 'washing_machine':
+        return Icons.local_laundry_service;
+      case 'pet_friendly':
+        return Icons.pets;
+      case 'furniture':
+        return Icons.chair;
+      case 'kitchen':
+        return Icons.soup_kitchen;
+      case 'wifi':
+        return Icons.wifi;
+      default:
+        return Icons.check_circle_outline;
+    }
   }
 }

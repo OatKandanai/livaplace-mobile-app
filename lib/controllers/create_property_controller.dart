@@ -265,7 +265,7 @@ class CreatePropertyController extends GetxController {
 
       // dismiss loading and show success
       Get.back();
-      Get.snackbar(
+      await Get.snackbar(
         'สร้างประกาศสำเร็จ',
         'ประกาศของคุณจะได้รับการตรวจสอบจากผู้ดูแลระบบ',
         snackPosition: SnackPosition.TOP,
@@ -273,7 +273,8 @@ class CreatePropertyController extends GetxController {
         backgroundColor: Colors.black,
       );
 
-      Get.find<HomeController>().onInit();
+      // Get.find<HomeController>().onInit();
+      Get.back(result: true);
 
       // clear form fields after successful create
       // _clearForm();
