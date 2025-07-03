@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
 class PropertyCard extends StatelessWidget {
+  final String propertyId;
   final String imageUrl;
   final String propertyType;
   final String roomType;
@@ -21,6 +22,7 @@ class PropertyCard extends StatelessWidget {
 
   const PropertyCard({
     super.key,
+    required this.propertyId,
     required this.imageUrl,
     required this.propertyType,
     required this.roomType,
@@ -40,7 +42,8 @@ class PropertyCard extends StatelessWidget {
     return Stack(
       children: [
         InkWell(
-          onTap: () => Get.toNamed(AppRoutes.propertyDetails),
+          onTap: () =>
+              Get.toNamed(AppRoutes.propertyDetails, arguments: propertyId),
           child: Card(
             clipBehavior: Clip.antiAlias,
             elevation: 2,

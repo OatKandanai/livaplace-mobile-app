@@ -80,6 +80,7 @@ class HomeScreen extends GetView<HomeController> {
                   itemBuilder: (context, index) {
                     final Map<String, dynamic> property =
                         filteredPropertys[index];
+                    final String propertyId = property['id'];
                     final String imageUrl =
                         property['images'][0]; // get only first image
                     final String propertyType = property['property_type'];
@@ -95,9 +96,8 @@ class HomeScreen extends GetView<HomeController> {
                       '${property['created_at']}',
                     );
 
-                    print('CREATED IS ${property['created_at']}');
-
                     return PropertyCard(
+                      propertyId: propertyId,
                       imageUrl: imageUrl,
                       propertyType: propertyType,
                       roomType: roomType,

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -54,7 +53,6 @@ class CreatePropertyController extends GetxController {
 
   // Firestore Reference
   late final CollectionReference<Map<String, dynamic>> _propertysCollection;
-  late final CollectionReference<Map<String, dynamic>> _usersCollection;
 
   // GetStorage instance
   late final GetStorage _box;
@@ -79,7 +77,6 @@ class CreatePropertyController extends GetxController {
 
     // initialize Firestore collection reference and FirebaseAuth
     _propertysCollection = FirebaseFirestore.instance.collection('propertys');
-    _usersCollection = FirebaseFirestore.instance.collection('users');
 
     // initialize GetStorage
     _box = GetStorage();

@@ -20,7 +20,13 @@ class HomeController extends GetxController {
     try {
       QuerySnapshot<Map<String, dynamic>> snapshot = await _propertysCollection
           .get();
-      propertys.value = snapshot.docs.map((doc) => doc.data()).toList();
+
+      // include the document ID in the mapped data
+      propertys.value = snapshot.docs.map((doc) {
+        final Map<String, dynamic> data = doc.data();
+        data['id'] = doc.id; // Add the document ID to the map
+        return data;
+      }).toList();
     } on FirebaseException catch (e) {
       errorMessage.value = 'Failed to fetch properties: ${e.message}';
     } catch (e) {

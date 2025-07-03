@@ -44,11 +44,11 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.propertyDetails,
-      page: () => const PropertyDetailsScreen(),
+      page: () => PropertyDetailsScreen(),
       binding: PropertyDetailsBinding(),
     ),
     GetPage(name: AppRoutes.profile, page: () => const ProfileScreen()),
-    GetPage(name: AppRoutes.editProfile, page: () => const EditProfileScreen()),
+    GetPage(name: AppRoutes.editProfile, page: () => EditProfileScreen()),
     GetPage(
       name: AppRoutes.create,
       page: () => CreatePropertyScreen(),
