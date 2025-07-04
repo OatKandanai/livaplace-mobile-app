@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/utils.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 

@@ -24,8 +24,8 @@ class PropertyDetailsController extends GetxController {
     _auth = FirebaseAuth.instance;
     _savedPropertyCollection = FirebaseFirestore.instance.collection(
       'saved_propertys',
-    ); // access saved_propertys collection
-    _currentUserId = _auth.currentUser!.uid; // get uid
+    );
+    _currentUserId = _auth.currentUser!.uid;
 
     // retrieve the property ID passed as arguments
     final String? propertyId = Get.arguments as String?;
@@ -59,8 +59,8 @@ class PropertyDetailsController extends GetxController {
         final String ownerId = propertyDetails['owner_id'];
         await fetchOwnerDetails(ownerId);
 
-        // check if the property is saved by the currect user
-        await _checkIfPropertyIsSaved();
+        // check if the property is saved by the current user
+        await _checkIfPropertyIsSaved(propertyId, _currentUserId);
       } else {
         Get.snackbar(
           'เกิดข้อผิดพลาด',
@@ -72,7 +72,13 @@ class PropertyDetailsController extends GetxController {
         propertyDetails.value = {}; // clear details if not found
       }
     } catch (e) {
-      Get.snackbar('เกิดข้อผิดพลาดในการดึงข้อมูลประกาศ', e.toString());
+      Get.snackbar(
+        'เกิดข้อผิดพลาดในการดึงข้อมูลประกาศ',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        backgroundColor: Colors.black,
+      );
       propertyDetails.value = {}; // clear details on error
     }
   }
@@ -94,12 +100,25 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
-  Future<void> _checkIfPropertyIsSaved() async {}
+  Future<void> _checkIfPropertyIsSaved(String propertyId, String userId) async {
+    try {
+      final QuerySnapshot querySnapshot = await _savedPropertyCollection
+          .where('user_id', isEqualTo: userId)
+          .where('property_id', isEqualTo: propertyId)
+          .limit(1)
+          .get();
+
+      isSaved.value = querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      debugPrint("เกิดข้อผิดพลาดในการเช็ครายการที่บันทึก: $e");
+      isSaved.value = false;
+    }
+  }
 
   Future<void> saveProperty() async {
     final String propertyId = propertyDetails['id'];
 
-    // If the property is currently saved, unsave it (delete from Firestore)
+    // if the property is currently saved, unsave it (delete from Firestore)
     if (isSaved.value) {
       try {
         // get first matching document by user ID and property ID
@@ -118,14 +137,48 @@ class PropertyDetailsController extends GetxController {
           isSaved.value = false;
 
           Get.snackbar(
-            'ลบออกจากรายการโปรดแล้ว',
-            'ประกาศนี้ถูกลบออกจากรายการโปรดของคุณแล้ว',
+            'ลบออกจากรายการที่บันทึกแล้ว',
+            'ประกาศนี้ถูกลบออกจากรายการของคุณแล้ว',
             snackPosition: SnackPosition.BOTTOM,
             colorText: Colors.white,
             backgroundColor: Colors.black,
           );
         }
-      } catch (e) {}
+      } catch (e) {
+        Get.snackbar(
+          'เกิดข้อผิดพลาดในการลบรายการที่บันทึก',
+          e.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.black,
+        );
+      }
+    } else {
+      // if the property is not saved, save it (add to Firestore)
+      try {
+        await _savedPropertyCollection.add({
+          'user_id': _currentUserId,
+          'property_id': propertyId,
+        });
+
+        isSaved.value = true;
+
+        Get.snackbar(
+          'เพิ่มในรายการที่บันทึกแล้ว',
+          'ประกาศนี้ถูกเพิ่มในรายการของคุณแล้ว',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.black,
+        );
+      } catch (e) {
+        Get.snackbar(
+          'เกิดข้อผิดพลาดในการบันทึกรายการ',
+          e.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.black,
+        );
+      }
     }
   }
 }

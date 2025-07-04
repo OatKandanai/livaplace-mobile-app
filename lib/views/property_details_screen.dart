@@ -349,7 +349,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: controller.saveProperty,
                       icon: Icon(
                         Icons.favorite,
                         size: 22,
