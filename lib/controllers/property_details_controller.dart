@@ -3,19 +3,25 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PropertyDetailsController extends GetxController {
-  late final FirebaseFirestore _firestore;
+  // UI related variables
   final RxMap<String, dynamic> propertyDetails = <String, dynamic>{}.obs;
   final RxMap<String, dynamic> ownerDetails = <String, dynamic>{}.obs;
+  RxBool isSaved = false.obs;
+
+  // Firebase
+  late final FirebaseFirestore _firestore;
+  late final CollectionReference<Map<String, dynamic>> _savedProperty;
 
   @override
   void onInit() {
     super.onInit();
 
+    // initialize Firebase
     _firestore = FirebaseFirestore.instance;
+    _savedProperty = FirebaseFirestore.instance.collection('saved_propertys');
 
     // retrieve the property ID passed as arguments
     final String? propertyId = Get.arguments as String?;
-
     if (propertyId != null) {
       _fetchPropertyDetails(propertyId);
     } else {
@@ -74,5 +80,9 @@ class PropertyDetailsController extends GetxController {
     } catch (e) {
       ownerDetails.value = {}; // clear on error
     }
+  }
+
+  Future<void> saveProperty() async {
+    final String ownerId = propertyDetails['owner_id'];
   }
 }

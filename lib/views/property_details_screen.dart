@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
-import 'package:get/state_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:livaplace_app/controllers/property_details_controller.dart';
 
@@ -322,7 +320,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
               ),
             ),
 
-            // back icon
+            // back button
             Positioned(
               top: 10,
               left: 10,
@@ -332,6 +330,35 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                   Icons.arrow_back_outlined,
                   size: 30,
                   color: Colors.black,
+                ),
+              ),
+            ),
+
+            // save button
+            Obx(
+              () => Positioned(
+                top: 10,
+                right: 10,
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: Container(
+                    padding: const EdgeInsets.all(0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade500,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.favorite,
+                        size: 22,
+                        color: controller.isSaved.value
+                            ? Colors.redAccent
+                            : Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

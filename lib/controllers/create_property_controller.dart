@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:livaplace_app/controllers/home_controller.dart';
+import 'package:livaplace_app/routes/app_routes.dart';
 
 class CreatePropertyController extends GetxController {
   // List variables to display choices in UI
@@ -265,7 +265,8 @@ class CreatePropertyController extends GetxController {
 
       // dismiss loading and show success
       Get.back();
-      await Get.snackbar(
+
+      Get.snackbar(
         'สร้างประกาศสำเร็จ',
         'ประกาศของคุณจะได้รับการตรวจสอบจากผู้ดูแลระบบ',
         snackPosition: SnackPosition.TOP,
@@ -273,8 +274,7 @@ class CreatePropertyController extends GetxController {
         backgroundColor: Colors.black,
       );
 
-      // Get.find<HomeController>().onInit();
-      Get.back(result: true);
+      Get.offAllNamed(AppRoutes.home);
 
       // clear form fields after successful create
       // _clearForm();
