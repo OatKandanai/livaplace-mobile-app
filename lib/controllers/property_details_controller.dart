@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,7 +11,9 @@ class PropertyDetailsController extends GetxController {
 
   // Firebase
   late final FirebaseFirestore _firestore;
-  late final CollectionReference<Map<String, dynamic>> _savedProperty;
+  late final FirebaseAuth _auth;
+  late final CollectionReference<Map<String, dynamic>> _savedPropertyCollection;
+  late final String _currentUserId;
 
   @override
   void onInit() {
@@ -18,7 +21,11 @@ class PropertyDetailsController extends GetxController {
 
     // initialize Firebase
     _firestore = FirebaseFirestore.instance;
-    _savedProperty = FirebaseFirestore.instance.collection('saved_propertys');
+    _auth = FirebaseAuth.instance;
+    _savedPropertyCollection = FirebaseFirestore.instance.collection(
+      'saved_propertys',
+    ); // access saved_propertys collection
+    _currentUserId = _auth.currentUser!.uid; // get uid
 
     // retrieve the property ID passed as arguments
     final String? propertyId = Get.arguments as String?;
@@ -37,6 +44,7 @@ class PropertyDetailsController extends GetxController {
 
   Future<void> _fetchPropertyDetails(String propertyId) async {
     try {
+      // fetch property details
       final DocumentSnapshot propertyDocument = await _firestore
           .collection('propertys')
           .doc(propertyId)
@@ -44,11 +52,15 @@ class PropertyDetailsController extends GetxController {
 
       if (propertyDocument.exists) {
         propertyDetails.value = propertyDocument.data() as Map<String, dynamic>;
-        propertyDetails['id'] = propertyDocument.id;
+        propertyDetails['id'] =
+            propertyDocument.id; // add key-value of property ID
 
-        // after fetching property details, fetch owner details
+        // fetch owner details
         final String ownerId = propertyDetails['owner_id'];
         await fetchOwnerDetails(ownerId);
+
+        // check if the property is saved by the currect user
+        await _checkIfPropertyIsSaved();
       } else {
         Get.snackbar(
           'เกิดข้อผิดพลาด',
@@ -82,7 +94,38 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
+  Future<void> _checkIfPropertyIsSaved() async {}
+
   Future<void> saveProperty() async {
-    final String ownerId = propertyDetails['owner_id'];
+    final String propertyId = propertyDetails['id'];
+
+    // If the property is currently saved, unsave it (delete from Firestore)
+    if (isSaved.value) {
+      try {
+        // get first matching document by user ID and property ID
+        final QuerySnapshot querySnapshot = await _savedPropertyCollection
+            .where('user_id', isEqualTo: _currentUserId)
+            .where('property_id', isEqualTo: propertyId)
+            .limit(1)
+            .get();
+
+        // delete document if found matching
+        if (querySnapshot.docs.isNotEmpty) {
+          await _savedPropertyCollection
+              .doc(querySnapshot.docs.first.id)
+              .delete();
+
+          isSaved.value = false;
+
+          Get.snackbar(
+            'ลบออกจากรายการโปรดแล้ว',
+            'ประกาศนี้ถูกลบออกจากรายการโปรดของคุณแล้ว',
+            snackPosition: SnackPosition.BOTTOM,
+            colorText: Colors.white,
+            backgroundColor: Colors.black,
+          );
+        }
+      } catch (e) {}
+    }
   }
 }
