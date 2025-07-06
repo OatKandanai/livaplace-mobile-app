@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_storage/get_storage.dart';
 
 class PropertyDetailsController extends GetxController {
   // UI related variables
@@ -11,8 +11,10 @@ class PropertyDetailsController extends GetxController {
 
   // Firebase
   late final FirebaseFirestore _firestore;
-  late final FirebaseAuth _auth;
   late final CollectionReference<Map<String, dynamic>> _savedPropertyCollection;
+
+  // GetStorage
+  late GetStorage box;
   late final String _currentUserId;
 
   @override
@@ -21,11 +23,13 @@ class PropertyDetailsController extends GetxController {
 
     // initialize Firebase
     _firestore = FirebaseFirestore.instance;
-    _auth = FirebaseAuth.instance;
     _savedPropertyCollection = FirebaseFirestore.instance.collection(
       'saved_propertys',
     );
-    _currentUserId = _auth.currentUser!.uid;
+
+    // initialize GetStorage
+    box = GetStorage();
+    _currentUserId = box.read('userUid');
 
     // retrieve the property ID passed as arguments
     final String? propertyId = Get.arguments as String?;
@@ -60,7 +64,7 @@ class PropertyDetailsController extends GetxController {
         await fetchOwnerDetails(ownerId);
 
         // check if the property is saved by the current user
-        await _checkIfPropertyIsSaved(propertyId, _currentUserId);
+        await _checkIfPropertyIsSaved();
       } else {
         Get.snackbar(
           'เกิดข้อผิดพลาด',
@@ -100,10 +104,12 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
-  Future<void> _checkIfPropertyIsSaved(String propertyId, String userId) async {
+  Future<void> _checkIfPropertyIsSaved() async {
+    final String propertyId = propertyDetails['id'];
+
     try {
       final QuerySnapshot querySnapshot = await _savedPropertyCollection
-          .where('user_id', isEqualTo: userId)
+          .where('user_id', isEqualTo: _currentUserId)
           .where('property_id', isEqualTo: propertyId)
           .limit(1)
           .get();

@@ -8,4 +8,5 @@ class AppRoutes {
   static const profile = '/profile';
   static const editProfile = '/profile/edit';
   static const create = '/create';
+  static const saved = '/saved';
 }

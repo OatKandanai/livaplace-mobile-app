@@ -15,9 +15,7 @@ class PropertyCard extends StatelessWidget {
   final int bathrooms;
   final int price;
   final String priceUnit;
-  final bool isFavorite;
   final DateTime created;
-  final VoidCallback? onFavoriteToggle;
 
   const PropertyCard({
     super.key,
@@ -31,9 +29,7 @@ class PropertyCard extends StatelessWidget {
     required this.bathrooms,
     required this.price,
     required this.priceUnit,
-    required this.isFavorite,
     required this.created,
-    this.onFavoriteToggle,
   });
 
   @override
@@ -184,18 +180,18 @@ class PropertyCard extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          left: 0,
-          bottom: 0,
-          child: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.favorite,
-              size: 22,
-              color: isFavorite ? Colors.redAccent : Colors.grey,
-            ),
-          ),
-        ),
+        // Positioned(
+        //   left: 0,
+        //   bottom: 0,
+        //   child: IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(
+        //       Icons.favorite,
+        //       size: 22,
+        //       color: isFavorite ? Colors.redAccent : Colors.grey,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

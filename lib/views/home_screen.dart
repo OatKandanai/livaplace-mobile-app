@@ -91,7 +91,6 @@ class HomeScreen extends GetView<HomeController> {
                     final int bathrooms = property['bathrooms'];
                     final int price = property['price'];
                     final String priceUnit = property['price_unit'];
-                    final bool isFavorite = true;
                     final DateTime? created = DateTime.tryParse(
                       '${property['created_at']}',
                     );
@@ -107,7 +106,6 @@ class HomeScreen extends GetView<HomeController> {
                       bathrooms: bathrooms,
                       price: price,
                       priceUnit: priceUnit,
-                      isFavorite: isFavorite,
                       created: created!,
                     );
                   },
