@@ -147,6 +147,7 @@ class PropertyDetailsController extends GetxController {
             snackPosition: SnackPosition.BOTTOM,
             colorText: Colors.white,
             backgroundColor: Colors.black,
+            duration: const Duration(seconds: 3),
           );
         }
       } catch (e) {
@@ -174,6 +175,7 @@ class PropertyDetailsController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.black,
+          duration: const Duration(seconds: 3),
         );
       } catch (e) {
         Get.snackbar(

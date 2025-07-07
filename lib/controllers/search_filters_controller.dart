@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -52,7 +54,75 @@ class SearchFiltersController extends GetxController {
     bathroomCount.value = 1;
   }
 
-  Future<void> search() async {}
+  Future<void> search() async {
+    // show loading indicator
+    Get.dialog(
+      const Center(child: CircularProgressIndicator()),
+      barrierDismissible: false,
+    );
+
+    try {
+      CollectionReference propertiesRef = FirebaseFirestore.instance.collection(
+        'propertys',
+      );
+      Query query = propertiesRef;
+
+      if (textEditingController.text.isNotEmpty) {
+        String searchText = textEditingController.text.toLowerCase();
+      }
+
+      if (selectedType.value != 'ทุกประเภท') {
+        query = query.where('room_type', isEqualTo: selectedType.value);
+      }
+
+      if (selectedFacilities.isNotEmpty) {
+        query = query.where(
+          'facilities',
+          arrayContainsAny: selectedFacilities.toList(),
+        );
+      }
+
+      if (bedroomCount.value > 1) {
+        query = query.where(
+          'bedrooms',
+          isGreaterThanOrEqualTo: bedroomCount.value,
+        );
+      }
+
+      if (bathroomCount.value > 1) {
+        query = query.where(
+          'bathrooms',
+          isGreaterThanOrEqualTo: bathroomCount.value,
+        );
+      }
+
+      // execute the query
+      QuerySnapshot querySnapshot = await query.get();
+
+      List<Property> searchResults = querySnapshot.docs.map((doc) {
+        return Property.fromMap(doc.data() as Map<String, dynamic>);
+      }).toList();
+
+      if (textEditingController.text.isNotEmpty) {
+        String searchText = textEditingController.text.toLowerCase();
+        searchResults = searchResults.where((property) {
+          return property.title.toLowerCase().contains(searchText);
+        }).toList();
+      }
+
+      // close loading indicator
+      Get.back();
+
+      Get.toNamed(AppRoutes.searchResult, arguments: searchResults);
+    } catch (e) {
+      Get.back();
+      Get.snackbar(
+        'เกิดข้อผิดพลาด',
+        'ไม่สามารถค้นหาได้: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 
   @override
   void dispose() {
