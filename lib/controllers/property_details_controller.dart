@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:livaplace_app/controllers/saved_list_controller.dart';
 
 class PropertyDetailsController extends GetxController {
   // UI related variables
@@ -23,9 +24,7 @@ class PropertyDetailsController extends GetxController {
 
     // initialize Firebase
     _firestore = FirebaseFirestore.instance;
-    _savedPropertyCollection = FirebaseFirestore.instance.collection(
-      'saved_propertys',
-    );
+    _savedPropertyCollection = _firestore.collection('saved_propertys');
 
     // initialize GetStorage
     box = GetStorage();
@@ -185,6 +184,11 @@ class PropertyDetailsController extends GetxController {
           backgroundColor: Colors.black,
         );
       }
+    }
+
+    // after saving/unsaving, refresh the saved list in SavedListController
+    if (Get.isRegistered<SavedListController>()) {
+      Get.find<SavedListController>().fetchSavedList();
     }
   }
 }

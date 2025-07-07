@@ -3,10 +3,8 @@ import 'package:get/get.dart';
 import 'package:livaplace_app/controllers/search_filters_controller.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
-class SearchFiltersScreen extends StatelessWidget {
-  SearchFiltersScreen({super.key});
-
-  final SearchFiltersController controller = Get.put(SearchFiltersController());
+class SearchFiltersScreen extends GetView<SearchFiltersController> {
+  const SearchFiltersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +24,10 @@ class SearchFiltersScreen extends StatelessWidget {
                     children: [
                       // Search bar
                       TextFormField(
+                        controller: controller.textEditingController,
                         autofocus: false,
                         decoration: InputDecoration(
-                          hint: const Text('ค้นหา'),
+                          hint: const Text('ค้นหาด้วยชื่อประกาศ'),
                           prefixIcon: GestureDetector(
                             onTap: () => Get.offAllNamed(AppRoutes.home),
                             child: const Icon(Icons.arrow_back_ios, size: 30),
@@ -47,14 +46,20 @@ class SearchFiltersScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(50),
                           ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'โปรดใส่คำค้นหา';
+                          }
+                          return null;
+                        },
                       ),
 
                       const SizedBox(height: 20),
 
                       // type title
-                      const Text(
-                        'ประเภท',
-                        style: TextStyle(
+                      Text(
+                        'ประเภท${Get.arguments as String}',
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -188,7 +193,7 @@ class SearchFiltersScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: controller.resetAllFilters,
                               child: const Text(
                                 'ล้างการค้นหา',
                                 style: TextStyle(color: Colors.black),

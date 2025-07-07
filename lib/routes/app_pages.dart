@@ -5,6 +5,7 @@ import 'package:livaplace_app/bindings/login_binding.dart';
 import 'package:livaplace_app/bindings/property_details_binding.dart';
 import 'package:livaplace_app/bindings/register_binding.dart';
 import 'package:livaplace_app/bindings/saved_list_binding.dart';
+import 'package:livaplace_app/bindings/search_filters_binding.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 import 'package:livaplace_app/views/bottom_nav.dart';
 import 'package:livaplace_app/views/create_property_screen.dart';
@@ -32,13 +33,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => BottomNav(),
-      binding: HomeBinding(),
+      bindings: [HomeBinding(), SavedListBinding()],
     ),
     GetPage(
       name: AppRoutes.searchFilters,
       page: () => SearchFiltersScreen(),
+      binding: SearchFiltersBinding(),
       transition: Transition.downToUp,
-      transitionDuration: const Duration(milliseconds: 700),
+      transitionDuration: const Duration(milliseconds: 500),
     ),
     GetPage(
       name: AppRoutes.searchResult,

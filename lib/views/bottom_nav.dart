@@ -9,11 +9,7 @@ class BottomNav extends StatelessWidget {
   BottomNav({super.key});
 
   // apply bottom nav bar to these screens
-  final List<Widget> pages = [
-    HomeScreen(),
-    const SavedListScreen(),
-    const ProfileScreen(),
-  ];
+  final List<Widget> pages = [HomeScreen(), SavedListScreen(), ProfileScreen()];
 
   @override
   Widget build(BuildContext context) {

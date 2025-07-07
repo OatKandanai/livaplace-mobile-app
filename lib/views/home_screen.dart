@@ -62,7 +62,7 @@ class HomeScreen extends GetView<HomeController> {
                 ),
               ),
               onTap: () {
-                Get.toNamed(AppRoutes.searchFilters);
+                Get.toNamed(AppRoutes.searchFilters, arguments: propertyType);
               },
             ),
 
