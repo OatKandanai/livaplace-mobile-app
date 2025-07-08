@@ -5,7 +5,7 @@ import 'package:livaplace_app/models/property_model.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
 class SearchFiltersController extends GetxController {
-  final propertyType = Get.arguments as String;
+  late final String propertyType;
   final List<String> types = ['ทุกประเภท', 'คอนโด', 'อพาร์ทเม้นท์', 'หอพัก'];
   final List<String> facilities = [
     'ฟิตเนส',
@@ -30,13 +30,14 @@ class SearchFiltersController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    propertyType = Get.arguments is String ? Get.arguments : '';
     textEditingController = TextEditingController();
   }
 
   void handleBedroomCount({required String type}) {
     if (type == 'increase') {
       bedroomCount.value++;
-    } else if (type == 'decrease' && bedroomCount > 1) {
+    } else if (type == 'decrease' && bedroomCount.value > 1) {
       bedroomCount.value--;
     }
   }
@@ -44,7 +45,7 @@ class SearchFiltersController extends GetxController {
   void handleBathroomCount({required String type}) {
     if (type == 'increase') {
       bathroomCount.value++;
-    } else if (type == 'decrease' && bathroomCount > 1) {
+    } else if (type == 'decrease' && bathroomCount.value > 1) {
       bathroomCount.value--;
     }
   }
@@ -81,14 +82,14 @@ class SearchFiltersController extends GetxController {
       if (bedroomCount.value > 1) {
         query = query.where(
           'bedrooms',
-          isGreaterThanOrEqualTo: bedroomCount.value,
+          isGreaterThanOrEqualTo: num.parse(bedroomCount.value.toString()),
         );
       }
 
       if (bathroomCount.value > 1) {
         query = query.where(
           'bathrooms',
-          isGreaterThanOrEqualTo: bathroomCount.value,
+          isGreaterThanOrEqualTo: num.parse(bathroomCount.value.toString()),
         );
       }
 
@@ -144,7 +145,7 @@ class SearchFiltersController extends GetxController {
       // close loading indicator
       Get.back();
 
-      Get.toNamed(AppRoutes.searchResult, arguments: searchResults);
+      await Get.toNamed(AppRoutes.searchResult, arguments: searchResults);
     } catch (e) {
       Get.back();
       Get.snackbar(

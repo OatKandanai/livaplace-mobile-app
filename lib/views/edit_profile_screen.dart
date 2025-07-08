@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImage;
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/utils.dart';
+import 'package:get/get.dart';
+import 'package:livaplace_app/controllers/edit_profile_controller.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends GetView<EditProfileController> {
   const EditProfileScreen({super.key});
 
   @override
@@ -19,6 +19,7 @@ class EditProfileScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: Form(
+                  key: controller.formkey,
                   child: Column(
                     children: [
                       CircleAvatar(
@@ -47,6 +48,7 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 45,
                         child: TextFormField(
+                          controller: controller.firstNameController,
                           autofocus: false,
                           style: const TextStyle(
                             fontSize: 14,
@@ -62,6 +64,7 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 45,
                         child: TextFormField(
+                          controller: controller.lastNameController,
                           autofocus: false,
                           style: const TextStyle(
                             fontSize: 14,
@@ -77,6 +80,7 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 45,
                         child: TextFormField(
+                          controller: controller.phoneController,
                           autofocus: false,
                           style: const TextStyle(
                             fontSize: 14,
@@ -92,6 +96,7 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: 45,
                         child: TextFormField(
+                          controller: controller.lineIdController,
                           autofocus: false,
                           style: const TextStyle(
                             fontSize: 14,
@@ -132,7 +137,7 @@ class EditProfileScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: controller.editProfile,
                           child: const Text('บันทึก'),
                         ),
                       ),

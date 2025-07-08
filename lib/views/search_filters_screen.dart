@@ -58,7 +58,7 @@ class SearchFiltersScreen extends GetView<SearchFiltersController> {
 
                       // type title
                       Text(
-                        'ประเภท${Get.arguments as String}',
+                        'ประเภท${controller.propertyType}',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,

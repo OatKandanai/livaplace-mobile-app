@@ -35,6 +35,8 @@ class SearchResultScreen extends GetView<SearchResultController> {
               ),
             ),
           ),
+          centerTitle: true,
+          backgroundColor: Colors.white,
         ),
         body: Padding(
           padding: const EdgeInsets.all(20),

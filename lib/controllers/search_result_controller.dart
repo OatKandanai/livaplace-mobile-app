@@ -3,14 +3,19 @@ import 'package:livaplace_app/models/property_model.dart';
 
 class SearchResultController extends GetxController {
   final RxList<PropertyModel> searchResults = <PropertyModel>[].obs;
-  final RxBool isLoading = true.obs;
 
   @override
   void onInit() {
     super.onInit();
-    if (Get.arguments != null && Get.arguments is List<PropertyModel>) {
-      searchResults.assignAll(Get.arguments as List<PropertyModel>);
+    _loadSearchResult();
+  }
+
+  void _loadSearchResult() async {
+    final args = Get.arguments;
+    if (args != null && args is List<PropertyModel>) {
+      searchResults.assignAll(args);
+    } else {
+      searchResults.clear();
     }
-    isLoading.value = false;
   }
 }
