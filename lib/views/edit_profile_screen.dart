@@ -22,27 +22,60 @@ class EditProfileScreen extends GetView<EditProfileController> {
                   key: controller.formkey,
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 70,
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                'https://i.pinimg.com/736x/ac/1c/a1/ac1ca1408e7d9c40b425d83484166178.jpg',
-                            fit: BoxFit.contain,
-                            width: 135,
-                            height: 135,
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator(),
+                      Obx(
+                        () => Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 70,
+                              child: ClipOval(
+                                child:
+                                    controller.profileImageUrl.value.isNotEmpty
+                                    ? CachedNetworkImage(
+                                        imageUrl:
+                                            controller.profileImageUrl.value,
+                                        fit: BoxFit.cover,
+                                        width: 140,
+                                        height: 140,
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                        errorWidget: (context, url, error) =>
+                                            const Center(
+                                              child: Icon(Icons.error),
+                                            ),
+                                      )
+                                    : const Icon(
+                                        Icons.person,
+                                        size: 70,
+                                        color: Colors.grey,
+                                      ),
+                              ),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Center(child: Icon(Icons.error)),
-                          ),
+
+                            if (controller.isLoadingImage.isTrue)
+                              const CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(Colors.blue),
+                              ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        'เปลี่ยนรูปโปรไฟล์',
-                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      TextButton(
+                        onPressed: controller.isLoadingImage.isTrue
+                            ? null
+                            : controller.pickImage,
+                        child: Text(
+                          controller.isLoadingImage.isTrue
+                              ? 'กำลังอัปโหลด'
+                              : 'อัพโหลดรูปภาพ',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 30),
                       SizedBox(
@@ -58,6 +91,18 @@ class EditProfileScreen extends GetView<EditProfileController> {
                             prefixIcon: const Icon(Icons.text_fields),
                             labelText: 'ชื่อจริง',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'กรุณากรอกชื่อจริง';
+                            }
+                            if (value.length < 4) {
+                              return 'ชื่อจริงต้องมีอย่างน้อย 4 ตัวอักษร';
+                            }
+                            if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
+                              return 'ชื่อจริงต้องเป็นตัวอักษรเท่านั้น';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -74,6 +119,18 @@ class EditProfileScreen extends GetView<EditProfileController> {
                             prefixIcon: const Icon(Icons.text_fields),
                             labelText: 'นามสกุล',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'กรุณากรอกนามสกุล';
+                            }
+                            if (value.length < 4) {
+                              return 'นามสกุลต้องมีอย่างน้อย 4 ตัวอักษร';
+                            }
+                            if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
+                              return 'นามสกุลต้องเป็นตัวอักษรเท่านั้น';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -90,6 +147,16 @@ class EditProfileScreen extends GetView<EditProfileController> {
                             prefixIcon: const Icon(Icons.phone),
                             labelText: 'เบอร์โทร',
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'กรุณากรอกเบอร์โทรศัพท์';
+                            }
+                            final thaiPhoneRegex = RegExp(r'^0[689][0-9]{8}$');
+                            if (!thaiPhoneRegex.hasMatch(value)) {
+                              return 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง (เช่น 0812345678)';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -124,6 +191,12 @@ class EditProfileScreen extends GetView<EditProfileController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'กรุณาใส่ LINE ID';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       const SizedBox(height: 20),

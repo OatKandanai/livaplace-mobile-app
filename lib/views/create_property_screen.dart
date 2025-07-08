@@ -414,6 +414,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                             const Text('สิ่งอำนวยความสะดวก'),
                             const SizedBox(height: 10),
 
+                            // facilities
                             Obx(
                               () => Wrap(
                                 spacing: 10,
