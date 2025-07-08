@@ -1,4 +1,5 @@
 class PropertyModel {
+  final String propertyId;
   final String propertyType;
   final String roomType;
   final String title;
@@ -17,6 +18,7 @@ class PropertyModel {
   final bool isApproved;
 
   PropertyModel({
+    required this.propertyId,
     required this.propertyType,
     required this.roomType,
     required this.title,
@@ -37,8 +39,9 @@ class PropertyModel {
 
   factory PropertyModel.fromMap(Map<String, dynamic> data) {
     return PropertyModel(
-      propertyType: data['propertyType'] as String? ?? 'Unknown',
-      roomType: data['roomType'] as String? ?? 'Unknown',
+      propertyId: data['id'] as String? ?? '-1',
+      propertyType: data['property_type'] as String? ?? 'Unknown',
+      roomType: data['room_type'] as String? ?? 'Unknown',
       title: data['title'] as String? ?? 'No Title',
       location: data['location'] as String? ?? 'Unknown Location',
       bedrooms: (data['bedrooms'] as num?)?.toInt() ?? 0,
@@ -46,13 +49,20 @@ class PropertyModel {
       area: (data['area'] as num?)?.toInt() ?? 0,
       floor: (data['floor'] as num?)?.toInt() ?? 0,
       price: (data['price'] as num?)?.toInt() ?? 0,
-      priceUnit: data['priceUnit'] as String ?? '',
+      priceUnit: data['price_unit'] as String? ?? '',
       images: List<String>.from(data['images'] ?? []),
-      facilities: List<String>.from(data['facilities'] ?? []),
-      detail: detail,
-      ownerId: ownerId,
-      createdAt: createdAt,
-      isApproved: isApproved,
+      facilities:
+          (data['facilities'] as Map<String, dynamic>?)?.entries
+              .where((e) => e.value == true)
+              .map((e) => e.key)
+              .toList() ??
+          [],
+      detail: data['detail'] as String? ?? '',
+      ownerId: data['owner_id'] as String? ?? '',
+      createdAt: DateTime.tryParse(
+        data['created_at'] as String? ?? DateTime.now().toIso8601String(),
+      ),
+      isApproved: data['is_approved'] as bool? ?? false,
     );
   }
 }

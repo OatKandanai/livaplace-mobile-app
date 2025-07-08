@@ -209,7 +209,7 @@ class SearchFiltersScreen extends GetView<SearchFiltersController> {
                               ),
                               onPressed: () {
                                 FocusScope.of(context).unfocus();
-                                Get.offAllNamed(AppRoutes.searchResult);
+                                controller.search();
                               },
                               child: const Text(
                                 'ค้นหา',
