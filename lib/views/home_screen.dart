@@ -19,6 +19,15 @@ class HomeScreen extends GetView<HomeController> {
             child: Column(
               children: [
                 const TabBar(
+                  labelColor: Colors.black,
+                  labelStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  indicator: UnderlineTabIndicator(
+                    borderSide: BorderSide(width: 3.0, color: Colors.black),
+                    insets: EdgeInsets.symmetric(horizontal: 30),
+                  ),
                   tabs: [
                     Tab(text: 'หาเช่า'),
                     Tab(text: 'หาซื้อ'),
@@ -43,7 +52,7 @@ class HomeScreen extends GetView<HomeController> {
   // each tab
   Widget _buildTabContent({required String propertyType}) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: Center(
         child: Column(
           children: [

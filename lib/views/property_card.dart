@@ -64,11 +64,11 @@ class PropertyCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 10),
                     child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // property type and room type
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             // property type
                             const Icon(
@@ -98,7 +98,7 @@ class PropertyCard extends StatelessWidget {
                           ],
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
 
                         // title
                         Text(
@@ -106,12 +106,14 @@ class PropertyCard extends StatelessWidget {
                           style: const TextStyle(fontSize: 14),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
 
                         // location
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(
                               Icons.location_on,
@@ -126,10 +128,11 @@ class PropertyCard extends StatelessWidget {
                           ],
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
 
                         // bedrooms and bathrooms
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(Icons.bed_outlined, size: 20),
                             const SizedBox(width: 3),
@@ -147,7 +150,7 @@ class PropertyCard extends StatelessWidget {
                           ],
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
 
                         // price
                         Text(
@@ -155,10 +158,11 @@ class PropertyCard extends StatelessWidget {
                           style: const TextStyle(fontSize: 16),
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
 
                         // created date
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(
                               Icons.calendar_month_outlined,

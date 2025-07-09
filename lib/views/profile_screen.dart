@@ -206,7 +206,7 @@ class ProfileScreen extends GetView<ProfileController> {
                   child: const Icon(Icons.create),
                 ),
                 title: const Text(
-                  'ลงประกาศเช่า/ขาย',
+                  'ลงประกาศเช่า / ขาย',
                   style: TextStyle(fontSize: 14),
                 ),
                 trailing: const Icon(

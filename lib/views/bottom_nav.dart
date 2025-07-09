@@ -19,6 +19,7 @@ class BottomNav extends StatelessWidget {
         return Scaffold(
           body: pages[controller.currentIndex], // screen to show
           bottomNavigationBar: BottomNavigationBar(
+            fixedColor: Colors.black,
             currentIndex: controller.currentIndex,
             onTap: controller.changeTab,
             items: const [

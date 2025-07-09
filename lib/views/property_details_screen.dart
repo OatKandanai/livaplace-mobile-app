@@ -254,24 +254,41 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                   children: [
                                     Row(
                                       children: [
-                                        CircleAvatar(
-                                          radius: 25,
-                                          child: ClipOval(
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  'https://c-cdnet.cdn.smule.com/rs-s77/arr/48/be/c185cad2-4f00-4e20-a966-69325ec36030.jpg',
-                                              placeholder: (context, url) =>
-                                                  const Center(
-                                                    child:
-                                                        CircularProgressIndicator(),
-                                                  ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Center(
-                                                        child: Icon(
-                                                          Icons.error,
-                                                        ),
-                                                      ),
+                                        Obx(
+                                          () => CircleAvatar(
+                                            radius: 25,
+                                            child: ClipOval(
+                                              child:
+                                                  controller
+                                                          .ownerDetails['profile_picture'] !=
+                                                      null
+                                                  ? CachedNetworkImage(
+                                                      imageUrl: controller
+                                                          .ownerDetails['profile_picture'],
+                                                      placeholder:
+                                                          (
+                                                            context,
+                                                            url,
+                                                          ) => const Center(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                          ),
+                                                      errorWidget:
+                                                          (
+                                                            context,
+                                                            url,
+                                                            error,
+                                                          ) => const Center(
+                                                            child: Icon(
+                                                              Icons.error,
+                                                            ),
+                                                          ),
+                                                    )
+                                                  : const Icon(
+                                                      Icons.person,
+                                                      size: 50,
+                                                      color: Colors.grey,
+                                                    ),
                                             ),
                                           ),
                                         ),
@@ -282,20 +299,24 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              '${controller.ownerDetails['first_name']} ${controller.ownerDetails['last_name']}',
-                                              style: const TextStyle(
-                                                fontSize: 16,
+                                            Obx(
+                                              () => Text(
+                                                '${controller.ownerDetails['first_name']} ${controller.ownerDetails['last_name']}',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                ),
                                               ),
                                             ),
-                                            Text(
-                                              controller.propertyDetails['property_type'] ==
-                                                      'เช่า'
-                                                  ? 'ผู้ให้เช่า'
-                                                  : 'ผู้ขาย',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey.shade600,
+                                            Obx(
+                                              () => Text(
+                                                controller.propertyDetails['property_type'] ==
+                                                        'เช่า'
+                                                    ? 'ผู้ให้เช่า'
+                                                    : 'ผู้ขาย',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey.shade600,
+                                                ),
                                               ),
                                             ),
                                           ],
