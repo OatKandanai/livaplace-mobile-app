@@ -17,9 +17,9 @@ class EditProfileController extends GetxController {
   late final TextEditingController phoneController;
   late final TextEditingController lineIdController;
   final RxString profileImageUrl = ''.obs;
-  final RxBool isLoadingImage = false.obs;
+  final Rx<File?> pickedImageFile = Rx<File?>(null);
   final String _cloudinaryCloudName = 'dme1aety8';
-  final String _cloudinaryUploadPreset = 'flutter_property_upload';
+  final String _cloudinaryUploadPreset = 'livaplace_users_images';
 
   @override
   void onInit() {
@@ -42,11 +42,11 @@ class EditProfileController extends GetxController {
           .doc(uid)
           .get();
       final userData = userDocument.data() as Map<String, dynamic>;
-      firstNameController.text = userData['first_name'];
-      lastNameController.text = userData['last_name'];
-      phoneController.text = userData['phone'];
-      lineIdController.text = userData['line_id'];
-      profileImageUrl.value = userData['profile_picture'];
+      firstNameController.text = userData['first_name'] ?? '';
+      lastNameController.text = userData['last_name'] ?? '';
+      phoneController.text = userData['phone'] ?? '';
+      lineIdController.text = userData['line_id'] ?? '';
+      profileImageUrl.value = userData['profile_picture'] ?? '';
     } catch (e) {
       Get.snackbar(
         'เกิดข้อผิดพลาด',
@@ -65,7 +65,15 @@ class EditProfileController extends GetxController {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
       if (image != null) {
-        await uploadImageToCloudinary(image); // upload the picked image
+        pickedImageFile.value = File(image.path);
+        Get.snackbar(
+          'เลือกรูปภาพแล้ว',
+          'รูปภาพจะถูกอัปโหลดเมื่อคุณกดบันทึก',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.black,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
       } else {
         // user cancelled the image selection
         Get.snackbar(
@@ -87,59 +95,6 @@ class EditProfileController extends GetxController {
     }
   }
 
-  Future<void> uploadImageToCloudinary(XFile image) async {
-    isLoadingImage.value = true;
-    Get.dialog(
-      const Center(child: CircularProgressIndicator()),
-      barrierDismissible: false,
-    );
-
-    try {
-      final cloudinary = CloudinaryPublic(
-        _cloudinaryCloudName,
-        _cloudinaryUploadPreset,
-        cache: false,
-      );
-      final CloudinaryResponse response = await cloudinary.uploadFile(
-        CloudinaryFile.fromFile(
-          image.path,
-          resourceType: CloudinaryResourceType.Image,
-        ),
-      );
-
-      profileImageUrl.value =
-          response.secureUrl; // update the reactive image URL
-      Get.back(); // close loading dialog
-      Get.snackbar(
-        'สำเร็จ',
-        'อัปโหลดรูปภาพโปรไฟล์เรียบร้อยแล้ว',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-      );
-    } on CloudinaryException catch (e) {
-      Get.back(); // close loading dialog
-      Get.snackbar(
-        'เกิดข้อผิดพลาด Cloudinary',
-        'ไม่สามารถอัปโหลดรูปภาพได้: ${e.message}',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-      );
-    } catch (e) {
-      Get.back(); // close loading dialog
-      Get.snackbar(
-        'เกิดข้อผิดพลาด',
-        'ไม่สามารถอัปโหลดรูปภาพได้: $e',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-      );
-    } finally {
-      isLoadingImage.value = false;
-    }
-  }
-
   Future<void> editProfile() async {
     if (!formkey.currentState!.validate()) {
       Get.snackbar(
@@ -152,21 +107,65 @@ class EditProfileController extends GetxController {
       return;
     }
 
-    final Map<String, dynamic> updatedData = {
-      'first_name': firstNameController.text.trim(),
-      'last_name': lastNameController.text.trim(),
-      'phone': phoneController.text.trim(),
-      'line_id': lineIdController.text.trim(),
-      'profile_picture': profileImageUrl.value,
-    };
-
     Get.dialog(
       const Center(child: CircularProgressIndicator()),
       barrierDismissible: false,
     ); // show loading
 
     try {
+      String finalProfileImageUrl = profileImageUrl.value;
+
+      // if a new image was picked, upload it to Cloudinary first
+      if (pickedImageFile.value != null) {
+        try {
+          final cloudinary = CloudinaryPublic(
+            _cloudinaryCloudName,
+            _cloudinaryUploadPreset,
+            cache: false,
+          );
+          final CloudinaryResponse response = await cloudinary.uploadFile(
+            CloudinaryFile.fromFile(
+              pickedImageFile.value!.path,
+              resourceType: CloudinaryResourceType.Image,
+            ),
+          );
+          finalProfileImageUrl = response.secureUrl;
+        } on CloudinaryException catch (e) {
+          Get.back(); // close loading dialog
+          Get.snackbar(
+            'เกิดข้อผิดพลาด Cloudinary',
+            'ไม่สามารถอัปโหลดรูปภาพได้: ${e.message}',
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+          );
+          return;
+        } catch (e) {
+          Get.back(); // close loading dialog
+          Get.snackbar(
+            'เกิดข้อผิดพลาด',
+            'ไม่สามารถอัปโหลดรูปภาพได้: $e',
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+          );
+          return;
+        }
+      }
+
+      // prepare updated data, including the new or existing profile image URL
+      final Map<String, dynamic> updatedData = {
+        'first_name': firstNameController.text.trim(),
+        'last_name': lastNameController.text.trim(),
+        'phone': phoneController.text.trim(),
+        'line_id': lineIdController.text.trim(),
+        'profile_picture': finalProfileImageUrl,
+      };
+
       await _usersCollection.doc(uid).update(updatedData);
+      profileImageUrl.value = finalProfileImageUrl;
+      pickedImageFile.value = null;
+
       Get.back(); // close loading
       Get.snackbar(
         'สำเร็จ',
@@ -175,6 +174,7 @@ class EditProfileController extends GetxController {
         backgroundColor: Colors.black,
         colorText: Colors.white,
       );
+
       await Get.offAllNamed(AppRoutes.home);
     } catch (e) {
       Get.back(); // close loading
@@ -194,6 +194,7 @@ class EditProfileController extends GetxController {
     lastNameController.dispose();
     phoneController.dispose();
     lineIdController.dispose();
+    pickedImageFile.close();
     super.onClose();
   }
 }

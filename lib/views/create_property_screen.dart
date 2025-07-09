@@ -125,7 +125,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                             TextFormField(
                               controller: controller.titleController,
                               autofocus: false,
-                              maxLength: 30,
+                              maxLength: 60,
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
                               style: const TextStyle(
@@ -241,7 +241,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                                       ),
                                       value: controller.bedroomCount.value,
                                       items: List.generate(
-                                        5,
+                                        20,
                                         (index) => DropdownMenuItem(
                                           value: index + 1,
                                           child: Text(
@@ -275,7 +275,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                                       ),
                                       value: controller.bathroomCount.value,
                                       items: List.generate(
-                                        5,
+                                        20,
                                         (index) => DropdownMenuItem(
                                           value: index + 1,
                                           child: Text(
@@ -393,7 +393,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                             TextFormField(
                               controller: controller.locationController,
                               autofocus: false,
-                              maxLength: 30,
+                              maxLength: 60,
                               maxLines: 1,
                               style: const TextStyle(
                                 fontSize: 14,

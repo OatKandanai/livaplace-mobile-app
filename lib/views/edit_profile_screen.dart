@@ -1,5 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart'
-    show CachedNetworkImage;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:livaplace_app/controllers/edit_profile_controller.dart';
@@ -20,60 +19,72 @@ class EditProfileScreen extends GetView<EditProfileController> {
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: Form(
                   key: controller.formkey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
                       Obx(
-                        () => Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 70,
-                              child: ClipOval(
-                                child:
-                                    controller.profileImageUrl.value.isNotEmpty
-                                    ? CachedNetworkImage(
-                                        imageUrl:
-                                            controller.profileImageUrl.value,
-                                        fit: BoxFit.cover,
-                                        width: 140,
-                                        height: 140,
-                                        placeholder: (context, url) =>
-                                            const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                        errorWidget: (context, url, error) =>
-                                            const Center(
-                                              child: Icon(Icons.error),
-                                            ),
-                                      )
-                                    : const Icon(
-                                        Icons.person,
-                                        size: 70,
-                                        color: Colors.grey,
+                        () => CircleAvatar(
+                          radius: 70,
+                          backgroundColor: Colors.grey.shade200,
+                          child: ClipOval(
+                            child: controller.pickedImageFile.value != null
+                                ? Image.file(
+                                    controller.pickedImageFile.value!,
+                                    fit: BoxFit.cover,
+                                    width: 140,
+                                    height: 140,
+                                  )
+                                : controller.profileImageUrl.value.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: controller.profileImageUrl.value,
+                                    fit: BoxFit.cover,
+                                    width: 140,
+                                    height: 140,
+                                    placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
                                       ),
-                              ),
-                            ),
-
-                            if (controller.isLoadingImage.isTrue)
-                              const CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation(Colors.blue),
-                              ),
-                          ],
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Center(
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 70,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                  )
+                                : const Icon(
+                                    Icons.person,
+                                    size: 70,
+                                    color: Colors.grey,
+                                  ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      TextButton(
-                        onPressed: controller.isLoadingImage.isTrue
-                            ? null
-                            : controller.pickImage,
-                        child: Text(
-                          controller.isLoadingImage.isTrue
-                              ? 'กำลังอัปโหลด'
-                              : 'อัพโหลดรูปภาพ',
-                          style: const TextStyle(
+                      TextButton.icon(
+                        onPressed: controller.pickImage,
+                        icon: const Icon(
+                          Icons.photo_library,
+                          color: Colors.blueGrey,
+                        ),
+                        label: const Text(
+                          'อัพโหลดรูปภาพ',
+                          style: TextStyle(
                             fontSize: 18,
                             color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(color: Colors.grey.shade300),
                           ),
                         ),
                       ),

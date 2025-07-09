@@ -85,7 +85,7 @@ class CreatePropertyController extends GetxController {
     _picker = ImagePicker();
     _cloudinary = CloudinaryPublic(
       'dme1aety8', // Cloudinary cloud name
-      'flutter_property_upload', // Cloudinary upload preset
+      'livaplace_property_images', // Cloudinary upload preset
       cache: true,
     );
   }
