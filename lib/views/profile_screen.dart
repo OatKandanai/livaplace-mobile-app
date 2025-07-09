@@ -1,38 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:livaplace_app/controllers/home_controller.dart';
+import 'package:livaplace_app/controllers/profile_controller.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends GetView<ProfileController> {
+  ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  late FirebaseAuth _auth;
-  late GetStorage box;
-
-  HomeController controller = Get.find<HomeController>();
-
-  @override
-  void initState() {
-    super.initState();
-    _auth = FirebaseAuth.instance;
-    box = GetStorage();
-  }
-
-  Future<void> _logout() async {
-    await _auth.signOut();
-    await box.remove('isLoggedIn');
-    await box.remove('userUid');
-    Get.offAllNamed(AppRoutes.login);
-  }
+  final HomeController _homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,34 +24,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Center(
                 child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 40,
-                      child: ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'https://i.pinimg.com/736x/ac/1c/a1/ac1ca1408e7d9c40b425d83484166178.jpg',
-                          fit: BoxFit.contain,
-                          width: 80,
-                          height: 80,
-                          placeholder: (context, url) =>
-                              const Center(child: CircularProgressIndicator()),
-                          errorWidget: (context, url, error) =>
-                              const Center(child: Icon(Icons.error)),
+                    Obx(
+                      () => CircleAvatar(
+                        radius: 40,
+                        child: ClipOval(
+                          child: controller.profilePictureUrl.value.isNotEmpty
+                              ? CachedNetworkImage(
+                                  imageUrl: controller.profilePictureUrl.value,
+                                  fit: BoxFit.contain,
+                                  width: 80,
+                                  height: 80,
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Center(child: Icon(Icons.error)),
+                                )
+                              : const Icon(
+                                  Icons.person,
+                                  size: 50,
+                                  color: Colors.grey,
+                                ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Rose BLACKPINK',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                    Obx(
+                      () => Text(
+                        '${controller.firstName.value} ${controller.lastName.value}',
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'rosebp@gmail.com',
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    Obx(
+                      () => Text(
+                        controller.email.value,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -223,7 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 onTap: () async {
                   await Get.toNamed(AppRoutes.create);
-                  controller.fetchPropertys();
+                  _homeController.fetchPropertys();
                 },
               ),
               const SizedBox(height: 20),
@@ -237,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: _logout,
+                  onPressed: controller.logout,
                   child: const Text(
                     'ออกจากระบบ',
                     style: TextStyle(fontSize: 18),

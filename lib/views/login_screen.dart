@@ -22,7 +22,7 @@ class LoginScreen extends GetView<LoginController> {
                   padding: const EdgeInsets.all(40),
                   child: Column(
                     children: [
-                      Image.asset('assets/icon/app_icon.png', height: 120),
+                      Image.asset('assets/icon/app_icon_inapp.png', height: 120),
                       const Text(
                         'เข้าสู่ระบบ',
                         style: TextStyle(

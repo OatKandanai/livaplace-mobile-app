@@ -20,7 +20,7 @@ class RegisterScreen extends GetView<RegisterController> {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   children: [
-                    Image.asset('assets/icon/app_icon.png', width: 150),
+                    Image.asset('assets/icon/app_icon_inapp.png', width: 120),
                     const Text(
                       'สมัครสมาชิก',
                       style: TextStyle(
