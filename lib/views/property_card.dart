@@ -62,10 +62,21 @@ class PropertyCard extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        // title
+                        Text(
+                          title,
+                          style: const TextStyle(fontSize: 16),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+
+                        const SizedBox(height: 10),
+
                         // property type and room type
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -96,17 +107,6 @@ class PropertyCard extends StatelessWidget {
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // title
-                        Text(
-                          title,
-                          style: const TextStyle(fontSize: 14),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
                         ),
 
                         const SizedBox(height: 10),
@@ -152,14 +152,6 @@ class PropertyCard extends StatelessWidget {
 
                         const SizedBox(height: 10),
 
-                        // price
-                        Text(
-                          '$price $priceUnit',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-
-                        const SizedBox(height: 10),
-
                         // created date
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -175,6 +167,14 @@ class PropertyCard extends StatelessWidget {
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // price
+                        Text(
+                          '$price $priceUnit',
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ],
                     ),

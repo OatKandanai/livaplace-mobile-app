@@ -309,10 +309,8 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                             ),
                                             Obx(
                                               () => Text(
-                                                controller.propertyDetails['property_type'] ==
-                                                        'เช่า'
-                                                    ? 'ผู้ให้เช่า'
-                                                    : 'ผู้ขาย',
+                                                controller
+                                                    .ownerDetails['phone'],
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.grey.shade600,
@@ -323,12 +321,33 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                         ),
                                       ],
                                     ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Image.asset(
-                                        'assets/icon/line_icon_color.png',
-                                        width: 40,
-                                      ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            final String phoneNumber =
+                                                controller
+                                                    .ownerDetails['phone'];
+                                            controller.makePhoneCall(
+                                              phoneNumber,
+                                            );
+                                          },
+                                          icon: const Icon(Icons.phone),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            final String lineId = controller
+                                                .ownerDetails['line_id'];
+                                            controller.contactViaLine(lineId);
+                                          },
+                                          icon: Image.asset(
+                                            'assets/icon/line_icon_color.png',
+                                            width: 40,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

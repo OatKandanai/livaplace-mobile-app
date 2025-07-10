@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:livaplace_app/controllers/saved_list_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PropertyDetailsController extends GetxController {
   // UI related variables
@@ -192,5 +194,120 @@ class PropertyDetailsController extends GetxController {
     if (Get.isRegistered<SavedListController>()) {
       Get.find<SavedListController>().fetchSavedList();
     }
+  }
+
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri);
+    } else {
+      Get.snackbar(
+        'เกิดข้อผิดพลาด',
+        'ไม่สามารถโทรออกได้',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.black,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  // Future<void> contactViaLine(String lineId) async {
+  //   final Uri lineAppUri = Uri.parse('line://ti/p/~$lineId'); // LINE app scheme
+  //   final Uri lineWebUri = Uri.parse(
+  //     'https://line.me/ti/p/~$lineId',
+  //   ); // Universal link
+
+  //   if (lineId.isEmpty) {
+  //     Get.snackbar(
+  //       'เกิดข้อผิดพลาด',
+  //       'ไม่พบ LINE ID',
+  //       snackPosition: SnackPosition.BOTTOM,
+  //       backgroundColor: Colors.black,
+  //       colorText: Colors.white,
+  //     );
+  //     return;
+  //   }
+
+  //   if (await canLaunchUrl(lineAppUri)) {
+  //     await launchUrl(lineAppUri);
+  //     // await launchUrl(lineAppUri, mode: LaunchMode.externalApplication);
+  //   } else if (await canLaunchUrl(lineWebUri)) {
+  //     await launchUrl(lineWebUri); // Fallback to web link
+  //     // await launchUrl(lineWebUri, mode: LaunchMode.externalApplication);
+  //   } else {
+  //     Get.snackbar(
+  //       'เกิดข้อผิดพลาด',
+  //       'ไม่สามารถเปิด LINE ได้',
+  //       snackPosition: SnackPosition.BOTTOM,
+  //       backgroundColor: Colors.black,
+  //       colorText: Colors.white,
+  //     );
+  //   }
+  // }
+
+  Future<void> contactViaLine(String lineId) async {
+    if (lineId.isEmpty) {
+      Get.snackbar(
+        'ข้อผิดพลาด',
+        'ไม่พบ LINE ID',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    debugPrint('Attempting to contact LINE ID: $lineId');
+
+    // Copy LINE ID to clipboard
+    await Clipboard.setData(ClipboardData(text: lineId));
+    debugPrint('LINE ID "$lineId" copied to clipboard.');
+
+    final Uri lineAppUri = Uri.parse('line://ti/p/~${lineId}');
+    final Uri lineWebUri = Uri.parse('https://line.me/ti/p/~${lineId}');
+
+    String snackbarMessage =
+        'คัดลอก LINE ID แล้ว: "$lineId"\nโปรดวางในช่องค้นหาเพื่อนใน LINE';
+    Color snackbarColor = Colors.blueGrey;
+
+    try {
+      if (await canLaunchUrl(lineAppUri)) {
+        debugPrint('Launching LINE app via scheme: $lineAppUri');
+        await launchUrl(lineAppUri);
+        debugPrint('LINE app launched successfully.');
+        snackbarMessage =
+            'คัดลอก LINE ID แล้ว: "$lineId"\nโปรดวางในช่องค้นหาเพื่อนใน LINE';
+        snackbarColor = Colors.green; // Indicate success and instruction
+      } else if (await canLaunchUrl(lineWebUri)) {
+        debugPrint('Launching LINE web via universal link: $lineWebUri');
+        await launchUrl(lineWebUri);
+        debugPrint('LINE web launched successfully.');
+        snackbarMessage =
+            'คัดลอก LINE ID แล้ว: "$lineId"\nโปรดวางในช่องค้นหาเพื่อนใน LINE';
+        snackbarColor = Colors.green; // Indicate success and instruction
+      } else {
+        debugPrint('Neither LINE app nor web link could be launched.');
+        snackbarMessage =
+            'คัดลอก LINE ID แล้ว: "$lineId"\nไม่สามารถเปิด LINE ได้อัตโนมัติ โปรดเปิด LINE และวางในช่องค้นหาเพื่อน';
+        snackbarColor =
+            Colors.orange; // Indicate partial success with more instruction
+      }
+    } catch (e) {
+      debugPrint('Error launching LINE: $e');
+      snackbarMessage =
+          'คัดลอก LINE ID แล้ว: "$lineId"\nเกิดข้อผิดพลาดในการเปิด LINE: $e';
+      snackbarColor = Colors.red; // Indicate error
+    }
+
+    Get.snackbar(
+      'แจ้งเตือน',
+      snackbarMessage,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: snackbarColor,
+      colorText: Colors.white,
+      duration: const Duration(
+        seconds: 5,
+      ), // Give user time to read instructions
+    );
   }
 }

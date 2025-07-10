@@ -41,5 +41,26 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+        <!-- For general web browsing (https) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <!-- For phone calls (tel) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+        <!-- For LINE app deep links (line scheme) -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="line" />
+        </intent>
+        <!-- You might also need this for LINE login/auth if you use it -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="lineauth" />
+        </intent>
     </queries>
 </manifest>
