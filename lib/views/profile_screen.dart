@@ -158,6 +158,9 @@ class ProfileScreen extends GetView<ProfileController> {
                   size: 18,
                   color: Colors.grey,
                 ),
+                onTap: () {
+                  Get.toNamed(AppRoutes.created);
+                },
               ),
               const SizedBox(height: 10),
               ListTile(
@@ -183,6 +186,7 @@ class ProfileScreen extends GetView<ProfileController> {
                   size: 18,
                   color: Colors.grey,
                 ),
+                onTap: controller.launchFacebookPage,
               ),
 
               const Divider(height: 40, thickness: 1),

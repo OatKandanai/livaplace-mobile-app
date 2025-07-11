@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileController extends GetxController {
   late FirebaseAuth _auth;
@@ -42,6 +43,39 @@ class ProfileController extends GetxController {
         'ไม่สามารถดึงข้อมูลผู้ใช้งาน : $e',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.black,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  Future<void> launchFacebookPage() async {
+    const String facebookUrl = 'https://www.facebook.com/ksppp17';
+    final Uri uri = Uri.parse(facebookUrl);
+
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        ); // opening in external browser/app
+        debugPrint('Launched Facebook page: $facebookUrl');
+      } else {
+        debugPrint('Could not launch Facebook page: $facebookUrl');
+        Get.snackbar(
+          'เกิดข้อผิดพลาด',
+          'ไม่สามารถเปิดหน้า Facebook ได้',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      debugPrint('Error launching Facebook page: $e');
+      Get.snackbar(
+        'เกิดข้อผิดพลาด',
+        'ไม่สามารถเปิดหน้า Facebook ได้: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
         colorText: Colors.white,
       );
     }

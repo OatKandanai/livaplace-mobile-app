@@ -388,25 +388,24 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
               () => Positioned(
                 top: 10,
                 right: 10,
-                child: SizedBox(
+                child: Container(
                   width: 40,
                   height: 40,
-                  child: Container(
-                    padding: const EdgeInsets.all(0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade500,
-                      borderRadius: BorderRadius.circular(50),
+                  padding: const EdgeInsets.all(0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade500,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: Icon(
+                      Icons.favorite,
+                      size: 22,
+                      color: controller.isSaved.value
+                          ? Colors.redAccent
+                          : Colors.white,
                     ),
-                    child: IconButton(
-                      onPressed: controller.saveProperty,
-                      icon: Icon(
-                        Icons.favorite,
-                        size: 22,
-                        color: controller.isSaved.value
-                            ? Colors.redAccent
-                            : Colors.white,
-                      ),
-                    ),
+                    onPressed: controller.saveProperty,
                   ),
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:livaplace_app/bindings/create_property_binding.dart';
+import 'package:livaplace_app/bindings/created_property_list_binding.dart';
 import 'package:livaplace_app/bindings/edit_profile_binding.dart';
 import 'package:livaplace_app/bindings/home_binding.dart';
 import 'package:livaplace_app/bindings/login_binding.dart';
@@ -12,6 +13,7 @@ import 'package:livaplace_app/bindings/search_result_binding.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 import 'package:livaplace_app/views/bottom_nav.dart';
 import 'package:livaplace_app/views/create_property_screen.dart';
+import 'package:livaplace_app/views/created_property_list_screen.dart';
 import 'package:livaplace_app/views/edit_profile_screen.dart';
 import 'package:livaplace_app/views/login_screen.dart';
 import 'package:livaplace_app/views/profile_screen.dart';
@@ -64,6 +66,11 @@ class AppPages {
       name: AppRoutes.editProfile,
       page: () => EditProfileScreen(),
       binding: EditProfileBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.created,
+      page: () => CreatedPropertyListScreen(),
+      binding: CreatedPropertyListBinding(),
     ),
     GetPage(
       name: AppRoutes.create,
