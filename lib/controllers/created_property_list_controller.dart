@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:livaplace_app/controllers/home_controller.dart';
+import 'package:livaplace_app/controllers/saved_list_controller.dart';
 
 class CreatedPropertyListController extends GetxController {
   late final CollectionReference<Map<String, dynamic>> _propertysCollection;
+  late final CollectionReference<Map<String, dynamic>> _savedPropertyCollection;
   late final GetStorage _box;
   late final String _currentUserId;
   final RxList<Map<String, dynamic>> propertyList =
@@ -17,6 +19,9 @@ class CreatedPropertyListController extends GetxController {
   void onInit() {
     super.onInit();
     _propertysCollection = FirebaseFirestore.instance.collection('propertys');
+    _savedPropertyCollection = FirebaseFirestore.instance.collection(
+      'saved_propertys',
+    );
     _box = GetStorage();
     _currentUserId = _box.read('userUid');
     fetchCreatedProperty();
@@ -53,25 +58,41 @@ class CreatedPropertyListController extends GetxController {
 
   Future<void> deleteProperty(String propertyId) async {
     try {
+      // delete property
       await _propertysCollection.doc(propertyId).delete();
       propertyList.removeWhere((property) => property['id'] == propertyId);
+
+      // also delete in saved property
+      final QuerySnapshot savedPropertiesSnapshot =
+          await _savedPropertyCollection
+              .where('property_id', isEqualTo: propertyId)
+              .get();
+      for (DocumentSnapshot doc in savedPropertiesSnapshot.docs) {
+        await doc.reference.delete();
+      }
+
       Get.snackbar(
         'ลบสำเร็จ',
         'ประกาศถูกลบเรียบร้อยแล้ว',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green,
         colorText: Colors.black,
       );
 
-      // fetch new list in Home Screen after deleted
+      // refresh Home Screen
       if (Get.isRegistered<HomeController>()) {
         Get.find<HomeController>().fetchPropertys();
+      }
+
+      // refresh Saved List Screen
+      if (Get.isRegistered<SavedListController>()) {
+        Get.find<SavedListController>().fetchSavedList();
       }
     } catch (e) {
       Get.snackbar(
         'เกิดข้อผิดพลาดในการลบ',
         'ไม่สามารถลบประกาศได้: ${e.toString()}',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
         colorText: Colors.black,
       );

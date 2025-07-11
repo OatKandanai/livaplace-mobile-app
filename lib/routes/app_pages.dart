@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:livaplace_app/bindings/create_property_binding.dart';
 import 'package:livaplace_app/bindings/created_property_list_binding.dart';
@@ -29,11 +30,15 @@ class AppPages {
       name: AppRoutes.login,
       page: () => LoginScreen(),
       binding: LoginBinding(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
     ),
     GetPage(
       name: AppRoutes.register,
       page: () => RegisterScreen(),
       binding: RegisterBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
     GetPage(
       name: AppRoutes.home,
@@ -51,36 +56,50 @@ class AppPages {
       name: AppRoutes.searchResult,
       page: () => const SearchResultScreen(),
       binding: SearchResultBinding(),
+      transition: Transition.rightToLeftWithFade,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
     GetPage(
       name: AppRoutes.propertyDetails,
       page: () => PropertyDetailsScreen(),
       binding: PropertyDetailsBinding(),
+      transition: Transition.downToUp,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
     GetPage(
       name: AppRoutes.profile,
       page: () => ProfileScreen(),
       binding: ProfileBinding(),
+      transition: Transition.leftToRight,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
     GetPage(
       name: AppRoutes.editProfile,
       page: () => EditProfileScreen(),
       binding: EditProfileBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
     GetPage(
       name: AppRoutes.created,
       page: () => CreatedPropertyListScreen(),
       binding: CreatedPropertyListBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
     GetPage(
       name: AppRoutes.create,
       page: () => CreatePropertyScreen(),
       binding: CreatePropertyBinding(),
+      transition: Transition.upToDown,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
     GetPage(
       name: AppRoutes.saved,
       page: () => const SavedListScreen(),
       binding: SavedListBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
   ];
 }
