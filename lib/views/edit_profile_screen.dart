@@ -89,126 +89,115 @@ class EditProfileScreen extends GetView<EditProfileController> {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      SizedBox(
-                        height: 45,
-                        child: TextFormField(
-                          controller: controller.firstNameController,
-                          autofocus: false,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                          ),
-                          decoration: _buildInputDecoration(
-                            prefixIcon: const Icon(Icons.text_fields),
-                            labelText: 'ชื่อจริง',
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'กรุณากรอกชื่อจริง';
-                            }
-                            if (value.length < 4) {
-                              return 'ชื่อจริงต้องมีอย่างน้อย 4 ตัวอักษร';
-                            }
-                            if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
-                              return 'ชื่อจริงต้องเป็นตัวอักษรเท่านั้น';
-                            }
-                            return null;
-                          },
+                      TextFormField(
+                        controller: controller.firstNameController,
+                        autofocus: false,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
                         ),
+                        decoration: _buildInputDecoration(
+                          prefixIcon: const Icon(Icons.text_fields),
+                          labelText: 'ชื่อจริง',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณากรอกชื่อจริง';
+                          }
+                          if (value.length < 4) {
+                            return 'ชื่อจริงต้องมีอย่างน้อย 4 ตัวอักษร';
+                          }
+                          if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
+                            return 'ชื่อจริงต้องเป็นตัวอักษรเท่านั้น';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        height: 45,
-                        child: TextFormField(
-                          controller: controller.lastNameController,
-                          autofocus: false,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                          ),
-                          decoration: _buildInputDecoration(
-                            prefixIcon: const Icon(Icons.text_fields),
-                            labelText: 'นามสกุล',
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'กรุณากรอกนามสกุล';
-                            }
-                            if (value.length < 4) {
-                              return 'นามสกุลต้องมีอย่างน้อย 4 ตัวอักษร';
-                            }
-                            if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
-                              return 'นามสกุลต้องเป็นตัวอักษรเท่านั้น';
-                            }
-                            return null;
-                          },
+                      TextFormField(
+                        controller: controller.lastNameController,
+                        autofocus: false,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
                         ),
+                        decoration: _buildInputDecoration(
+                          prefixIcon: const Icon(Icons.text_fields),
+                          labelText: 'นามสกุล',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณากรอกนามสกุล';
+                          }
+                          if (value.length < 4) {
+                            return 'นามสกุลต้องมีอย่างน้อย 4 ตัวอักษร';
+                          }
+                          if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
+                            return 'นามสกุลต้องเป็นตัวอักษรเท่านั้น';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        height: 45,
-                        child: TextFormField(
-                          controller: controller.phoneController,
-                          autofocus: false,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                          ),
-                          decoration: _buildInputDecoration(
-                            prefixIcon: const Icon(Icons.phone),
-                            labelText: 'เบอร์โทร',
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'กรุณากรอกเบอร์โทรศัพท์';
-                            }
-                            final thaiPhoneRegex = RegExp(r'^0[689][0-9]{8}$');
-                            if (!thaiPhoneRegex.hasMatch(value)) {
-                              return 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง (เช่น 0812345678)';
-                            }
-                            return null;
-                          },
+                      TextFormField(
+                        controller: controller.phoneController,
+                        autofocus: false,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
                         ),
+                        decoration: _buildInputDecoration(
+                          prefixIcon: const Icon(Icons.phone),
+                          labelText: 'เบอร์โทร',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณากรอกเบอร์โทรศัพท์';
+                          }
+                          final thaiPhoneRegex = RegExp(r'^0[689][0-9]{8}$');
+                          if (!thaiPhoneRegex.hasMatch(value)) {
+                            return 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง (เช่น 0812345678)';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        height: 45,
-                        child: TextFormField(
-                          controller: controller.lineIdController,
-                          autofocus: false,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                          ),
-                          decoration: InputDecoration(
-                            prefixIcon: Image.asset(
-                              'assets/icon/line_icon.png',
-                              fit: BoxFit.contain,
-                            ),
-                            hintText: 'LINE ID',
-                            hintStyle: const TextStyle(fontSize: 14),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade400,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.grey.shade400,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'กรุณาใส่ LINE ID';
-                            }
-                            return null;
-                          },
+                      TextFormField(
+                        controller: controller.lineIdController,
+                        autofocus: false,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
                         ),
+                        decoration: InputDecoration(
+                          prefixIcon: Image.asset(
+                            'assets/icon/line_icon.png',
+                            fit: BoxFit.contain,
+                            height: 45,
+                          ),
+                          hintText: 'LINE ID',
+                          hintStyle: const TextStyle(fontSize: 14),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade400,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey.shade400,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาใส่ LINE ID';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
                       SizedBox(

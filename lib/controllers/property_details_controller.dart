@@ -259,7 +259,7 @@ class PropertyDetailsController extends GetxController {
 
     debugPrint('Attempting to contact LINE ID: $lineId');
 
-    // Copy LINE ID to clipboard
+    // copy LINE ID to clipboard
     await Clipboard.setData(ClipboardData(text: lineId));
     debugPrint('LINE ID "$lineId" copied to clipboard.');
 
@@ -277,26 +277,26 @@ class PropertyDetailsController extends GetxController {
         debugPrint('LINE app launched successfully.');
         snackbarMessage =
             'คัดลอก LINE ID แล้ว: "$lineId"\nโปรดวางในช่องค้นหาเพื่อนใน LINE';
-        snackbarColor = Colors.green; // Indicate success and instruction
+        snackbarColor = Colors.green; // indicate success and instruction
       } else if (await canLaunchUrl(lineWebUri)) {
         debugPrint('Launching LINE web via universal link: $lineWebUri');
         await launchUrl(lineWebUri);
         debugPrint('LINE web launched successfully.');
         snackbarMessage =
             'คัดลอก LINE ID แล้ว: "$lineId"\nโปรดวางในช่องค้นหาเพื่อนใน LINE';
-        snackbarColor = Colors.green; // Indicate success and instruction
+        snackbarColor = Colors.green; // indicate success and instruction
       } else {
         debugPrint('Neither LINE app nor web link could be launched.');
         snackbarMessage =
             'คัดลอก LINE ID แล้ว: "$lineId"\nไม่สามารถเปิด LINE ได้อัตโนมัติ โปรดเปิด LINE และวางในช่องค้นหาเพื่อน';
         snackbarColor =
-            Colors.orange; // Indicate partial success with more instruction
+            Colors.orange; // indicate partial success with more instruction
       }
     } catch (e) {
       debugPrint('Error launching LINE: $e');
       snackbarMessage =
           'คัดลอก LINE ID แล้ว: "$lineId"\nเกิดข้อผิดพลาดในการเปิด LINE: $e';
-      snackbarColor = Colors.red; // Indicate error
+      snackbarColor = Colors.red; // indicate error
     }
 
     Get.snackbar(
@@ -305,9 +305,7 @@ class PropertyDetailsController extends GetxController {
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: snackbarColor,
       colorText: Colors.white,
-      duration: const Duration(
-        seconds: 5,
-      ), // Give user time to read instructions
+      duration: const Duration(seconds: 5),
     );
   }
 }

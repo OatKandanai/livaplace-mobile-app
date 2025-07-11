@@ -64,6 +64,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                 ),
 
                                 const SizedBox(height: 20),
+
                                 const Text(
                                   'ข้อมูลทรัพย์',
                                   style: TextStyle(
@@ -71,6 +72,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+
                                 const SizedBox(height: 10),
 
                                 // property type label
@@ -119,6 +121,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                 ),
 
                                 const SizedBox(height: 20),
+
                                 const Text(
                                   'รายละเอียดห้อง',
                                   style: TextStyle(
@@ -126,6 +129,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+
                                 const SizedBox(height: 10),
 
                                 // area and floor number
@@ -180,6 +184,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                 ),
 
                                 const SizedBox(height: 20),
+
                                 const Text(
                                   'รายละเอียดเพิ่มเติม',
                                   style: TextStyle(
@@ -187,6 +192,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+
                                 const SizedBox(height: 10),
 
                                 // property detail
@@ -196,6 +202,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                 ),
 
                                 const SizedBox(height: 20),
+
                                 const Text(
                                   'สิ่งอำนวยความสะดวก',
                                   style: TextStyle(
@@ -203,6 +210,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+
                                 const SizedBox(height: 10),
 
                                 // facilities
@@ -351,6 +359,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                     ),
                                   ],
                                 ),
+
                                 const Divider(height: 40),
                               ],
                             ),

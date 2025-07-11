@@ -69,7 +69,7 @@ class PropertyCard extends StatelessWidget {
                         // title
                         Text(
                           title,
-                          style: const TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 15),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
@@ -174,7 +174,7 @@ class PropertyCard extends StatelessWidget {
                         // price
                         Text(
                           '$price $priceUnit',
-                          style: const TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 15),
                         ),
                       ],
                     ),
