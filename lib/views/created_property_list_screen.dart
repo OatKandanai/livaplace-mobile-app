@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:livaplace_app/controllers/created_property_list_controller.dart';
+import 'package:livaplace_app/routes/app_routes.dart';
 import 'package:livaplace_app/views/property_card.dart';
 
 class CreatedPropertyListScreen extends GetView<CreatedPropertyListController> {
@@ -133,6 +134,30 @@ class CreatedPropertyListScreen extends GetView<CreatedPropertyListController> {
                               },
                               onCancel: () {},
                             );
+                          },
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 60,
+                      bottom: 10,
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        padding: const EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: const Icon(
+                            Icons.edit_document,
+                            size: 26,
+                            color: Colors.orange,
+                          ),
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.edit, arguments: propertyId);
                           },
                         ),
                       ),

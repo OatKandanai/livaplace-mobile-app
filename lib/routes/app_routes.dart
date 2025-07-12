@@ -9,5 +9,6 @@ class AppRoutes {
   static const profile = '/profile';
   static const editProfile = '/profile/edit';
   static const created = '/created';
+  static const edit = '/property/edit';
   static const create = '/create';
 }

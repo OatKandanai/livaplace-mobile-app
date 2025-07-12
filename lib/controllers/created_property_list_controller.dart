@@ -58,11 +58,12 @@ class CreatedPropertyListController extends GetxController {
 
   Future<void> deleteProperty(String propertyId) async {
     try {
-      // delete property
+      // delete the property from the 'propertys' collection
       await _propertysCollection.doc(propertyId).delete();
+      // update the local property list
       propertyList.removeWhere((property) => property['id'] == propertyId);
 
-      // also delete in saved property
+      // delete corresponding entries in the 'saved_propertys' collection
       final QuerySnapshot savedPropertiesSnapshot =
           await _savedPropertyCollection
               .where('property_id', isEqualTo: propertyId)
@@ -74,7 +75,7 @@ class CreatedPropertyListController extends GetxController {
       Get.snackbar(
         'ลบสำเร็จ',
         'ประกาศถูกลบเรียบร้อยแล้ว',
-        snackPosition: SnackPosition.TOP,
+        snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
         colorText: Colors.black,
       );
@@ -92,7 +93,7 @@ class CreatedPropertyListController extends GetxController {
       Get.snackbar(
         'เกิดข้อผิดพลาดในการลบ',
         'ไม่สามารถลบประกาศได้: ${e.toString()}',
-        snackPosition: SnackPosition.TOP,
+        snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.black,
       );

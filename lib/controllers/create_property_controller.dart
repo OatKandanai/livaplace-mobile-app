@@ -155,7 +155,7 @@ class CreatePropertyController extends GetxController {
         );
         imageUrls.add(response.secureUrl);
       } catch (e) {
-        print("Error uploading image to Cloudinary: $e");
+        debugPrint("Error uploading image to Cloudinary: $e");
         // Handle individual image upload errors, maybe skip this image
       }
     }

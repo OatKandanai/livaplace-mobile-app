@@ -263,8 +263,8 @@ class PropertyDetailsController extends GetxController {
     await Clipboard.setData(ClipboardData(text: lineId));
     debugPrint('LINE ID "$lineId" copied to clipboard.');
 
-    final Uri lineAppUri = Uri.parse('line://ti/p/~${lineId}');
-    final Uri lineWebUri = Uri.parse('https://line.me/ti/p/~${lineId}');
+    final Uri lineAppUri = Uri.parse('line://ti/p/~$lineId');
+    final Uri lineWebUri = Uri.parse('https://line.me/ti/p/~$lineId');
 
     String snackbarMessage =
         'คัดลอก LINE ID แล้ว: "$lineId"\nโปรดวางในช่องค้นหาเพื่อนใน LINE';
