@@ -546,7 +546,7 @@ class EditPropertyScreen extends GetView<EditPropertyController> {
                                       controller.updateProperty();
                                     },
                                     child: const Text(
-                                      'สร้างประกาศ',
+                                      'แก้ไขประกาศ',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ),

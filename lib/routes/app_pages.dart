@@ -99,6 +99,8 @@ class AppPages {
       name: AppRoutes.edit,
       page: () => EditPropertyScreen(),
       binding: EditPropertyBinding(),
+      transition: Transition.upToDown,
+      transitionDuration: const Duration(milliseconds: 400),
     ),
     GetPage(
       name: AppRoutes.create,

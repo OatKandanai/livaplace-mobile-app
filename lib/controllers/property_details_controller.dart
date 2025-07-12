@@ -35,7 +35,7 @@ class PropertyDetailsController extends GetxController {
     // retrieve the property ID passed as arguments
     final String? propertyId = Get.arguments as String?;
     if (propertyId != null) {
-      _fetchPropertyDetails(propertyId);
+      fetchPropertyDetails(propertyId);
     } else {
       Get.snackbar(
         'เกิดข้อผิดพลาด',
@@ -47,7 +47,7 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
-  Future<void> _fetchPropertyDetails(String propertyId) async {
+  Future<void> fetchPropertyDetails(String propertyId) async {
     try {
       // fetch property details
       final DocumentSnapshot propertyDocument = await _firestore
