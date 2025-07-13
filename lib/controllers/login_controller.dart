@@ -63,25 +63,43 @@ class LoginController extends GetxController {
         );
         Get.offAllNamed(AppRoutes.home);
       }
+    } on FirebaseAuthException catch (e) {
+      Get.back(); // dismiss loading
+
+      String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = 'ไม่พบบัญชีผู้ใช้นี้';
+          break;
+        case 'wrong-password':
+          errorMessage = 'รหัสผ่านไม่ถูกต้อง';
+          break;
+        case 'invalid-email':
+          errorMessage = 'อีเมลไม่ถูกต้อง';
+          break;
+        case 'user-disabled':
+          errorMessage = 'บัญชีนี้ถูกปิดใช้งาน';
+          break;
+        default:
+          errorMessage = 'เกิดข้อผิดพลาด: ${e.message}';
+          break;
+      }
+
+      Get.snackbar(
+        'ไม่สามารถเข้าสู่ระบบได้',
+        errorMessage,
+        snackPosition: SnackPosition.TOP,
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+      );
     } catch (e) {
-      Get.back();
-
-      // String errorMessage = 'ไม่สามารถเข้าสู่ระบบได้ โปรดลองอีกครั้ง';
-
-      // if (e is FirebaseAuthException) {
-      //   if (e.code == 'user-not-found') {
-      //     errorMessage = 'ไม่พบผู้ใช้นี้';
-      //   } else if (e.code == 'wrong-password' || e.code == 'invalid-email') {
-      //     errorMessage = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
-      //   }
-      // }
-
+      Get.back(); // dismiss loading
       Get.snackbar(
         'เกิดข้อผิดพลาด',
         e.toString(),
         snackPosition: SnackPosition.TOP,
         colorText: Colors.white,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.red,
       );
     }
   }

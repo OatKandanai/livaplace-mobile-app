@@ -289,7 +289,10 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                                               error,
                                                             ) => const Center(
                                                               child: Icon(
-                                                                Icons.error,
+                                                                Icons.person,
+                                                                size: 50,
+                                                                color:
+                                                                    Colors.grey,
                                                               ),
                                                             ),
                                                       )

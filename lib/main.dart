@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.mitrTextTheme(),
         scaffoldBackgroundColor: Colors.white,
       ),
+      debugShowCheckedModeBanner: false,
       initialRoute: isLoggedIn ? AppRoutes.home : AppRoutes.login,
       getPages: AppPages.routes,
     );

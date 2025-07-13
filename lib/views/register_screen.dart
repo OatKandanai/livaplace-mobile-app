@@ -60,8 +60,8 @@ class RegisterScreen extends GetView<RegisterController> {
                         if (value == null || value.isEmpty) {
                           return 'กรุณากรอกชื่อจริง';
                         }
-                        if (value.length < 4) {
-                          return 'ชื่อจริงต้องมีอย่างน้อย 4 ตัวอักษร';
+                        if (value.length < 2) {
+                          return 'ชื่อจริงต้องมีอย่างน้อย 2 ตัวอักษร';
                         }
                         if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
                           return 'ชื่อจริงต้องเป็นตัวอักษรเท่านั้น';
@@ -81,8 +81,8 @@ class RegisterScreen extends GetView<RegisterController> {
                         if (value == null || value.isEmpty) {
                           return 'กรุณากรอกนามสกุล';
                         }
-                        if (value.length < 4) {
-                          return 'นามสกุลต้องมีอย่างน้อย 4 ตัวอักษร';
+                        if (value.length < 2) {
+                          return 'นามสกุลต้องมีอย่างน้อย 2 ตัวอักษร';
                         }
                         if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
                           return 'นามสกุลต้องเป็นตัวอักษรเท่านั้น';

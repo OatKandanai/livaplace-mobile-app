@@ -27,6 +27,7 @@ class ProfileScreen extends GetView<ProfileController> {
                     Obx(
                       () => CircleAvatar(
                         radius: 40,
+                        backgroundColor: Colors.grey.shade200,
                         child: ClipOval(
                           child: controller.profilePictureUrl.value.isNotEmpty
                               ? CachedNetworkImage(
