@@ -40,6 +40,7 @@ class PropertyCard extends StatelessWidget {
           onTap: () =>
               Get.toNamed(AppRoutes.propertyDetails, arguments: propertyId),
           child: Card(
+            color: Colors.grey.shade100,
             clipBehavior: Clip.antiAlias,
             elevation: 2,
             child: Row(

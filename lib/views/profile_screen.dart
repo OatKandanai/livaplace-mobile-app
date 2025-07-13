@@ -103,34 +103,34 @@ class ProfileScreen extends GetView<ProfileController> {
                 ),
                 onTap: () => Get.toNamed(AppRoutes.editProfile),
               ),
-              const SizedBox(height: 10),
-              ListTile(
-                leading: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.08),
-                        offset: Offset(0, 8),
-                        blurRadius: 20,
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: const Icon(Icons.list_alt),
-                ),
-                title: const Text(
-                  'รายการที่รออนุมัติ',
-                  style: TextStyle(fontSize: 14),
-                ),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 18,
-                  color: Colors.grey,
-                ),
-              ),
+              // const SizedBox(height: 10),
+              // ListTile(
+              //   leading: Container(
+              //     padding: const EdgeInsets.all(8),
+              //     decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.circular(12),
+              //       boxShadow: const [
+              //         BoxShadow(
+              //           color: Color.fromRGBO(0, 0, 0, 0.08),
+              //           offset: Offset(0, 8),
+              //           blurRadius: 20,
+              //           spreadRadius: 0,
+              //         ),
+              //       ],
+              //     ),
+              //     child: const Icon(Icons.list_alt),
+              //   ),
+              //   title: const Text(
+              //     'รายการที่รออนุมัติ',
+              //     style: TextStyle(fontSize: 14),
+              //   ),
+              //   trailing: const Icon(
+              //     Icons.arrow_forward_ios,
+              //     size: 18,
+              //     color: Colors.grey,
+              //   ),
+              // ),
               const SizedBox(height: 10),
               ListTile(
                 leading: Container(

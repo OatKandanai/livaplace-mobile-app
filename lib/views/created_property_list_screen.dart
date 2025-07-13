@@ -13,25 +13,23 @@ class CreatedPropertyListScreen extends GetView<CreatedPropertyListController> {
     return Scaffold(
       appBar: AppBar(
         title: Obx(
-          () => Expanded(
-            child: RichText(
-              text: TextSpan(
-                style: GoogleFonts.mitr(color: Colors.black),
-                children: <TextSpan>[
-                  const TextSpan(
-                    text: 'รายการประกาศของฉัน',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          () => RichText(
+            text: TextSpan(
+              style: GoogleFonts.mitr(color: Colors.black),
+              children: <TextSpan>[
+                const TextSpan(
+                  text: 'รายการประกาศของฉัน',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const TextSpan(text: '\u00A0\u00A0'),
+                TextSpan(
+                  text: '(${controller.propertyList.length})',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const TextSpan(text: '\u00A0\u00A0'),
-                  TextSpan(
-                    text: '(${controller.propertyList.length})',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

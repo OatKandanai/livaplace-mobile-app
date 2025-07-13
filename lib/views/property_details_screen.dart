@@ -260,74 +260,79 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Obx(
-                                          () => CircleAvatar(
-                                            radius: 25,
-                                            child: ClipOval(
-                                              child:
-                                                  controller
-                                                          .ownerDetails['profile_picture'] !=
-                                                      null
-                                                  ? CachedNetworkImage(
-                                                      imageUrl: controller
-                                                          .ownerDetails['profile_picture'],
-                                                      placeholder:
-                                                          (
-                                                            context,
-                                                            url,
-                                                          ) => const Center(
-                                                            child:
-                                                                CircularProgressIndicator(),
-                                                          ),
-                                                      errorWidget:
-                                                          (
-                                                            context,
-                                                            url,
-                                                            error,
-                                                          ) => const Center(
-                                                            child: Icon(
-                                                              Icons.error,
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Obx(
+                                            () => CircleAvatar(
+                                              radius: 25,
+                                              child: ClipOval(
+                                                child:
+                                                    controller
+                                                            .ownerDetails['profile_picture'] !=
+                                                        null
+                                                    ? CachedNetworkImage(
+                                                        imageUrl: controller
+                                                            .ownerDetails['profile_picture'],
+                                                        placeholder:
+                                                            (
+                                                              context,
+                                                              url,
+                                                            ) => const Center(
+                                                              child:
+                                                                  CircularProgressIndicator(),
                                                             ),
-                                                          ),
-                                                    )
-                                                  : const Icon(
-                                                      Icons.person,
-                                                      size: 50,
-                                                      color: Colors.grey,
-                                                    ),
+                                                        errorWidget:
+                                                            (
+                                                              context,
+                                                              url,
+                                                              error,
+                                                            ) => const Center(
+                                                              child: Icon(
+                                                                Icons.error,
+                                                              ),
+                                                            ),
+                                                      )
+                                                    : const Icon(
+                                                        Icons.person,
+                                                        size: 50,
+                                                        color: Colors.grey,
+                                                      ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Obx(
-                                              () => Text(
-                                                '${controller.ownerDetails['first_name']} ${controller.ownerDetails['last_name']}',
-                                                style: const TextStyle(
-                                                  fontSize: 16,
+                                          const SizedBox(width: 10),
+                                          Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Obx(
+                                                  () => Text(
+                                                    '${controller.ownerDetails['first_name']} ${controller.ownerDetails['last_name']}',
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Obx(
-                                              () => Text(
-                                                controller
-                                                    .ownerDetails['phone'],
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey.shade600,
+                                                Obx(
+                                                  () => Text(
+                                                    controller
+                                                        .ownerDetails['phone'],
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color:
+                                                          Colors.grey.shade600,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -422,6 +427,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
     required String label,
   }) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: 18, color: iconColor),
         const SizedBox(width: 10),

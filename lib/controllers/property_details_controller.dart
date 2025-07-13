@@ -33,18 +33,8 @@ class PropertyDetailsController extends GetxController {
     _currentUserId = box.read('userUid');
 
     // retrieve the property ID passed as arguments
-    final String? propertyId = Get.arguments as String?;
-    if (propertyId != null) {
-      fetchPropertyDetails(propertyId);
-    } else {
-      Get.snackbar(
-        'เกิดข้อผิดพลาด',
-        'ไม่พบไอดีของประกาศ',
-        snackPosition: SnackPosition.TOP,
-        colorText: Colors.white,
-        backgroundColor: Colors.black,
-      );
-    }
+    final String propertyId = Get.arguments;
+    fetchPropertyDetails(propertyId);
   }
 
   Future<void> fetchPropertyDetails(String propertyId) async {

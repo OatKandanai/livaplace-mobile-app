@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:livaplace_app/controllers/created_property_list_controller.dart';
 import 'package:livaplace_app/controllers/home_controller.dart';
 import 'package:livaplace_app/controllers/property_details_controller.dart';
+import 'package:livaplace_app/routes/app_routes.dart';
 
 class EditPropertyController extends GetxController {
   // List variables to display choices in UI
@@ -222,6 +223,8 @@ class EditPropertyController extends GetxController {
       if (Get.isRegistered<PropertyDetailsController>()) {
         Get.find<PropertyDetailsController>().fetchPropertyDetails(_propertyId);
       }
+
+      Get.offAllNamed(AppRoutes.home);
     } catch (e) {
       Get.back();
       Get.snackbar(
