@@ -63,7 +63,9 @@ class RegisterScreen extends GetView<RegisterController> {
                         if (value.length < 2) {
                           return 'ชื่อจริงต้องมีอย่างน้อย 2 ตัวอักษร';
                         }
-                        if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
+                        if (!RegExp(
+                          r'^[a-zA-Z\u0E00-\u0E7F\s]+$',
+                        ).hasMatch(value)) {
                           return 'ชื่อจริงต้องเป็นตัวอักษรเท่านั้น';
                         }
                         return null;
@@ -84,7 +86,9 @@ class RegisterScreen extends GetView<RegisterController> {
                         if (value.length < 2) {
                           return 'นามสกุลต้องมีอย่างน้อย 2 ตัวอักษร';
                         }
-                        if (!RegExp(r'^[a-zA-Z\sก-ฮ]+$').hasMatch(value)) {
+                        if (!RegExp(
+                          r'^[a-zA-Z\u0E00-\u0E7F\s]+$',
+                        ).hasMatch(value)) {
                           return 'นามสกุลต้องเป็นตัวอักษรเท่านั้น';
                         }
                         return null;
