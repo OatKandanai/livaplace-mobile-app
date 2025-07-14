@@ -1,16 +1,26 @@
-# livaplace_app
+# LivaPlace – Rental & Property Listing App
 
-A new Flutter project.
+**LivaPlace** is a Flutter mobile application designed to help users find, rent, or buy properties (rooms, condos, apartments) in Bangkok. The app also allows users to list their own properties for rent or sale.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- User authentication with Firebase
+- List and browse properties for rent or sale
+- Search with filters (type, location, price, etc.)
+- Save favorite listings
+- Post property with images and details
+- Edit and delete your own listings
+- User profile and settings
+- Real-time data with Firestore
+- Responsive UI using Material 3 design principles
 
-A few resources to get you started if this is your first Flutter project:
+## Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Flutter** & **Dart** – Frontend UI and logic
+- **Firebase Authentication** – User login and signup
+- **Firestore** – Realtime database for property listings and user data
+- **Cloud Storage** – For storing uploaded property images
+- **Cloudinary API** – Image optimization and hosting
+- **GetX** – State management, routing, and dependency injection
+- **GetStorage** – Local data persistence
+- **Figma** – UI design and mockups
