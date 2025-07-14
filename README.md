@@ -6,7 +6,7 @@
 
 - User authentication with Firebase
 - List and browse properties for rent or sale
-- Search with filters (type, location, price, etc.)
+- Search with filters (room type, facilities, bedrooms, bathrooms)
 - Save favorite listings
 - Post property with images and details
 - Edit and delete your own listings
