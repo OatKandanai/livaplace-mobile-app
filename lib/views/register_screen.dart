@@ -35,7 +35,15 @@ class RegisterScreen extends GetView<RegisterController> {
                       controller: controller.emailController,
                       autofocus: false,
                       keyboardType: TextInputType.emailAddress,
+                      maxLength: 300,
                       textInputAction: TextInputAction.next,
+                      buildCounter:
+                          (
+                            _, {
+                            required currentLength,
+                            required isFocused,
+                            maxLength,
+                          }) => null, // hide max characters count
                       style: const TextStyle(fontSize: 14),
                       decoration: _buildInputDecoration(labelText: 'อีเมล'),
                       validator: (value) {
@@ -54,6 +62,14 @@ class RegisterScreen extends GetView<RegisterController> {
                       autofocus: false,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.name,
+                      maxLength: 100,
+                      buildCounter:
+                          (
+                            _, {
+                            required currentLength,
+                            required isFocused,
+                            maxLength,
+                          }) => null, // hide max characters count
                       style: const TextStyle(fontSize: 14),
                       decoration: _buildInputDecoration(labelText: 'ชื่อจริง'),
                       validator: (value) {
@@ -77,6 +93,14 @@ class RegisterScreen extends GetView<RegisterController> {
                       autofocus: false,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.name,
+                      maxLength: 100,
+                      buildCounter:
+                          (
+                            _, {
+                            required currentLength,
+                            required isFocused,
+                            maxLength,
+                          }) => null, // hide max characters count
                       style: const TextStyle(fontSize: 14),
                       decoration: _buildInputDecoration(labelText: 'นามสกุล'),
                       validator: (value) {
@@ -100,6 +124,14 @@ class RegisterScreen extends GetView<RegisterController> {
                       autofocus: false,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.text,
+                      maxLength: 100,
+                      buildCounter:
+                          (
+                            _, {
+                            required currentLength,
+                            required isFocused,
+                            maxLength,
+                          }) => null, // hide max characters count
                       style: const TextStyle(fontSize: 14),
                       decoration: _buildInputDecoration(labelText: 'LINE ID'),
                       validator: (value) {
@@ -115,6 +147,14 @@ class RegisterScreen extends GetView<RegisterController> {
                       autofocus: false,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.phone,
+                      maxLength: 10,
+                      buildCounter:
+                          (
+                            _, {
+                            required currentLength,
+                            required isFocused,
+                            maxLength,
+                          }) => null, // hide max characters count
                       style: const TextStyle(fontSize: 14),
                       decoration: _buildInputDecoration(
                         labelText: 'เบอร์โทรศัพท์',
@@ -135,7 +175,15 @@ class RegisterScreen extends GetView<RegisterController> {
                       controller: controller.passwordController,
                       autofocus: false,
                       obscureText: true,
+                      maxLength: 100,
                       textInputAction: TextInputAction.next,
+                      buildCounter:
+                          (
+                            _, {
+                            required currentLength,
+                            required isFocused,
+                            maxLength,
+                          }) => null, // hide max characters count
                       style: const TextStyle(fontSize: 14),
                       decoration: _buildInputDecoration(labelText: 'รหัสผ่าน'),
                       validator: (value) {
@@ -153,6 +201,14 @@ class RegisterScreen extends GetView<RegisterController> {
                       controller: controller.confirmPasswordController,
                       autofocus: false,
                       obscureText: true,
+                      maxLength: 100,
+                      buildCounter:
+                          (
+                            _, {
+                            required currentLength,
+                            required isFocused,
+                            maxLength,
+                          }) => null, // hide max characters count
                       style: const TextStyle(fontSize: 14),
                       decoration: _buildInputDecoration(
                         labelText: 'ยืนยันรหัสผ่าน',

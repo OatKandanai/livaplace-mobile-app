@@ -164,7 +164,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                                           required currentLength,
                                           required isFocused,
                                           maxLength,
-                                        }) => null,
+                                        }) => null, // hide max characters count
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
@@ -203,7 +203,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                                           required currentLength,
                                           required isFocused,
                                           maxLength,
-                                        }) => null,
+                                        }) => null, // hide max characters count
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
@@ -326,7 +326,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                                           required currentLength,
                                           required isFocused,
                                           maxLength,
-                                        }) => null,
+                                        }) => null, // hide max characters count
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,

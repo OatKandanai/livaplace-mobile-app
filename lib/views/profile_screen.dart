@@ -21,56 +21,51 @@ class ProfileScreen extends GetView<ProfileController> {
           child: ListView(
             children: [
               // Top Section
-              Center(
-                child: Column(
-                  children: [
-                    Obx(
-                      () => CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.grey.shade200,
-                        child: ClipOval(
-                          child: controller.profilePictureUrl.value.isNotEmpty
-                              ? CachedNetworkImage(
-                                  imageUrl: controller.profilePictureUrl.value,
-                                  fit: BoxFit.contain,
-                                  width: 80,
-                                  height: 80,
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Center(child: Icon(Icons.error)),
-                                )
-                              : const Icon(
-                                  Icons.person,
-                                  size: 50,
-                                  color: Colors.grey,
+              Column(
+                children: [
+                  Obx(
+                    () => CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.grey.shade200,
+                      child: ClipOval(
+                        child: controller.profilePictureUrl.value.isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl: controller.profilePictureUrl.value,
+                                fit: BoxFit.contain,
+                                width: 80,
+                                height: 80,
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
                                 ),
-                        ),
+                                errorWidget: (context, url, error) =>
+                                    const Center(child: Icon(Icons.error)),
+                              )
+                            : const Icon(
+                                Icons.person,
+                                size: 50,
+                                color: Colors.grey,
+                              ),
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Obx(
-                      () => Text(
-                        '${controller.firstName.value} ${controller.lastName.value}',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  ),
+                  const SizedBox(height: 16),
+                  Obx(
+                    () => Text(
+                      '${controller.firstName.value} ${controller.lastName.value}',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Obx(
-                      () => Text(
-                        controller.email.value,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                        ),
-                      ),
+                  ),
+                  const SizedBox(height: 8),
+                  Obx(
+                    () => Text(
+                      controller.email.value,
+                      style: const TextStyle(fontSize: 16, color: Colors.grey),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
 
               const Divider(height: 40, thickness: 1),
