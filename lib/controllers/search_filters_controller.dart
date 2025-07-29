@@ -19,7 +19,9 @@ class SearchFiltersController extends GetxController {
     'เครื่องซักผ้า',
     'ระเบียง',
   ];
-  late final TextEditingController textEditingController;
+  late final TextEditingController searchController;
+  late final TextEditingController minPriceController;
+  late final TextEditingController maxPriceController;
 
   // UI related variables
   final RxString selectedType = 'คอนโด'.obs;
@@ -31,7 +33,9 @@ class SearchFiltersController extends GetxController {
   void onInit() {
     super.onInit();
     propertyType = Get.arguments is String ? Get.arguments : '';
-    textEditingController = TextEditingController();
+    searchController = TextEditingController();
+    minPriceController = TextEditingController();
+    maxPriceController = TextEditingController();
   }
 
   void handleBedroomCount({required String type}) {
@@ -51,7 +55,9 @@ class SearchFiltersController extends GetxController {
   }
 
   void resetAllFilters() {
-    textEditingController.clear();
+    searchController.clear();
+    minPriceController.clear();
+    maxPriceController.clear();
     selectedType.value = 'คอนโด';
     selectedFacilities.clear();
     bedroomCount.value = 1;
@@ -93,6 +99,15 @@ class SearchFiltersController extends GetxController {
         );
       }
 
+      num? minPrice = num.tryParse(minPriceController.text.trim());
+      num? maxPrice = num.tryParse(maxPriceController.text.trim());
+      if (minPrice != null) {
+        query = query.where('price', isGreaterThanOrEqualTo: minPrice);
+      }
+      if (maxPrice != null) {
+        query = query.where('price', isLessThanOrEqualTo: maxPrice);
+      }
+
       // execute the query
       final QuerySnapshot querySnapshot = await query.get();
 
@@ -103,8 +118,8 @@ class SearchFiltersController extends GetxController {
       }).toList();
 
       // filter by search text
-      if (textEditingController.text.isNotEmpty) {
-        String searchText = textEditingController.text.toLowerCase();
+      if (searchController.text.isNotEmpty) {
+        String searchText = searchController.text.toLowerCase();
         searchResults = searchResults.where((property) {
           return property.title.toLowerCase().contains(searchText);
         }).toList();
@@ -158,7 +173,9 @@ class SearchFiltersController extends GetxController {
 
   @override
   void dispose() {
-    textEditingController.dispose();
+    searchController.dispose();
+    minPriceController.dispose();
+    maxPriceController.dispose();
     super.dispose();
   }
 }

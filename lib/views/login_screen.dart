@@ -22,7 +22,10 @@ class LoginScreen extends GetView<LoginController> {
                   padding: const EdgeInsets.all(40),
                   child: Column(
                     children: [
-                      Image.asset('assets/icon/app_icon_inapp.png', height: 120),
+                      Image.asset(
+                        'assets/icon/app_icon_inapp.png',
+                        height: 120,
+                      ),
                       const Text(
                         'เข้าสู่ระบบ',
                         style: TextStyle(
@@ -36,6 +39,14 @@ class LoginScreen extends GetView<LoginController> {
                       TextFormField(
                         controller: controller.emailController,
                         autofocus: false,
+                        maxLength: 300,
+                        buildCounter:
+                            (
+                              _, {
+                              required currentLength,
+                              required isFocused,
+                              maxLength,
+                            }) => null, // hide max characters count
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -83,6 +94,14 @@ class LoginScreen extends GetView<LoginController> {
                       TextFormField(
                         controller: controller.passwordController,
                         autofocus: false,
+                        maxLength: 100,
+                        buildCounter:
+                            (
+                              _, {
+                              required currentLength,
+                              required isFocused,
+                              maxLength,
+                            }) => null, // hide max characters count
                         obscureText: true,
                         decoration: InputDecoration(
                           label: const Text('รหัสผ่าน'),

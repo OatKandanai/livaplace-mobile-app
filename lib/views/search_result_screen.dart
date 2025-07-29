@@ -40,9 +40,11 @@ class SearchResultScreen extends GetView<SearchResultController> {
         ),
         body: Obx(() {
           if (controller.searchResults.isEmpty) {
-            return const Text(
-              'ไม่พบผลลัพธ์ที่ค้นหา',
-              style: TextStyle(fontSize: 20),
+            return const Center(
+              child: Text(
+                'ไม่พบผลลัพธ์ที่ค้นหา',
+                style: TextStyle(fontSize: 20),
+              ),
             );
           }
 
