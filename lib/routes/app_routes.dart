@@ -11,4 +11,5 @@ class AppRoutes {
   static const created = '/created';
   static const edit = '/property/edit';
   static const create = '/create';
+  static const map = '/map';
 }

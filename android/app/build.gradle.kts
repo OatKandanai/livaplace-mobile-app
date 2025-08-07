@@ -14,6 +14,11 @@ val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
+val localProperties = Properties().apply {
+    load(FileInputStream(rootProject.file("local.properties")))
+}
+val mapsApiKey: String = localProperties["MAPS_API_KEY"] as String
+
 
 android {
     namespace = "com.example.livaplace_app"
@@ -38,6 +43,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        resValue("string", "google_maps_key", mapsApiKey)
     }
 
     signingConfigs {

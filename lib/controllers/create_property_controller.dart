@@ -51,6 +51,10 @@ class CreatePropertyController extends GetxController {
   late final TextEditingController detailController;
   late final TextEditingController locationController;
 
+  // google map latitude and longitude
+  final RxDouble? selectedLat = RxDouble(0);
+  final RxDouble? selectedLng = RxDouble(0);
+
   // Firestore Reference
   late final CollectionReference<Map<String, dynamic>> _propertysCollection;
 
@@ -246,6 +250,10 @@ class CreatePropertyController extends GetxController {
         "room_type": selectedRoomType.value,
         "title": title,
         "location": location,
+        "coordinates": {
+          "latitude": selectedLat?.value,
+          "longitude": selectedLng?.value,
+        },
         "bedrooms": bedroomCount.value,
         "bathrooms": bathroomCount.value,
         "area": area,

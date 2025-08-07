@@ -122,9 +122,12 @@ class PropertyCard extends StatelessWidget {
                               color: Colors.blueAccent,
                             ),
                             const SizedBox(width: 5),
-                            Text(
-                              location,
-                              style: const TextStyle(fontSize: 12),
+                            Flexible(
+                              child: Text(
+                                location,
+                                style: const TextStyle(fontSize: 12),
+                                maxLines: 1,
+                              ),
                             ),
                           ],
                         ),

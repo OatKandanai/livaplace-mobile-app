@@ -434,7 +434,13 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
       children: [
         Icon(icon, size: 18, color: iconColor),
         const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 16)),
+        Flexible(
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 16),
+            softWrap: true,
+          ),
+        ),
       ],
     );
   }

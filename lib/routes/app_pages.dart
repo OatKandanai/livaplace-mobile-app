@@ -11,6 +11,7 @@ import 'package:livaplace_app/bindings/register_binding.dart';
 import 'package:livaplace_app/bindings/saved_list_binding.dart';
 import 'package:livaplace_app/bindings/search_filters_binding.dart';
 import 'package:livaplace_app/bindings/search_result_binding.dart';
+import 'package:livaplace_app/bindings/select_location_binding.dart';
 import 'package:livaplace_app/routes/app_routes.dart';
 import 'package:livaplace_app/views/bottom_nav.dart';
 import 'package:livaplace_app/views/create_property_screen.dart';
@@ -24,6 +25,7 @@ import 'package:livaplace_app/views/register_screen.dart';
 import 'package:livaplace_app/views/saved_list_screen.dart';
 import 'package:livaplace_app/views/search_filters_screen.dart';
 import 'package:livaplace_app/views/search_result_screen.dart';
+import 'package:livaplace_app/views/select_location_screen.dart';
 
 class AppPages {
   static final routes = [
@@ -105,9 +107,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.create,
       page: () => CreatePropertyScreen(),
-      binding: CreatePropertyBinding(),
+      bindings: [CreatePropertyBinding(), SelectLocationBinding()],
       transition: Transition.upToDown,
       transitionDuration: const Duration(milliseconds: 300),
+    ),
+    GetPage(
+      name: AppRoutes.map,
+      page: () => SelectLocationScreen(),
+      binding: SelectLocationBinding(),
     ),
   ];
 }

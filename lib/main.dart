@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:livaplace_app/routes/app_pages.dart';
@@ -10,7 +11,10 @@ import 'package:get_storage/get_storage.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Disable landscape mode
+  // load environment variables
+  await dotenv.load(fileName: "assets/.env");
+
+  // disable landscape mode
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

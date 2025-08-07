@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:livaplace_app/controllers/create_property_controller.dart';
+import 'package:livaplace_app/views/select_location_screen.dart';
 
 class CreatePropertyScreen extends GetView<CreatePropertyController> {
   const CreatePropertyScreen({super.key});
@@ -389,11 +391,59 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
 
                             const SizedBox(height: 10),
 
+                            // google map
+                            Obx(() {
+                              final lat = controller.selectedLat?.value ?? 0;
+                              final lng = controller.selectedLng?.value ?? 0;
+
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ElevatedButton.icon(
+                                    icon: const Icon(Icons.location_on),
+                                    label: const Text('เลือกตำแหน่งบนแผนที่'),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black,
+                                      foregroundColor: Colors.white,
+                                    ),
+                                    onPressed: () async {
+                                      FocusScope.of(context).unfocus();
+
+                                      final result = await Get.to(
+                                        () => const SelectLocationScreen(),
+                                      );
+
+                                      if (result != null && result is Map) {
+                                        final latLng =
+                                            result['latLng'] as LatLng;
+                                        final address =
+                                            result['address'] as String;
+
+                                        controller.selectedLat?.value =
+                                            latLng.latitude;
+                                        controller.selectedLng?.value =
+                                            latLng.longitude;
+                                        controller.locationController.text =
+                                            address;
+                                      }
+                                    },
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'พิกัด: ${lat.toStringAsFixed(3)}, ${lng.toStringAsFixed(3)}',
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              );
+                            }),
+
+                            const SizedBox(height: 10),
+
                             // location
                             TextFormField(
                               controller: controller.locationController,
                               autofocus: false,
-                              maxLength: 60,
+                              maxLength: 200,
                               maxLines: 1,
                               style: const TextStyle(
                                 fontSize: 14,
@@ -410,7 +460,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                               },
                             ),
 
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
                             const Text('สิ่งอำนวยความสะดวก'),
                             const SizedBox(height: 10),
 
@@ -530,6 +580,7 @@ class CreatePropertyScreen extends GetView<CreatePropertyController> {
                                       },
                                     ),
                             ),
+
                             const SizedBox(height: 20),
 
                             // button group
