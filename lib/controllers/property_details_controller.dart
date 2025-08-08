@@ -11,6 +11,8 @@ class PropertyDetailsController extends GetxController {
   final RxMap<String, dynamic> propertyDetails = <String, dynamic>{}.obs;
   final RxMap<String, dynamic> ownerDetails = <String, dynamic>{}.obs;
   RxBool isSaved = false.obs;
+  RxBool isSaving = false.obs;
+  DateTime? _lastTapTime;
 
   // Firebase
   late final FirebaseFirestore _firestore;
@@ -113,19 +115,27 @@ class PropertyDetailsController extends GetxController {
   }
 
   Future<void> saveProperty() async {
+    final now = DateTime.now();
+    if (_lastTapTime != null &&
+        now.difference(_lastTapTime!) < const Duration(seconds: 2)) {
+      return;
+    }
+    _lastTapTime = now;
+
+    if (isSaving.value) return;
+    isSaving.value = true;
+
     final String propertyId = propertyDetails['id'];
 
-    // if the property is currently saved, unsave it (delete from Firestore)
-    if (isSaved.value) {
-      try {
-        // get first matching document by user ID and property ID
+    try {
+      if (isSaved.value) {
+        // UNSAVE LOGIC
         final QuerySnapshot querySnapshot = await _savedPropertyCollection
             .where('user_id', isEqualTo: _currentUserId)
             .where('property_id', isEqualTo: propertyId)
             .limit(1)
             .get();
 
-        // delete document if found matching
         if (querySnapshot.docs.isNotEmpty) {
           await _savedPropertyCollection
               .doc(querySnapshot.docs.first.id)
@@ -139,21 +149,11 @@ class PropertyDetailsController extends GetxController {
             snackPosition: SnackPosition.BOTTOM,
             colorText: Colors.white,
             backgroundColor: Colors.black,
-            duration: const Duration(seconds: 3),
+            duration: const Duration(seconds: 1),
           );
         }
-      } catch (e) {
-        Get.snackbar(
-          'เกิดข้อผิดพลาดในการลบรายการที่บันทึก',
-          e.toString(),
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: Colors.white,
-          backgroundColor: Colors.black,
-        );
-      }
-    } else {
-      // if the property is not saved, save it (add to Firestore)
-      try {
+      } else {
+        // SAVE LOGIC
         await _savedPropertyCollection.add({
           'user_id': _currentUserId,
           'property_id': propertyId,
@@ -167,22 +167,24 @@ class PropertyDetailsController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.black,
-          duration: const Duration(seconds: 3),
-        );
-      } catch (e) {
-        Get.snackbar(
-          'เกิดข้อผิดพลาดในการบันทึกรายการ',
-          e.toString(),
-          snackPosition: SnackPosition.BOTTOM,
-          colorText: Colors.white,
-          backgroundColor: Colors.black,
+          duration: const Duration(seconds: 1),
         );
       }
-    }
 
-    // after saving/unsaving, refresh the saved list in SavedListController
-    if (Get.isRegistered<SavedListController>()) {
-      Get.find<SavedListController>().fetchSavedList();
+      // Refresh saved list if controller exists
+      if (Get.isRegistered<SavedListController>()) {
+        Get.find<SavedListController>().fetchSavedList();
+      }
+    } catch (e) {
+      Get.snackbar(
+        'เกิดข้อผิดพลาด',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        backgroundColor: Colors.black,
+      );
+    } finally {
+      isSaving.value = false;
     }
   }
 
@@ -200,40 +202,6 @@ class PropertyDetailsController extends GetxController {
       );
     }
   }
-
-  // Future<void> contactViaLine(String lineId) async {
-  //   final Uri lineAppUri = Uri.parse('line://ti/p/~$lineId'); // LINE app scheme
-  //   final Uri lineWebUri = Uri.parse(
-  //     'https://line.me/ti/p/~$lineId',
-  //   ); // Universal link
-
-  //   if (lineId.isEmpty) {
-  //     Get.snackbar(
-  //       'เกิดข้อผิดพลาด',
-  //       'ไม่พบ LINE ID',
-  //       snackPosition: SnackPosition.BOTTOM,
-  //       backgroundColor: Colors.black,
-  //       colorText: Colors.white,
-  //     );
-  //     return;
-  //   }
-
-  //   if (await canLaunchUrl(lineAppUri)) {
-  //     await launchUrl(lineAppUri);
-  //     // await launchUrl(lineAppUri, mode: LaunchMode.externalApplication);
-  //   } else if (await canLaunchUrl(lineWebUri)) {
-  //     await launchUrl(lineWebUri); // Fallback to web link
-  //     // await launchUrl(lineWebUri, mode: LaunchMode.externalApplication);
-  //   } else {
-  //     Get.snackbar(
-  //       'เกิดข้อผิดพลาด',
-  //       'ไม่สามารถเปิด LINE ได้',
-  //       snackPosition: SnackPosition.BOTTOM,
-  //       backgroundColor: Colors.black,
-  //       colorText: Colors.white,
-  //     );
-  //   }
-  // }
 
   Future<void> contactViaLine(String lineId) async {
     if (lineId.isEmpty) {

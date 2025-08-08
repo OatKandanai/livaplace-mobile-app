@@ -9,7 +9,11 @@ class SelectLocationScreen extends GetView<SelectLocationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('เลือกตำแหน่ง'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('เลือกตำแหน่ง'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+      ),
       body: Stack(
         children: [
           Obx(

@@ -314,7 +314,7 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                               children: [
                                                 Obx(
                                                   () => Text(
-                                                    '${controller.ownerDetails['first_name']} ${controller.ownerDetails['last_name']}',
+                                                    '${controller.ownerDetails['first_name'] ?? ''} ${controller.ownerDetails['last_name'] ?? ''}',
                                                     style: const TextStyle(
                                                       fontSize: 16,
                                                     ),
@@ -323,7 +323,8 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                                 Obx(
                                                   () => Text(
                                                     controller
-                                                        .ownerDetails['phone'],
+                                                            .ownerDetails['phone'] ??
+                                                        '',
                                                     style: TextStyle(
                                                       fontSize: 14,
                                                       color:
@@ -413,7 +414,9 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                           ? Colors.redAccent
                           : Colors.white,
                     ),
-                    onPressed: controller.saveProperty,
+                    onPressed: controller.isSaving.value
+                        ? null
+                        : controller.saveProperty,
                   ),
                 ),
               ),

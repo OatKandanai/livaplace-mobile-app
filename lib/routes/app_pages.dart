@@ -115,6 +115,8 @@ class AppPages {
       name: AppRoutes.map,
       page: () => SelectLocationScreen(),
       binding: SelectLocationBinding(),
+      transition: Transition.downToUp,
+      transitionDuration: const Duration(milliseconds: 300),
     ),
   ];
 }
