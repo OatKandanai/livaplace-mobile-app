@@ -4,6 +4,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:livaplace_app/controllers/property_details_controller.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
   const PropertyDetailsScreen({super.key});
@@ -252,6 +253,84 @@ class PropertyDetailsScreen extends GetView<PropertyDetailsController> {
                                     }).toList(),
                                   );
                                 }),
+
+                                const SizedBox(height: 10),
+                                const Text(
+                                  'ตำแหน่งในแผนที่',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+
+                                // google map
+                                if (controller.propertyLatLng != null) ...[
+                                  SizedBox(
+                                    height: 220,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Stack(
+                                        children: [
+                                          IgnorePointer(
+                                            ignoring: true,
+                                            child: GoogleMap(
+                                              initialCameraPosition:
+                                                  CameraPosition(
+                                                    target: controller
+                                                        .propertyLatLng!,
+                                                    zoom: 15,
+                                                  ),
+                                              markers: {
+                                                Marker(
+                                                  markerId: const MarkerId(
+                                                    'property',
+                                                  ),
+                                                  position: controller
+                                                      .propertyLatLng!,
+                                                ),
+                                              },
+                                              myLocationButtonEnabled: false,
+                                              zoomControlsEnabled: false,
+                                              liteModeEnabled:
+                                                  true, // for android lighter & smoother
+                                              onMapCreated: (_) {},
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: 10,
+                                            bottom: 10,
+                                            child: ElevatedButton.icon(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.white,
+                                                foregroundColor: Colors.black,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 6,
+                                                    ),
+                                              ),
+                                              icon: const Icon(Icons.map),
+                                              label: const Text(
+                                                'เปิดใน Google Maps',
+                                              ),
+                                              onPressed:
+                                                  controller.openInGoogleMaps,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ] else ...[
+                                  const Text(
+                                    'ไม่มีพิกัดสำหรับแสดงในแผนที่',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
 
                                 const Divider(height: 40),
 

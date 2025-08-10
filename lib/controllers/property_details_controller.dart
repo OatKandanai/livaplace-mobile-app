@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:livaplace_app/controllers/saved_list_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -265,5 +266,36 @@ class PropertyDetailsController extends GetxController {
       colorText: Colors.white,
       duration: const Duration(seconds: 5),
     );
+  }
+
+  LatLng? get propertyLatLng {
+    final coords = propertyDetails['coordinates'];
+    if (coords is Map &&
+        coords['latitude'] != null &&
+        coords['longitude'] != null) {
+      final lat = (coords['latitude'] as num).toDouble();
+      final lng = (coords['longitude'] as num).toDouble();
+      return LatLng(lat, lng);
+    }
+    return null;
+  }
+
+  Future<void> openInGoogleMaps() async {
+    final p = propertyLatLng;
+    if (p == null) return;
+
+    final Uri web = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=${p.latitude},${p.longitude}',
+    );
+    final Uri geo = Uri.parse(
+      'geo:${p.latitude},${p.longitude}?q=${p.latitude},${p.longitude}(Property)',
+    );
+
+    // prefer geo: on android if available, else fall back to web
+    if (await canLaunchUrl(geo)) {
+      await launchUrl(geo);
+    } else {
+      await launchUrl(web, mode: LaunchMode.externalApplication);
+    }
   }
 }

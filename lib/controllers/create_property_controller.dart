@@ -166,6 +166,16 @@ class CreatePropertyController extends GetxController {
     return imageUrls;
   }
 
+  bool get isLocationPicked {
+    // if null
+    if (selectedLat?.value == null && selectedLng?.value == null) {
+      return false;
+    }
+
+    // (0,0) is not picked
+    return !(selectedLat?.value == 0 && selectedLng?.value == 0);
+  }
+
   Future<void> createProperty() async {
     if (!formKey.currentState!.validate()) {
       Get.snackbar(
@@ -178,7 +188,19 @@ class CreatePropertyController extends GetxController {
       return;
     }
 
-    // use must select at least one facility
+    // block if location not picked from map
+    if (!isLocationPicked) {
+      Get.snackbar(
+        'ยังไม่เลือกตำแหน่ง',
+        'กรุณาเลือกตำแหน่งบนแผนที่ก่อนสร้างประกาศ',
+        snackPosition: SnackPosition.TOP,
+        colorText: Colors.white,
+        backgroundColor: Colors.black,
+      );
+      return;
+    }
+
+    // must select at least one facility
     if (selectedFacilities.isEmpty) {
       Get.snackbar(
         'ข้อมูลไม่ถูกต้อง',
